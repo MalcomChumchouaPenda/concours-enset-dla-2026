@@ -210,6 +210,8 @@ nosetests.xml
 
 # archives files
 archives/
+archives access secret/
+
 
 # pdf files
 **.pdf
