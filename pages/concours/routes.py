@@ -33,6 +33,9 @@ def _clean_temp_files():
         except OSError as e:
             logger.warnin
 
+@ui.route('/procedure')
+def procedure():
+    return render_template('concours-procedure.jinja')
 
 @ui.route('/identity', methods=['GET', 'POST'])
 def identity():
