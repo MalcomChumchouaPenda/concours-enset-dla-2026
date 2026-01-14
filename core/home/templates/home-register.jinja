@@ -1,5 +1,5 @@
 {% extends "login/layout.jinja" %}
-{% set head_title='Login' %}
+{% set head_title='Register' %}
 
 {% block page_form %}
     <form class="login-form container d-flex flex-column align-items-center" 
@@ -10,7 +10,8 @@
         <!-- Header -->
         <div class="row w-100 py-5 d-flex justify-content-center">
             <div class="col-10 text-center">
-                <h4>{{ _('Identifiez-vous pour continuer') }}</h4>
+                <h4>{{ _('Fournissez les informations suivantes pour continuer') }}</h4>
+                <p class="text-danger">Vous devez payer les frais de concours avant de débuter l'inscription</p>
             </div>
         </div>
         
@@ -32,7 +33,13 @@
         <!-- Securite -->
         <div class="field row my-2 w-100 d-flex justify-content-center">
             <div class="col-10 col-lg-4">   
-                {{ form.pwd(class_="form-control", placeholder=_("Saisissez votre mot de passe")) }}        
+                {{ form.new_pwd(class_="form-control", placeholder=_("Créez votre mot de passe")) }}        
+            </div>
+        </div>
+
+        <div class="field row my-2 w-100 d-flex justify-content-center">
+            <div class="col-10 col-lg-4">   
+                {{ form.confirm_pwd(class_="form-control", placeholder=_("Confirmez votre mot de passe")) }}        
             </div>
         </div><!-- End Securite -->
 
@@ -40,7 +47,7 @@
             <div class="col-10 col-lg-4 flex-column align-items-start">
                 <input class="btn btn-primary w-100" type="submit" value="{{ _('Connexion') }}">
                 <ul class="login-links">
-                    <li><a class="btn btn-link mt-5" href="#">{{ _('Mot de passe oublié ?') }}</a></li>
+                    <li><a class="btn btn-link mt-5" href="#">{{ _('Continuer une ancienne inscription ?') }}</a></li>
                     <li><a class="btn btn-link mt-1" href="{{ url_for('home.index') }}">{{ _("Retour a l'accueil !") }}</a></li>
                 </ul>
             </div>

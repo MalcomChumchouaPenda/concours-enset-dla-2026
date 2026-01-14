@@ -5,7 +5,7 @@ from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, DateField
 from wtforms.validators import DataRequired
 
 from core.config import login_manager, db
@@ -42,8 +42,30 @@ def wait():
     # return render_template('home.jinja', hero=hero)
 
 
+class RegisterForm(FlaskForm):
+    id = StringField(_l('numero de paiement'), validators=[DataRequired()])
+    new_pwd = PasswordField(_l('mot de passe'), validators=[DataRequired()])
+    confirm_pwd = PasswordField(_l('Confirmer mot de passe'), validators=[DataRequired()])
+
+
+@ui.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    next = request.args.get('next')
+    if form.validate_on_submit():
+        user_id = form.id.data
+        password = form.pwd.data
+        # if connect_user(user_id, password):
+        #     if next:
+        #         return redirect(next)
+        #     return redirect(url_for('home.dashboard'))
+        error = _("Informations incorrectes")
+        return render_template('home-register.jinja', form=form, next=next, error=error)
+    return render_template('home-register.jinja', form=form,  next=next)
+
+
 class LoginForm(FlaskForm):
-    id = StringField(_l('identifiant'), validators=[DataRequired()])
+    id = StringField(_l('numero de paiement'), validators=[DataRequired()])
     pwd = PasswordField(_l('mot de passe'), validators=[DataRequired()])
 
 
