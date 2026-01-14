@@ -1,0 +1,106 @@
+{% extends 'dashboard/layout.jinja' %}
+{% set page_id = 'preins_error_pg' %}
+
+{% block page_header %}
+  <h1>{{ _('Requete Inscription') }}</h1>
+  <nav class="pb-3" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('home.dashboard') }}">{{ _('Accueil') }}</a></li>
+      <li class="breadcrumb-item">...</li>
+      <li class="breadcrumb-item"><a href="{{ url_for('preins.error') }}">{{ _('Requete') }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ _('Creation') }}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block page_main %}
+<div class="container">
+    <section class="section row g-4 pt-0">
+    
+        <!-- Alertes -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                        {{ message }}
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith%}
+
+
+        <form class="col-lg-10 col-12needs-validation" novalidate 
+            method="POST" action="{{ url_for('preins.new_error') }}">
+                    
+            {{ form.csrf_token }}
+                        
+            <!-- Erreur Identite -->
+            <div class="card my-2">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <h6 class="card-title mx-1 mt-4 mb-0">A. Erreur sur l'identité</h6>
+                        <div class="col-12">
+                            {{ form.nom_admis.label(class_="form-label")}}
+                            {{ form.nom_admis(class_="form-control", disabled=true) }}
+                        </div>
+                        <div class="col-12">
+                            {{ form.nom_correct.label(class_="form-label")}}
+                            {{ form.nom_correct(class_="form-control") }}
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End Erreur Identite -->
+                        
+
+            <!-- Erreur Filiere/Niveau  -->
+            <div class="card my-2">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <h6 class="card-title mx-1 mt-4 mb-0">B. Erreur sur l'option / le niveau</h6>
+                        <div class="col-lg-6 col-12">
+                            {{ form.filiere_admis.label(class_="form-label")}}
+                            {{ form.filiere_admis(class_="form-control", disabled=true) }}
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            {{ form.filiere_correct_id.label(class_="form-label")}}
+                            {{ form.filiere_correct_id(class_="form-select") }}
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            {{ form.niveau_admis.label(class_="form-label")}}
+                            {{ form.niveau_admis(class_="form-control", disabled=true) }}
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            {{ form.niveau_correct_id.label(class_="form-label")}}
+                            {{ form.niveau_correct_id(class_="form-select") }}
+                        </div> 
+                    </div>
+                </div>
+            </div> <!-- End Erreur Filiere/Niveau -->
+
+            <!-- Pieces justificatifs  -->
+            <div class="card my-2">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <h6 class="card-title mx-1 mt-4 mb-0">C. {{ form.justificatifs.label }}</h6>
+                        <div class="col-lg-6 col-12">                            
+                            {{ form.justificatifs(class_="form-control") }}
+                        </div> 
+                    </div>
+                </div>
+            </div> <!-- End Pieces justificatifs -->
+
+            <div class="text-center mt-5">
+                <a href="{{ url_for('preins.info') }}" class="btn btn-secondary btn-lg m-1">Annuler la requête</a>
+                <button type="submit" class="btn btn-primary btn-lg">Valider la requête</button>
+            </div>
+        </form>
+    </section>
+</div>
+{% endblock %}
+
+{% block page_authors%} 
+    <a>Malcom C. Penda - </a>
+    <a>Kapsoh Njipguep A. K.</a>
+{% endblock %}

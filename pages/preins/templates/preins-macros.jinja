@@ -1,0 +1,477 @@
+
+{% macro render_messages() %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith%}
+{% endmacro %}
+
+{% macro render_pagination(records) %}
+  <nav class="d-flex flex-row justify-content-lg-between justify-content-center align-items-center">
+    <div class="page-items d-lg-block d-none">
+      {{ records.first }} - {{ records.last }} sur {{ records.total }}
+    </div>
+    <ul class="pagination pagination-sm justify-content-end">
+      {% if records.has_prev %}
+        <li class="page-item">
+          <a class="page-link" href="{{ url_for('preins.search_infos', page=records.prev_num, **kwargs) }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      {% else%}
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      {% endif %}
+
+      {% for page in records.iter_pages(left_edge=1, left_current=2, right_current=2, right_edge=1) %}
+        {% if page %}
+          {% if page != records.page %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('preins.search_infos', page=page, **kwargs) }}">
+                {{ page }}
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href="#">
+                <strong>{{ page }}</strong>
+              </a>
+            </li>
+          {% endif %}
+        {% else %}
+          <span class="ellipsis">…</span>
+        {% endif %}
+      {% endfor %}
+      
+      {% if records.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="{{ url_for('preins.search_infos', page=records.next_num, **kwargs) }}" aria-label="Previous">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      {% else%}
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endmacro %}
+
+
+{% macro render_info_form(form, mode='new') %}
+    <!-- Info generales -->
+    <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-3 mb-0">1. Informations personnelles</h6>     
+                <div class="col-lg-6 col-10">
+                    {% if mode == 'new' %}
+                        <div class="d-flex justify-content-start">
+                            {{ form.matricule.label(class_="form-label")}}
+                            <div class="text-warning">
+                                <i class="bi bi-exclamation-triangle ms-2 me-1"></i>
+                                Pour ancien etudiant
+                            </div>
+                        </div>
+                        {{ form.matricule(class_="form-control") }}
+                    {% elif mode == 'debug' %}
+                        {{ form.matricule.label(class_="form-label")}}
+                        {{ form.matricule(class_="form-control") }}
+                    {% else %}
+                        {{ form.matricule.label(class_="form-label")}}
+                        {{ form.matricule(class_="form-control", disabled=true) }}
+                    {% endif %}
+                </div>         
+                <div class="col-lg-6 col-2"><span></span></div>                                 
+                <div class="col-lg-6 col-10">
+                    {{ form.nom.label(class_="form-label", required=true)}}
+                    {{ form.nom(class_="form-control") }}
+                    {% for error in form.nom.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-6 col-10">
+                    {{ form.prenom.label(class_="form-label")}}
+                    {{ form.prenom(class_="form-control") }}
+                </div>                
+                <div class="col-lg-4 col-10">
+                    {{ form.date_naissance.label(class_="form-label", required=true)}}
+                    {{ form.date_naissance(class_="form-control") }}
+                    {% for error in form.date_naissance.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-8 col-10">
+                    {{ form.lieu_naissance.label(class_="form-label", required=true)}}
+                    {{ form.lieu_naissance(class_="form-control") }}
+                    {% for error in form.lieu_naissance.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-4 col-10">
+                    {{ form.sexe_id.label(class_="form-label", required=true)}}
+                    {{ form.sexe_id(class_="form-select") }}
+                    {% for error in form.sexe_id.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-4 col-10">
+                    {{ form.situation_matrimoniale_id.label(class_="form-label", required=true)}}
+                    {{ form.situation_matrimoniale_id(class_="form-select") }}
+                    {% for error in form.situation_matrimoniale_id.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>  <!-- End Info generales -->
+
+    <!-- Origine géographique -->
+    <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-4 mb-0">2. Origine géographique</h6>
+                <div class="col-lg-6 col-10">
+                    {{ form.langue_id.label(class_="form-label", required=true)}}
+                    {{ form.langue_id(class_="form-select") }}
+                    {% for error in form.langue_id.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-6 col-10">
+                    {{ form.nationalite_id.label(class_="form-label", required=true)}}
+                    {{ form.nationalite_id(class_="form-select") }}
+                    {% for error in form.nationalite_id.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-6 col-10">
+                    {{ form.region_origine_id.label(class_="form-label", required=true)}}
+                    {{ form.region_origine_id(class_="form-select") }}
+                    {% for error in form.region_origine_id.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-6 col-10">
+                    {{ form.departement_origine_id.label(class_="form-label", required=true)}}
+                    {{ form.departement_origine_id(class_="form-select") }}
+                    {% for error in form.departement_origine_id.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Origine géographique -->
+            
+    <!-- Coordonnées -->
+    <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-4 mb-0">3. Coordonnées</h6>
+                <div class="col-lg-6 col-10">
+                    {{ form.telephone.label(class_="form-label", required=true)}}
+                    {{ form.telephone(class_="form-control") }}
+                    {% for error in form.telephone.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-6 col-10">
+                    {{ form.email.label(class_="form-label")}}
+                    {{ form.email(class_="form-control") }}
+                    {% for error in form.email.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Coordonnées -->
+            
+    <!-- Informations académiques -->
+    <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-4 mb-0">4. Informations académiques</h6>
+                <div class="col-12">
+                    {{ form.departement_academique.label(class_="form-label")}}
+                    {{ form.departement_academique(class_="form-control", disabled=true) }}
+                </div>
+                <div class="col-12">
+                    {{ form.option.label(class_="form-label")}}
+                    {{ form.option(class_="form-control", disabled=true) }}
+                </div>
+                <div class="col-lg-8 col-10">
+                    {{ form.niveau.label(class_="form-label")}}
+                    {{ form.niveau(class_="form-control", disabled=true) }}
+                </div>
+                <div class="col-lg-8 col-10">
+                    {{ form.diplome.label(class_="form-label", required=true)}}
+                    {{ form.diplome(class_="form-control") }}
+                    {% for error in form.diplome.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-4 col-10">
+                    {{ form.annee_diplome.label(class_="form-label", required=true)}}
+                    {{ form.annee_diplome(class_="form-control") }}
+                    {% for error in form.annee_diplome.errors %}
+                        <div class="invalid-feedback">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Informations académiques -->
+            
+    <!-- Informations sur le père -->
+    <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-4 mb-0">5. Informations sur le père</h6>
+                <div class="col-lg-6 col-10">
+                    {{ form.nom_pere.label(class_="form-label")}}
+                    {{ form.nom_pere(class_="form-control") }}
+                </div>
+                <div class="col-lg-6 col-10">
+                    {{ form.profession_pere.label(class_="form-label")}}
+                    {{ form.profession_pere(class_="form-control") }}
+                </div>
+                <div class="col-lg-6 col-10">
+                    {{ form.telephone_pere.label(class_="form-label")}}
+                    {{ form.telephone_pere(class_="form-control") }}
+                </div>
+                <div class="col-lg-6 col-10">
+                    {{ form.residence_pere.label(class_="form-label")}}
+                    {{ form.residence_pere(class_="form-control") }}
+                </div>  
+            </div>
+        </div>
+    </div> <!-- End Informations sur le père -->
+            
+    <!-- Informations sur la mère -->
+    <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-4 mb-0">6. Informations sur la mère</h6>
+                <div class="col-lg-6 col-10">
+                    {{ form.nom_mere.label(class_="form-label")}}
+                    {{ form.nom_mere(class_="form-control") }}
+                </div>
+                <div class="col-lg-6 col-10">
+                    {{ form.profession_mere.label(class_="form-label")}}
+                    {{ form.profession_mere(class_="form-control") }}
+                </div>
+                <div class="col-lg-6 col-10">
+                    {{ form.telephone_mere.label(class_="form-label")}}
+                    {{ form.telephone_mere(class_="form-control") }}
+                </div>
+                <div class="col-lg-6 col-10">
+                    {{ form.residence_mere.label(class_="form-label")}}
+                    {{ form.residence_mere(class_="form-control") }}
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Informations sur la mère -->
+
+{% endmacro %}
+
+
+{% macro render_info_div(inscription) %}
+            <!-- Info generales -->
+            <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-3 mb-0">1. Informations personnelles</h6> 
+                <div class="col-lg-6 col-10">
+                    <label for="matricule" class="form-label">Matricule</label>
+                    <input type="text" class="form-control" disabled id="matricule" 
+                           value="{{ inscription.admission.matricule }}">
+                </div>
+                <div class="col-lg-6 col-2"><span></span></div>
+                <div class="col-lg-6 col-10">
+                    <label for="nom" class="form-label">Noms</label>
+                    <input type="text" class="form-control" disabled id="nom" 
+                           value="{{ inscription.nom }}">
+                </div>
+                <div class="col-lg-6 col-10">
+                    <label for="prenom" class="form-label">Prenoms</label>
+                    <input type="text" class="form-control" disabled id="prenom" 
+                           value="{{ inscription.prenom }}">
+                </div>                
+                <div class="col-lg-4 col-10">
+                    <label for="date_naissance" class="form-label">Date de naissance</label>
+                    <input type="texte" class="form-control" disabled id="date_naissance" 
+                           value="{{ inscription.date_naissance.strftime('%d/%m/%Y') }}">
+                </div>
+                <div class="col-lg-8 col-10">
+                    <label for="lieu_naissance" class="form-label">Lieu de naissance</label>
+                    <input type="text" class="form-control" disabled id="lieu_naissance" 
+                           value="{{ inscription.lieu_naissance }}">
+                </div>
+                <div class="col-lg-4 col-10">
+                    <label for="sexe" class="form-label">Sexe</label>
+                    <input type="text" class="form-control" disabled id="sexe" 
+                           value="{{ inscription.sexe }}">
+                </div>
+                <div class="col-lg-4 col-10">
+                    <label for="situation_matrimoniale" class="form-label">Situation Matrimoniale</label>
+                    <input type="text" class="form-control" disabled id="situation_matrimoniale" 
+                           value="{{ inscription.situation_matrimoniale }}">
+                </div>
+            </div>
+        </div>
+            </div>  <!-- End Info generales -->
+
+            <!-- Origine géographique -->
+            <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-4 mb-0">2. Origine géographique</h6>
+                <div class="col-lg-6 col-10">
+                    <label for="langue" class="form-label">Langue</label>
+                    <input type="text" class="form-control" disabled id="langue" 
+                           value="{{ inscription.langue.upper() }}">
+                </div>
+                <div class="col-lg-6 col-10">
+                    <label for="nationalite" class="form-label">Nationalité</label>
+                    <input type="text" class="form-control" disabled id="nationalite" 
+                           value="{{ inscription.departement_origine.region.pays.nom.upper() }}">
+                </div>
+                <div class="col-lg-6 col-10">
+                    <label for="region_origine" class="form-label">Region d'origine</label>
+                    <input type="text" class="form-control" disabled id="region_origine" 
+                           value="{{ inscription.departement_origine.region.nom.upper() }}">
+                </div>
+                <div class="col-lg-6 col-10">
+                    <label for="departement_origine" class="form-label">Departement d'origine</label>
+                    <input type="text" class="form-control" disabled id="departement_origine" 
+                           value="{{ inscription.departement_origine.nom.upper() }}">
+                </div>
+            </div>
+        </div>
+            </div> <!-- End Origine géographique -->
+            
+            <!-- Coordonnées -->
+            <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-4 mb-0">3. Coordonnées</h6>
+                <div class="col-lg-6 col-10">
+                    <label for="telephone" class="form-label">Téléphone</label>
+                    <input type="text" class="form-control" disabled id="telephone" 
+                           value="{{ inscription.telephone }}">
+                </div>
+                <div class="col-lg-6 col-10">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" class="form-control" disabled id="email" 
+                           value="{{ inscription.email }}">
+                </div>
+            </div>
+        </div>
+            </div> <!-- End Coordonnées -->
+            
+            <!-- Informations académiques -->
+            <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-4 mb-0">4. Informations académiques</h6>
+                <div class="col-12">
+                    <label for="departement_academique" class="form-label">Departement</label>
+                    <input type="text" class="form-control" disabled id="departement_academique" 
+                           value="{{ inscription.admission.classe.filiere.departement.nom.upper() }}">
+                </div>
+                <div class="col-12">
+                    <label for="option" class="form-label">Option</label>
+                    <input type="text" class="form-control" disabled id="option" 
+                           value="{{ inscription.admission.classe.filiere.nom.upper() }}">
+                </div>
+                <div class="col-lg-8 col-10">
+                    <label for="niveau" class="form-label">Niveau</label>
+                    <input type="text" class="form-control" disabled id="niveau" 
+                           value="{{ inscription.admission.classe.niveau.nom.upper() }}">
+                </div>
+                <div class="col-lg-8 col-10">
+                    <label for="diplome" class="form-label">Diplôme d'entrée</label>
+                    <input type="text" class="form-control" disabled id="diplome" 
+                           value="{{ inscription.diplome.upper() }}">
+                </div>
+                <div class="col-lg-4 col-10">
+                    <label for="annee_diplome" class="form-label">Année d'obtention</label>
+                    <input type="text" class="form-control" disabled id="annee_diplome" 
+                           value="{{ inscription.annee_diplome }}">
+                </div>
+            </div>
+        </div>
+            </div> <!-- End Informations académiques -->
+            
+
+            <!-- Informations sur le père -->
+            <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-4 mb-0">5. Informations sur le père</h6>
+                <div class="col-lg-6 col-10">
+                    <label for="nom_pere" class="form-label">Nom du pere</label>
+                    <input type="text" class="form-control" disabled id="nom_pere" 
+                           value="{{ inscription.nom_pere }}">
+                </div>
+                <div class="col-lg-6 col-10">
+                    <label for="profession_pere" class="form-label">Profession du pere</label>
+                    <input type="text" class="form-control" disabled id="profession_pere" 
+                           value="{{ inscription.profession_pere }}">
+                </div>
+                <div class="col-lg-6 col-10">
+                    <label for="telephone_pere" class="form-label">Téléphone du pere</label>
+                    <input type="text" class="form-control" disabled id="telephone_pere" 
+                           value="{{ inscription.telephone_pere }}">
+                </div>
+                <div class="col-lg-6 col-10">
+                    <label for="residence_pere" class="form-label">Residence du pere</label>
+                    <input type="text" class="form-control" disabled id="residence_pere" 
+                           value="{{ inscription.residence_pere }}">
+                </div>  
+            </div>
+        </div>
+            </div> <!-- End Informations sur le père -->
+            
+
+            <!-- Informations sur la mère -->
+            <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-4 mb-0">6. Informations sur la mère</h6>
+                <div class="col-lg-6 col-10">
+                    <label for="nom_mere" class="form-label">Nom du mere</label>
+                    <input type="text" class="form-control" disabled id="nom_mere" 
+                           value="{{ inscription.nom_mere }}">
+                </div>
+                <div class="col-lg-6 col-10">
+                    <label for="profession_mere" class="form-label">Profession du mère</label>
+                    <input type="text" class="form-control" disabled id="profession_mere" 
+                           value="{{ inscription.profession_mere }}">
+                </div>
+                <div class="col-lg-6 col-10">
+                    <label for="telephone_mere" class="form-label">Téléphone du mère</label>
+                    <input type="text" class="form-control" disabled id="telephone_mere" 
+                           value="{{ inscription.telephone_mere }}">
+                </div>
+                <div class="col-lg-6 col-10">
+                    <label for="residence_mere" class="form-label">Residence du mère</label>
+                    <input type="text" class="form-control" disabled id="residence_mere" 
+                           value="{{ inscription.residence_mere }}">
+                </div>  
+            </div>
+        </div>
+            </div> <!-- End Informations sur la mère -->
+
+{% endmacro %}

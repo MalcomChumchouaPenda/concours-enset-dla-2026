@@ -1,0 +1,9 @@
+
+.table.bt {
+    border-spacing: 0 20px;
+    border-collapse: separate;
+}
+
+.table.bt tbody td.row-actions::before {
+    content: attr(data-th) "";
+}

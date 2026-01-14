@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% block page_title %}
+      {% if current_user.is_authenticated %}
+          <title>{{ current_user.id +  _(' | ENSET Douala') }}</title>
+      {% else %}
+          <title>{{ _('Unknown | ENSET Douala') }}</title>
+      {% endif %}
+    {% endblock %}
+    {% block page_meta %}{% endblock %}
+
+    <!-- Favicons -->
+    <link href="{{ url_for('static', filename='shared/favicon.png') }}" rel="icon">
+    <link href="{{ url_for('static', filename='shared/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <!-- <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"> -->
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ url_for('static', filename='dashboard/assets/css/fonts.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+    {# <link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet"> #}
+    <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+    
+    <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+    {# <link href="{{ url_for('static', filename='vendor/quill/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/simple-datatables/style.css') }}" rel="stylesheet"> #}
+    {% block vendor_css %}{% endblock %}
+
+    <!-- Template CSS File -->
+    <link href="{{ url_for('static', filename='dashboard/assets/css/color.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='dashboard/assets/css/preloader.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='dashboard/assets/css/dashboard.css') }}" rel="stylesheet">
+    {% block custom_css %}{% endblock %}
+
+</head>
+
+<!-- Layout variables -->
+{% set page_id = page_id | default('') %}
+{% set menu_name = menu_name | default('navbar') %}
+{% set hero_size = hero_size | default('xs') %}
+
+<!-- Jinja macros -->
+{% import "dashboard/macros.jinja" as dashboard %}
+
+
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+    <script src="{{ url_for('static', filename='dashboard/assets/js/preloader.js') }}"></script>
+    <!-- End preloader -->
+
+  <!-- Header -->
+  <header id="header" class="fixed-top">
+
+    <!-- Header logo -->
+    <div class="d-flex align-items-center justify-content-between">
+      {{ dashboard.brand(current_user) }}
+    </div><!-- End Logo -->
+
+    <!-- Icons Navigation -->
+    <nav class="header-nav ms-auto d-flex me-2">
+      <i class="bi bi-list toggle-sidebar-btn mx-2 d-lg-none d-inline"></i>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+      {{ dashboard.sidebar(current_user, active=page_id) }}
+  </aside><!-- End Sidebar-->
+
+  <div class="main-wrapper d-flex flex-column">
+
+      <!-- Main  -->
+      <main id="main" class="main flex-grow-1">
+
+        <div class="d-flex ms-auto special-links justify-content-end w-100">
+          {{ dashboard.special_links(current_user) }}
+        </div>
+
+        <div class="pagetitle">
+        {% block page_header %}{% endblock %}
+        </div><!-- End Page Title -->
+
+
+        <section class="section dashboard">
+        {% block page_main %}{% endblock %}
+        </section>
+
+      </main><!-- End #main -->
+
+      <!-- Footer  -->
+      <footer id="footer">
+
+        <!-- Footer Copyright -->
+        <div class="container copyright text-center mt-4">
+          <p>© 
+            <span>Copyright</span> 
+            <strong class="px-1 sitename">CINFO ENSET</strong> 
+            <span>All Rights Reserved</span>
+          </p>
+          <div class="credits">
+            <span>Designed by </span>
+            {% block page_authors %}
+              <a href="">Demo Author 1, </a>
+              <a href="">Demo Author 2</a>
+            {% endblock %}
+          </div>
+        </div><!-- End Footer copyright -->
+
+      </footer><!-- ENd Footer -->
+
+  </div>
+
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+    
+    <!-- Vendor JS Files -->
+    {# <script src="{{ url_for('static', filename='vendor/apexcharts/apexcharts.min.js') }}"></script>      #}
+    <script src="{{ url_for('static', filename='vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.js') }}"></script>
+    {# <script src="{{ url_for('static', filename='vendor/chart.js/chart.umd.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/echarts/echarts.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/quill/quill.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/simple-datatables/simple-datatables.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/glightbox/js/glightbox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/purecounter/purecounter_vanilla.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/isotope-layout/isotope.pkgd.min.js') }}"></script> #}
+    {% block vendor_js %}{% endblock %}
+    
+    <!-- Main JS File -->
+    <script src="{{ url_for('static', filename='dashboard/assets/js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='dashboard/assets/js/coming-soon.js') }}"></script>
+    {% block custom_js %}{% endblock %}
+
+</body>
+</html>

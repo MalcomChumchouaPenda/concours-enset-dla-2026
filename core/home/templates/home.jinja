@@ -1,0 +1,21 @@
+{% extends "landing/layout.jinja" %}
+{% set main_title='Accueil' %}
+{% set page_id='home_pg' %}
+{% set hero_size = 'lg'%}
+{% set footer_size = 'lg'%}
+
+{% block custom_css %}
+    <link href="{{ url_for('home.static', filename='/css/home.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block page_hero %}
+    <div class="hero-info w-75 d-flex flex-column justify-content-center align-items-center">
+      {{ hero.msg | safe_md }}
+      <a href="{{ url_for('home.login') }}" class="btn btn-primary">{{ _('Connexion') }}</a>
+    </div> 
+    <div class="hero-bg">
+        <img src="{{ url_for('home.static', filename=hero.img) }}" alt="">
+    </div>
+{% endblock %}
+
+
