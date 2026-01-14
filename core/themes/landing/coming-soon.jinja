@@ -11,8 +11,8 @@
   <section class="container text-center coming-soon-lg" data-aos="fade-up" data-aos-delay="100">
     <div class="row justify-content-center">
       <div class="col-lg-12">
-        <h2>{{_('En construction')}}</h2>
-        <p>{{_('Cette page est en construction. Elle sera disponible dans:')}}</p>
+        <h2>{{ alert_title | default(_('En construction')) }}</h2>
+        <p>{{ alert_msg | default(_('Cette page est en construction. Elle sera disponible dans:')) }}</p>
       </div>
         
       <div class="countdown d-flex justify-content-center" data-count="{{ deadline }}">

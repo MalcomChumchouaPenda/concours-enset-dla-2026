@@ -19,12 +19,22 @@ static_dir = os.path.join(os.path.dirname(__file__), 'static')
 
 @ui.route('/')
 def index():
-    locale = get_locale() 
-    print('\n\tlocale', locale)
-    msg = os.path.join(static_dir, f'md/hero-msg-{locale}.md')
-    img = f'img/hero-bg.jpg'
-    hero = dict(msg=msg, img=img)
-    return render_template('home.jinja', hero=hero)
+    return redirect(url_for('home.wait'))
+    
+
+@ui.route('/wait')
+def wait():
+    return render_template('landing/coming-soon.jinja',
+                           deadline='2026/1/16',
+                           title='Concours 2026',
+                           alert_title='En maintenance',
+                           alert_msg='Cette plateforme est en maintenance. Elle sera disponible dans:')
+    # locale = get_locale() 
+    # print('\n\tlocale', locale)
+    # msg = os.path.join(static_dir, f'md/hero-msg-{locale}.md')
+    # img = f'img/hero-bg.jpg'
+    # hero = dict(msg=msg, img=img)
+    # return render_template('home.jinja', hero=hero)
 
 
 class LoginForm(FlaskForm):
