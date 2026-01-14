@@ -1,0 +1,88 @@
+{% extends 'dashboard/layout.jinja' %}
+{% set page_id = 'concours_options_pg' %}
+{% from 'preins-macros.jinja' import render_info_form, render_messages %}
+
+{% block page_header %}
+  <h1>{{ _('Inscription') }}</h1>
+  <h3 class="text-secondary">Etape 2: Options</h3>
+{% endblock %}
+
+{% block page_main %}
+<div class="container">
+    <section class="section row g-4 pt-0">
+    
+        <!-- Alertes -->
+        {{ render_messages() }}
+
+        <form class="col-lg-10 col-12 needs-validation" novalidate 
+              method="POST" action="{{ url_for('concours.options') }}">
+                    
+            {{ form.csrf_token }}
+
+            <!-- Actions initiales -->
+            <div class="row mt-3 g-3">
+                <div class="text-center">
+                    <a href="{{ url_for('home.dashboard') }}" class="btn btn-secondary btn-lg m-1">Annuler l'inscription</a>
+                </div>
+            </div>
+
+            
+            <!-- Informations académiques -->
+            <div class="card my-2">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <h6 class="card-title mx-1 mt-4 mb-0">2.1. Informations académiques</h6>
+                        <div class="col-12">
+                            {{ form.departement_academique.label(class_="form-label")}}
+                            {{ form.departement_academique(class_="form-control", disabled=true) }}
+                        </div>
+                        <div class="col-12">
+                            {{ form.option.label(class_="form-label")}}
+                            {{ form.option(class_="form-control", disabled=true) }}
+                        </div>
+                        <div class="col-lg-8 col-10">
+                            {{ form.niveau.label(class_="form-label")}}
+                            {{ form.niveau(class_="form-control", disabled=true) }}
+                        </div>
+                        <div class="col-lg-8 col-10">
+                            {{ form.diplome.label(class_="form-label", required=true)}}
+                            {{ form.diplome(class_="form-control") }}
+                            {% for error in form.diplome.errors %}
+                                <div class="invalid-feedback">[{{ error }}]</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-4 col-10">
+                            {{ form.annee_diplome.label(class_="form-label", required=true)}}
+                            {{ form.annee_diplome(class_="form-control") }}
+                            {% for error in form.annee_diplome.errors %}
+                                <div class="invalid-feedback">[{{ error }}]</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End Informations académiques -->
+
+            <!-- Actions finales -->
+            <div class="row mt-3 g-3">
+                <div class="text-center">
+                    <a href="{{ url_for('concours.identity') }}" class="btn btn-secondary btn-lg m-1">{{ _('Etape precedente') }}</a>
+                    <button type="submit" class="btn btn-primary btn-lg m-1">{{ _('Etape suivante') }}</button>
+                </div>
+            </div>
+            
+        </form>
+    </section>
+</div>
+{% endblock %}
+
+{% block vendor_js %}
+    <script src="{{ url_for('static', filename='vendor/jquery-3.6.0.min.js') }}"></script>  
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{{ url_for('preins.static', filename='js/preins-info-new.js') }}"></script>
+{% endblock %}
+
+{% block page_authors%} 
+    <a>Malcom C. Penda</a>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'dashboard/layout.jinja' %}
+{% set page_id = 'concours_contacts_pg' %}
+{% from 'preins-macros.jinja' import render_info_form, render_messages %}
+
+{% block page_header %}
+  <h1>{{ _('Inscription') }}</h1>
+  <h3 class="text-secondary">Etape 3: Contacts</h3>
+{% endblock %}
+
+{% block page_main %}
+<div class="container">
+    <section class="section row g-4 pt-0">
+    
+        <!-- Alertes -->
+        {{ render_messages() }}
+
+        <form class="col-lg-10 col-12 needs-validation" novalidate 
+              method="POST" action="{{ url_for('concours.contacts') }}">
+                    
+            {{ form.csrf_token }}
+
+      
+            <!-- Coordonnées -->
+            <div class="card my-2">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <h6 class="card-title mx-1 mt-4 mb-0">3.1. Coordonnées du candidat</h6>
+                        <div class="col-lg-6 col-10">
+                            {{ form.telephone.label(class_="form-label", required=true)}}
+                            {{ form.telephone(class_="form-control") }}
+                            {% for error in form.telephone.errors %}
+                                <div class="invalid-feedback">[{{ error }}]</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-6 col-10">
+                            {{ form.email.label(class_="form-label")}}
+                            {{ form.email(class_="form-control") }}
+                            {% for error in form.email.errors %}
+                                <div class="invalid-feedback">[{{ error }}]</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End Coordonnées -->
+
+            <!-- Informations sur le père -->
+            <div class="card my-2">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <h6 class="card-title mx-1 mt-4 mb-0">3.2. Informations sur le père</h6>
+                        <div class="col-lg-6 col-10">
+                            {{ form.nom_pere.label(class_="form-label")}}
+                            {{ form.nom_pere(class_="form-control") }}
+                        </div>
+                        <div class="col-lg-6 col-10">
+                            {{ form.profession_pere.label(class_="form-label")}}
+                            {{ form.profession_pere(class_="form-control") }}
+                        </div>
+                        <div class="col-lg-6 col-10">
+                            {{ form.telephone_pere.label(class_="form-label")}}
+                            {{ form.telephone_pere(class_="form-control") }}
+                        </div>
+                        <div class="col-lg-6 col-10">
+                            {{ form.residence_pere.label(class_="form-label")}}
+                            {{ form.residence_pere(class_="form-control") }}
+                        </div>  
+                    </div>
+                </div>
+            </div> <!-- End Informations sur le père -->
+                    
+            <!-- Informations sur la mère -->
+            <div class="card my-2">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <h6 class="card-title mx-1 mt-4 mb-0">3.3. Informations sur la mère</h6>
+                        <div class="col-lg-6 col-10">
+                            {{ form.nom_mere.label(class_="form-label")}}
+                            {{ form.nom_mere(class_="form-control") }}
+                        </div>
+                        <div class="col-lg-6 col-10">
+                            {{ form.profession_mere.label(class_="form-label")}}
+                            {{ form.profession_mere(class_="form-control") }}
+                        </div>
+                        <div class="col-lg-6 col-10">
+                            {{ form.telephone_mere.label(class_="form-label")}}
+                            {{ form.telephone_mere(class_="form-control") }}
+                        </div>
+                        <div class="col-lg-6 col-10">
+                            {{ form.residence_mere.label(class_="form-label")}}
+                            {{ form.residence_mere(class_="form-control") }}
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End Informations sur la mère -->
+
+
+            <!-- Actions finales -->
+            <div class="row mt-3 g-3">
+                <div class="text-center">
+                    <a href="{{ url_for('concours.options') }}" class="btn btn-secondary btn-lg m-1">{{ _('Etape precedente') }}</a>
+                    <button type="submit" class="btn btn-primary btn-lg m-1">{{ _('Etape suivante') }}</button>
+                </div>
+            </div>
+            
+        </form>
+    </section>
+</div>
+{% endblock %}
+
+{% block vendor_js %}
+    <script src="{{ url_for('static', filename='vendor/jquery-3.6.0.min.js') }}"></script>  
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{{ url_for('preins.static', filename='js/preins-info-new.js') }}"></script>
+{% endblock %}
+
+{% block page_authors%} 
+    <a>Malcom C. Penda</a>
+{% endblock %}

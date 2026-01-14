@@ -10,6 +10,6 @@ navbar.add('home_pg', _l('Accueil'), endpoint='home.index', rank=0)
 # workspacemenu.add('teacher_dash', _l('Enseignants'), endpoint='home.teacher_dashboard')
 # workspacemenu.add('admin_dash', _l('Administration'), endpoint='home.admin_dashboard')
 
-sidebar.add('home_dash', _l('Accueil'), endpoint='home.dashboard', rank=-1)
-sidebar.add('profile_dash', _l('Profil'), endpoint='home.profile', rank=-1)
+# sidebar.add('home_dash', _l('Accueil'), endpoint='home.dashboard', rank=-1)
+# sidebar.add('profile_dash', _l('Profil'), endpoint='home.profile', rank=-1)
 
