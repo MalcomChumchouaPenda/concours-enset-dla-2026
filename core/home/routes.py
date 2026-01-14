@@ -19,8 +19,13 @@ static_dir = os.path.join(os.path.dirname(__file__), 'static')
 
 @ui.route('/')
 def index():
-    return redirect(url_for('home.wait'))
-    
+    locale = get_locale() 
+    print('\n\tlocale', locale)
+    msg = os.path.join(static_dir, f'md/hero-msg-{locale}.md')
+    img = f'img/hero-bg.jpg'
+    hero = dict(msg=msg, img=img)
+    return render_template('home.jinja', hero=hero)
+
 
 @ui.route('/wait')
 def wait():
