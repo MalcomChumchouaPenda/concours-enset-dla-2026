@@ -28,7 +28,7 @@ def wait():
                            deadline='2026/1/16',
                            title='Concours 2026',
                            alert_title='En maintenance',
-                           alert_msg='Cette plateforme est en maintenance. Elle sera disponible dans:')
+                           alert_msg='Cette plateformeTest est en maintenance. Elle sera disponible dans:')
     # locale = get_locale() 
     # print('\n\tlocale', locale)
     # msg = os.path.join(static_dir, f'md/hero-msg-{locale}.md')
