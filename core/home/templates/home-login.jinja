@@ -10,7 +10,7 @@
         <!-- Header -->
         <div class="row w-100 py-5 d-flex justify-content-center">
             <div class="col-10 text-center">
-                <h4>{{ _('Identifiez-vous pour continuer') }}</h4>
+                <h4>{{ _('Identifiez votre paiement pour continuer') }}</h4>
             </div>
         </div>
         
@@ -25,20 +25,13 @@
         <!-- Identifiant -->
         <div class="field row my-2 w-100 d-flex justify-content-center">
             <div class="col-10 col-lg-4">
-                {{ form.id(class_="form-control", placeholder=_("Saisissez votre numéro de paiement"), size=20) }}           
+                {{ form.id(class_="form-control", placeholder=_("Saisissez votre numéro de recu de paiement"), size=20) }}           
             </div>
         </div><!-- End Identifiant -->
 
-        <!-- Securite -->
-        <div class="field row my-2 w-100 d-flex justify-content-center">
-            <div class="col-10 col-lg-4">   
-                {{ form.pwd(class_="form-control", placeholder=_("Saisissez votre mot de passe")) }}        
-            </div>
-        </div><!-- End Securite -->
-
         <div class="row pt-5 w-100 d-flex justify-content-center">
             <div class="col-10 col-lg-4 flex-column align-items-start">
-                <input class="btn btn-primary w-100" type="submit" value="{{ _('Connexion') }}">
+                <input class="btn btn-primary w-100" type="submit" value="{{ _('Valider') }}">
                 <ul class="login-links">
                     <li><a class="btn btn-link mt-5" href="#">{{ _('Mot de passe oublié ?') }}</a></li>
                     <li><a class="btn btn-link mt-1" href="{{ url_for('home.index') }}">{{ _("Retour a l'accueil !") }}</a></li>

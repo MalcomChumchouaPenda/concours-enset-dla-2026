@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import func
 from core.config import db
-from services.formations_v0_0.models import Classe, Filiere, Niveau
+from services.formations_v0_1.models import Classe, Filiere, Niveau
 from services.regions_v0_0.models import Departement
 
 

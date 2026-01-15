@@ -4,7 +4,7 @@ from flask_babel import lazy_gettext as _l
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField, EmailField, TextAreaField, DateField
 from wtforms.validators import DataRequired, ValidationError
-from services.concours_v0_0.models import SEXES, LANGUES, SITUATIONS
+from services.concours_v0_0 import models as cmdl
 
 
 def choices(data, only_keys=False):
@@ -25,52 +25,59 @@ def validators1():
     return [DataRequired()]
 
 
-class IdentityForm(FlaskForm):
+def list_filieres():
+    query = cmdl.FiliereConcours.query
+    items = [('', 'Choisir')]
+    items.extend([(obj.full_id, obj.nom_fr) for obj in query.all()])
+    return items
 
+def list_options():
+    query = cmdl.OptionConcours.query
+    items = [('', 'Choisir')]
+    items.extend([(obj.full_id, obj.nom_fr) for obj in query.all()])
+    return items
+
+def list_classes():
+    query = cmdl.ClasseConcours.query
+    items = [('', 'Choisir')]
+    items.extend([(obj.full_id, cmdl.NIVEAUX[obj.niveau_id]) 
+                  for obj in query.all()])
+    return items
+
+def list_centres():
+    query = cmdl.CentreConcours.query
+    items = [('', 'Choisir')]
+    items.extend([(obj.id, obj.nom) for obj in query.all()])
+    return items
+
+
+class CandidatForm(FlaskForm):
+    
     # Informations personnelles de base
-    admission_id = StringField(_l("No d'ordre"))
-    matricule = StringField(_l('Matricule'))
     prenom = StringField(_l('Prenoms'))
     nom = StringField(_l('Noms'), validators=validators1())
     date_naissance = DateField(_l('Date de naissance'), validators=validators1())
     lieu_naissance = StringField(_l('Lieu de naissance'), validators=validators1())
-    sexe_id = SelectField(_l('Sexe'), validators=validators1(), choices=choices(SEXES))
+    sexe_id = SelectField(_l('Sexe'), validators=validators1(), choices=choices(cmdl.SEXES))
     situation_matrimoniale_id = SelectField(_l('Situation Matrimoniale'), 
                                             validators=validators1(), 
-                                            choices=choices(SITUATIONS))
-    
+                                            choices=choices(cmdl.SITUATIONS))
+
     # Origine géographique
     nationalite_id = SelectField(_l('Nationalité'), validators=validators1())    
     region_origine_id = SelectField(_l("Region d'origine"), validators=validators1())    
     departement_origine_id = SelectField(_l("Departement d'origine"), validators=validators1())    
-    langue_id = SelectField(_l('Langue'), validators=validators1(), choices=choices(LANGUES))
+    langue_id = SelectField(_l('Langue'), validators=validators1(), choices=choices(cmdl.LANGUES))
 
-    
-
-class OptionsForm(FlaskForm):
-
-    # Informations académiques
-    departement_academique = StringField(_l('Departement'))
-    option = StringField(_l('Option'))
-    niveau = StringField(_l('Niveau'))
-    diplome = StringField(_l("Diplôme d'entrée"), validators=validators1())
-    annee_diplome = IntegerField(_l("Année d'obtention"), validators=validators1())
-
-
-class ContactsForm(FlaskForm):
+    # Choix concours
+    filiere_id = SelectField(_l('Filière sollicitée'), validators=validators1())
+    option_id = SelectField(_l('Option sollicitée'), validators=validators1())
+    classe_id = SelectField(_l("Niveau examen"), validators=validators1())
+    centre_id = SelectField(_l("Centre examen"), validators=validators1())
+    # diplome_id = StringField(_l("Diplôme donnant droit au concours"), validators=validators1())
 
     # Coordonnées
     telephone = StringField(_l('Téléphone'), validators=validators1())    
     email = EmailField(_l('Email'))
 
-    # Informations du père/tuteur
-    nom_pere = StringField(_l('Nom du père'))
-    profession_pere = StringField(_l('Profession du père'))
-    telephone_pere = StringField(_l('Téléphone du père'))
-    residence_pere = StringField(_l('Residence du père'))
-
-    # Informations de la mère
-    nom_mere = StringField(_l('Nom de la mère'))
-    profession_mere = StringField(_l('Profession de la mère'))
-    telephone_mere = StringField(_l('Téléphone de la mère'))
-    residence_mere = StringField(_l('Residence de la mère'))
+    

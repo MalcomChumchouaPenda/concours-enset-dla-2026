@@ -404,6 +404,7 @@ input.form-control.is-invalid:focus {
 
 .invalid-feedback {
   color: var(--danger-color);
+  display: inline-block;
 }
 
 .form-label {

@@ -1,7 +1,12 @@
 import os
-from flask import current_app, render_template, redirect, url_for, flash
+from flask import current_app, render_template, redirect, url_for, flash, send_file
+from flask_login import current_user
+from core.config import db
 from core.utils import UiBlueprint
 from services.regions_v0_0 import tasks as rtsk
+from services.formations_v0_1 import tasks as ftsk
+from services.concours_v0_0 import tasks as ctsk
+from services.concours_v0_0 import models as cmdl
 from . import forms
 
 
@@ -31,68 +36,65 @@ def _clean_temp_files():
             os.remove(filepath)
             logger.debug(f'clean {filename}')
         except OSError as e:
-            logger.warnin
+            logger.warning
+
+
+@ui.route('/candidature', methods=['GET', 'POST'])
+@ui.login_required
+def candidature():
+    user_id = current_user.id
+
+    # create a edit form
+    form = forms.CandidatForm()
+    form.nationalite_id.choices = forms.choices(rtsk.list_nationalites(full_id=True))
+    form.region_origine_id.choices = forms.choices(rtsk.list_regions(full_id=True))
+    form.departement_origine_id.choices = forms.choices(rtsk.list_departements(full_id=True))
+    form.filiere_id.choices = forms.list_filieres()
+    form.option_id.choices = forms.list_options()
+    form.classe_id.choices = forms.list_classes()
+    form.centre_id.choices = forms.list_centres()
+
+    # traitement et enregistrement des donnees
+    if form.validate_on_submit():
+        data = form.data
+        data['id'] = user_id
+
+        # correct ids
+        invalid_ids = ['departement_origine_id', 
+                       'classe_id']
+        for col in invalid_ids:
+            data[col] = data[col].split('-')[-1]
+
+        # delete cols
+        invalid_cols = ['csrf_token', 
+                        'nationalite_id', 
+                        'region_origine_id',
+                        'filiere_id', 
+                        'option_id']
+        for col in invalid_cols:
+            data.pop(col)
+
+        candidat = cmdl.Candidat(**data)
+        db.session.add(candidat)
+        db.session.commit()
+        return redirect(url_for('concours.fiche'))
+
+    return render_template('concours-candidature.jinja', form=form)
+
 
 @ui.route('/procedure')
 def procedure():
     return render_template('concours-procedure.jinja')
 
-@ui.route('/identity', methods=['GET', 'POST'])
-def identity():
-    # create a edit form
-    form = forms.IdentityForm()
-    form.nationalite_id.choices = forms.choices(rtsk.list_nationalites(full_id=True))
-    form.region_origine_id.choices = forms.choices(rtsk.list_regions(full_id=True))
-    form.departement_origine_id.choices = forms.choices(rtsk.list_departements(full_id=True))
 
-    # traitement et enregistrement des donnees
-    if form.validate_on_submit():
-        data = form.data
-        return redirect(url_for('concours.options'))
-
-    # fixation des valeurs par defaut
-    # alert = """
-    #     Compléter les champs obligatoires. 
-    #     vous pouvez interrompre la procédure en vous deconnectant
-    #     et la reprendre ultérieurement.
-    #     """
-    # flash(alert, 'warning')
-    return render_template('concours-identity.jinja', form=form)
-
-
-@ui.route('/options', methods=['GET', 'POST'])
-def options():
-    # create a edit form
-    form = forms.OptionsForm()
-
-    # traitement et enregistrement des donnees
-    if form.validate_on_submit():
-        data = form.data
-        return redirect(url_for('concours.contacts'))
-
-    # fixation des valeurs par defaut
-    return render_template('concours-options.jinja', form=form)
-
-
-@ui.route('/contacts', methods=['GET', 'POST'])
-def contacts():
-    # create a edit form
-    form = forms.ContactsForm()
-
-    # traitement et enregistrement des donnees
-    if form.validate_on_submit():
-        data = form.data
-        return redirect(url_for('concours.summary'))
-
-    # fixation des valeurs par defaut
-    return render_template('concours-contacts.jinja', form=form)
-
-
-@ui.route('/summary')
-def summary():
-    return 'final step'
-    # user_id = current_user.id
-    # inscription = tsk.rechercher_inscription(user_id)
-    # if inscription is None:
-    #     return redirect(url_for('preins.new_info'))
-    # return render_template('preins-view-info.jinja', inscription=inscription)
+@ui.route('/fiche')
+def fiche():
+    user_id = current_user.id
+    inscription = cmdl.Candidat.query.filter_by(id=user_id).one_or_none()
+    if inscription is None:
+        return redirect(url_for('concours.candidature'))
+    nom_fichier_pdf = f"fiche_inscription_{user_id.lower()}.pdf"
+    nom_fichier_pdf = nom_fichier_pdf.replace('-', '_')
+    chemin_pdf_final = os.path.join(temp_dir, nom_fichier_pdf)
+    fichier_pdf = ctsk.generer_fiche_inscription(inscription, chemin_pdf_final)
+    return send_file(fichier_pdf, as_attachment=True, download_name=nom_fichier_pdf)

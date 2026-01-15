@@ -17,7 +17,7 @@ from core.utils import UiBlueprint
 from core.auth import tasks as atsk
 from services.preins_v0_0 import tasks as tsk
 from services.preins_v0_0 import models as mdl
-from services.formations_v0_0 import models as fmdl
+from services.formations_v0_1 import models as fmdl
 # from services.preins_v0_0.models import Inscription, Requete
 from . import forms
 

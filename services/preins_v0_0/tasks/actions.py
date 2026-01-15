@@ -3,10 +3,10 @@ import re
 from sqlalchemy.exc import IntegrityError
 from core.auth.tasks import get_user, add_user, add_roles_to_user
 from core.auth.models import User
-from services.formations_v0_0.models import Classe, Filiere, Niveau
+from services.formations_v0_1.models import Classe, Filiere, Niveau
 from services.regions_v0_0.models import Departement
 from services.regions_v0_0 import tasks as region_tasks
-from services.formations_v0_0 import tasks as format_tasks
+from services.formations_v0_1 import tasks as format_tasks
 from ..models import db, Inscription, Admission, Requete, CommuniqueAdmission
 
 

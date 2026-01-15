@@ -1,0 +1,83 @@
+{% extends 'dashboard/layout.jinja' %}
+{% set page_id = 'concours_candidature_pg' %}
+{% from 'concours-macros.jinja' import render_sub_form, render_text_field, render_select_field , render_messages %}
+
+{% block page_header %}
+  <h1>{{ _('Fiche Inscription') }}</h1>
+{% endblock %}
+
+{% block page_main %}
+<div class="container">
+    <section class="section row g-4 pt-0">
+    
+      <!-- Alertes -->
+      {{ render_messages() }}
+
+      <form class="px-4 col-lg-10 col-12 needs-validation" novalidate
+        method="POST" action="{{ url_for('concours.candidature') }}">
+                    
+        {{ form.csrf_token }}
+
+        <!-- Choix concours -->
+        {% call render_sub_form(form, "1. Filiere et Lieu de concours")%}
+            {{ render_select_field(form.filiere_id, 'col-lg-6 col-10') }} 
+            {{ render_select_field(form.option_id, 'col-lg-6 col-10') }} 
+            {{ render_select_field(form.classe_id, 'col-lg-6 col-10') }} 
+            {{ render_select_field(form.centre_id, 'col-lg-6 col-10') }} 
+        {% endcall%} <!-- End choix concours-->
+
+        <!-- Info generales -->
+        {% call render_sub_form(form, '2. Informations personnelles')%}  
+            {{ render_text_field(form.nom, 'col-lg-6 col-10') }}  
+            {{ render_text_field(form.prenom, 'col-lg-6 col-10', required=false) }}  
+            {{ render_text_field(form.date_naissance, 'col-lg-4 col-10')}}  
+            {{ render_text_field(form.lieu_naissance, 'col-lg-8 col-10')}} 
+            {{ render_select_field(form.sexe_id, 'col-lg-4 col-10') }}
+            {{ render_select_field(form.situation_matrimoniale_id, 'col-lg-4 col-10') }}
+        {% endcall%}  <!-- End Info generales -->
+
+        <!-- Origine géographique -->
+        {% call render_sub_form(form, '3. Origine géographique')%}
+            {{ render_select_field(form.langue_id, 'col-lg-6 col-10') }}
+            {{ render_select_field(form.nationalite_id, 'col-lg-6 col-10') }}
+            {{ render_select_field(form.region_origine_id, 'col-lg-6 col-10') }}
+            {{ render_select_field(form.departement_origine_id, 'col-lg-6 col-10') }}
+        {% endcall%} <!-- End Origine géographique -->
+
+        <!-- Cursus academique -->
+        {% call render_sub_form(form, "4. Cursus academique")%}
+            {# {{ render_text_field(form.diplome, 'col-lg-8 col-10') }}  
+            {{ render_text_field(form.annee_diplome, 'col-lg-4 col-10') }}  #}
+        {% endcall%} <!-- End cursus academique-->
+
+        <!-- Coordonnées -->
+        {% call render_sub_form(form, '5. Coordonnées')%}
+            {{ render_text_field(form.telephone, 'col-lg-6 col-10') }} 
+            {{ render_text_field(form.email, 'col-lg-6 col-10', required=false) }} 
+        {% endcall%} <!-- End Coordonnées -->
+
+        <!-- Actions -->
+        <div class="my-3 g-3">
+          <div class="d-flex justify-content-center text-center pb-4">
+            <a href="{{ url_for('home.index') }}" class="btn btn-secondary btn-lg m-1">Annuler l'inscription</a>
+            <button type="submit" class="btn btn-primary btn-lg m-1">Valider l'inscription</button>
+          </div>
+        </div> <!-- End Actions -->
+            
+      </form>
+    </section>
+</div>
+{% endblock %}
+
+
+{% block vendor_js %}
+    <script src="{{ url_for('static', filename='vendor/jquery-3.6.0.min.js') }}"></script>  
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{{ url_for('concours.static', filename='js/concours-candidature.js') }}"></script>
+{% endblock %}
+
+{% block page_authors%} 
+    <a>Malcom C. Penda</a>
+{% endblock %}

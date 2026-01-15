@@ -11,10 +11,9 @@
 {% block page_hero %}
     <div class="hero-info w-75 d-flex flex-column justify-content-center align-items-center">
       {{ hero.msg | safe_md }}
-      <div class="d-flex flex-column">
-        <a href="{{ url_for('home.register') }}" class="btn btn-primary">{{ _('Commencer une inscription') }}</a>
-        <a href="{{ url_for('home.login') }}" class="btn btn-secondary">{{ _('Continuer votre inscription') }}</a>
-        <a href="{{ url_for('home.login') }}" class="btn btn-secondary">{{ _('Réimprimer votre fiche') }}</a>
+      <div class="d-flex">
+        <a href="{{ url_for('concours.candidature') }}" class="btn btn-primary">{{ _('Commencer une inscription') }}</a>
+        <a href="{{ url_for('home.login') }}" class="btn btn-secondary">{{ _('Réimprimer une inscription') }}</a>
       </div>
     </div> 
     <div class="hero-bg">

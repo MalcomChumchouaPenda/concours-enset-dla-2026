@@ -10,6 +10,10 @@ class Formation(db.Model):
     nom = db.Column(db.String(50))
     filieres = db.relationship('Filiere', back_populates='formation')
 
+    @property
+    def full_id(self):
+        return self.id
+    
 
 class Niveau(db.Model):
     __bind_key__ = 'formations_v0'
@@ -26,6 +30,10 @@ class DepartementAcademique(db.Model):
     nom = db.Column(db.String(200), nullable=False)
     filieres = db.relationship('Filiere', back_populates='departement')
     
+    @property
+    def full_id(self):
+        return self.id
+    
 
 class Filiere(db.Model):
     __bind_key__ = 'formations_v0'
@@ -41,6 +49,12 @@ class Filiere(db.Model):
     formation_id = db.Column(db.String(5), db.ForeignKey('formations.id'))
     formation = db.relationship('Formation', back_populates='filieres')
 
+    @property
+    def full_id(self):
+        return '-'.join([self.formation.full_id,
+                         self.departement.full_id,
+                         self.id])
+    
 
 class Classe(db.Model):
     __bind_key__ = 'formations_v0'
@@ -55,3 +69,7 @@ class Classe(db.Model):
     def code_complet(self):
         return f'{self.filiere.code_udo}{self.niveau_id[-1]}'
 
+    @property
+    def full_id(self):
+        return self.filiere.full_id + self.niveau_id
+    

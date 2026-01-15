@@ -66,7 +66,6 @@ def register():
 
 class LoginForm(FlaskForm):
     id = StringField(_l('numero de paiement'), validators=[DataRequired()])
-    pwd = PasswordField(_l('mot de passe'), validators=[DataRequired()])
 
 
 @ui.route('/login', methods=['GET', 'POST'])
@@ -77,11 +76,11 @@ def login():
     #     next = request.referrer
     if form.validate_on_submit():
         user_id = form.id.data
-        password = form.pwd.data
+        password = user_id
         if connect_user(user_id, password):
             if next:
                 return redirect(next)
-            return redirect(url_for('home.dashboard'))
+            return redirect(url_for('home.index'))
         error = _("Informations incorrectes")
         return render_template('home-login.jinja', form=form, next=next, error=error)
     return render_template('home-login.jinja', form=form,  next=next)
