@@ -1,9 +1,10 @@
 {% extends 'dashboard/layout.jinja' %}
 {% set page_id = 'concours_candidature_pg' %}
-{% from 'concours-macros.jinja' import render_sub_form, render_text_field, render_select_field , render_messages %}
+{% from 'concours-macros.jinja' import render_sub_form, render_text_field, 
+                                       render_select_field, render_messages %}
 
 {% block page_header %}
-  <h1>{{ _('Fiche Inscription') }}</h1>
+  <h1>{{ _('Nouvelle Inscription') }}</h1>
 {% endblock %}
 
 {% block page_main %}
@@ -14,10 +15,17 @@
       {{ render_messages() }}
 
       <form class="px-4 col-lg-10 col-12 needs-validation" novalidate
-        method="POST" action="{{ url_for('concours.candidature') }}">
-                    
+        method="POST" action="{{ url_for('concours.new_inscr') }}">
+        
+        <!-- Actions initiales -->
+        <div class="my-3 g-3">
+          <div class="d-flex justify-content-end text-center pb-4">
+            <a href="{{ url_for('home.index') }}" class="btn btn-secondary btn-lg m-1">Annuler l'inscription</a>
+          </div>
+        </div> <!-- End Actions initiales -->
+
+        <!-- Fields -->
         {{ form.csrf_token }}
-        {# {{ form.hidden_tag() }} #}
 
         <!-- Choix concours -->
         {% call render_sub_form(form, "1. Filiere et Lieu de concours")%}
@@ -49,25 +57,25 @@
         {% call render_sub_form(form, "4. Cursus academique")%}
             {# <table id="academic_table" class="table table-bordered">
                 <thead>
-                    <tr>
-                    <th>Année</th>
-                    <th>Établissement</th>
-                    <th>Diplôme</th>
-                    <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in form.cursus %}
-                    <tr>
-                    <td>{{ row.annee() }}</td>
-                    <td>{{ row.diplome() }}</td>
-                    <td>{{ row.mention() }}</td>
-                    <td><button type="button" class="btn btn-danger delete-row">Supprimer</button></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <button type="button" id="add_row" class="btn btn-success">Ajouter une ligne</button> #}
+                        <tr>
+                        <th>Année</th>
+                        <th>Établissement</th>
+                        <th>Diplôme</th>
+                        <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in form.cursus %}
+                        <tr>
+                        <td>{{ row.annee() }}</td>
+                        <td>{{ row.diplome() }}</td>
+                        <td>{{ row.mention() }}</td>
+                        <td><button type="button" class="btn btn-danger delete-row">Supprimer</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="button" id="add_row" class="btn btn-success">Ajouter une ligne</button> #}
         {% endcall%} <!-- End cursus academique-->
 
         <!-- Coordonnées -->
@@ -76,13 +84,14 @@
             {{ render_text_field(form.email, 'col-lg-6 col-10', required=false) }} 
         {% endcall%} <!-- End Coordonnées -->
 
-        <!-- Actions -->
+
+        <!-- Actions finales -->
         <div class="my-3 g-3">
-          <div class="d-flex justify-content-center text-center pb-4">
+          <div class="d-flex flex-column flex-lg-row justify-content-center text-center pb-4">
             <a href="{{ url_for('home.index') }}" class="btn btn-secondary btn-lg m-1">Annuler l'inscription</a>
             <button type="submit" class="btn btn-primary btn-lg m-1">Valider l'inscription</button>
           </div>
-        </div> <!-- End Actions -->
+        </div> <!-- End Actions finales -->
             
       </form>
     </section>

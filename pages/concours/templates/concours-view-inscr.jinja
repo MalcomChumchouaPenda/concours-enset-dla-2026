@@ -1,0 +1,86 @@
+{% extends 'dashboard/layout.jinja' %}
+{% set page_id = 'concours_candidature_pg' %}
+{% from 'concours-macros.jinja' import render_card, render_card_field, render_messages %}
+
+{% block page_header %}
+  <h1>{{ _('Fiche Inscription') }}</h1>
+{% endblock %}
+
+{% block page_main %}
+<div class="container">
+    <section class="section row g-4 pt-0">
+    
+      <!-- Alertes -->
+      {{ render_messages() }}
+
+        <!-- Actions initiales -->
+        <div class="row mt-3 d-flex justify-content-center">
+          <div class="col-lg-6 col-12 d-flex justify-content-end">
+            <a href="{{ url_for('home.logout') }}" class="btn btn-secondary btn-lg m-1">Fermer la fiche</a>
+            <a href="#" class="btn btn-secondary btn-lg m-1">Modifier la fiche</a>
+            <a href="{{ url_for('concours.print_inscr') }}" class="btn btn-primary btn-lg m-1">Imprimer la fiche</a>
+          </div>
+        </div> <!-- End Actions initiales -->
+
+
+      <form class="px-4 col-lg-10 col-12">
+
+        <!-- Choix concours -->
+        {% call render_card(inscription, "1. Filiere et Lieu de concours")%}
+            {{ render_card_field('filiere_id', 'Filiere', inscription.classe.option.filiere.nom_fr.upper(), 'col-lg-6 col-10') }} 
+            {{ render_card_field('option_id', 'Option', inscription.classe.option.nom_fr.upper(), 'col-lg-6 col-10') }} 
+            {{ render_card_field('classe_id', 'Niveau', inscription.classe.niveau, 'col-lg-6 col-10') }} 
+            {{ render_card_field('centre_id', 'Centre', inscription.centre.nom.upper(), 'col-lg-6 col-10') }} 
+        {% endcall%} <!-- End choix concours-->
+
+        <!-- Info generales -->
+        {% call render_card(inscription, '2. Informations personnelles')%}  
+            {{ render_card_field('nom', 'Noms', inscription.nom.upper(), 'col-lg-6 col-10') }}  
+            {{ render_card_field('prenom', 'Prenoms', inscription.prenom.upper(), 'col-lg-6 col-10') }}  
+            {{ render_card_field('date_naissance', 'Date naissance', inscription.date_naissance.strftime('%d/%m/%Y'), 'col-lg-4 col-10')}}  
+            {{ render_card_field('lieu_naissance', 'Lieu naissance', inscription.lieu_naissance, 'col-lg-8 col-10')}} 
+            {{ render_card_field('sexe_id', 'Sexe', inscription.sexe, 'col-lg-4 col-10') }}
+            {{ render_card_field('situation_id', 'Situation matrimoniale', inscription.situation_matrimoniale, 'col-lg-4 col-10') }}
+        {% endcall%}  <!-- End Info generales -->
+
+        <!-- Origine géographique -->
+        {% call render_card(inscription, '3. Origine géographique')%}
+            {{ render_card_field('langue_id', 'Langue', inscription.langue, 'col-lg-6 col-10') }}
+            {{ render_card_field('nationalite_id', 'Nationalite', inscription.departement_origine.region.pays.nationalite.upper(), 'col-lg-6 col-10') }}
+            {{ render_card_field('region_id', "Region d'origine", inscription.departement_origine.region.nom.upper(), 'col-lg-6 col-10') }}
+            {{ render_card_field('departement_id', "Departement d'origine", inscription.departement_origine.nom.upper(), 'col-lg-6 col-10') }}
+        {% endcall%} <!-- End Origine géographique -->
+
+        <!-- Coordonnées -->
+        {% call render_card(inscription, '5. Coordonnées')%}
+            {{ render_card_field('telephone', 'Telephone', inscription.telephone, 'col-lg-6 col-10') }} 
+            {{ render_card_field('email', 'Email', inscription.email, 'col-lg-6 col-10') }} 
+        {% endcall%} <!-- End Coordonnées -->
+
+            
+        <!-- Actions finales -->
+        <div class="row mt-3 d-flex justify-content-center">
+          <div class="col-lg-6 col-12 d-flex justify-content-center">
+            <a href="{{ url_for('home.logout') }}" class="btn btn-secondary btn-lg m-1">Fermer la fiche</a>
+            <a href="#" class="btn btn-secondary btn-lg m-1">Modifier la fiche</a>
+            <a href="{{ url_for('concours.print_inscr') }}" class="btn btn-primary btn-lg m-1">Imprimer la fiche</a>
+          </div>
+        </div> <!-- End Actions finales -->
+
+      </form>
+    </section>
+</div>
+{% endblock %}
+
+
+{% block vendor_js %}
+    <script src="{{ url_for('static', filename='vendor/jquery-3.6.0.min.js') }}"></script>  
+    <script src="{{ url_for('static', filename='vendor/jquery-chained/jquery.chained.js') }}"></script>
+{% endblock %}
+
+{% block custom_js %}
+{% endblock %}
+
+{% block page_authors%} 
+    <a>Malcom C. Penda</a>
+{% endblock %}

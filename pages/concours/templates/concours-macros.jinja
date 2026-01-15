@@ -106,6 +106,27 @@
 {% endmacro %}
 
 
+{% macro render_card(inscription, title)%}
+    <div class="card my-2">
+        <div class="card-body">
+            <div class="row g-3">
+                <h6 class="card-title mx-1 mt-3 mb-0">{{ title }}</h6> 
+                <!-- cols -->
+                {{ caller() }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro render_card_field(id, label, value, class) %} 
+    <div class="{{ class }}">
+        <label for="{{ id }}" class="form-label">{{ label }}</label>
+        <input type="text" class="form-control" id="{{ id }}" value="{{ value }}" disabled>
+    </div>          
+{% endmacro %}
+
+
 {% macro render_info_div(inscription) %}
     <!-- Info generales -->
     <div class="card my-2">
@@ -130,7 +151,7 @@
                 </div>                
                 <div class="col-lg-4 col-10">
                     <label for="date_naissance" class="form-label">Date de naissance</label>
-                    <input type="texte" class="form-control" disabled id="date_naissance" 
+                    <input type="text" class="form-control" disabled id="date_naissance" 
                            value="{{ inscription.date_naissance.strftime('%d/%m/%Y') }}">
                 </div>
                 <div class="col-lg-8 col-10">

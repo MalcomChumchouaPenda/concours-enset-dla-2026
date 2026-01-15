@@ -66,7 +66,6 @@ def list_regions():
     query = rmdl.Region.query
     items = [('', 'Choisir', {})]
     items.extend([f(obj) for obj in query.all()])
-    print(items)
     return items
 
 def list_departements():
@@ -85,7 +84,7 @@ class CursusRowForm(FlaskForm):
     mention = StringField(_l('Mention'), validators=validators1())
 
 
-class CandidatForm(FlaskForm):
+class NewInscrForm(FlaskForm):
     
     # Informations personnelles de base
     prenom = StringField(_l('Prenoms'))
@@ -115,6 +114,6 @@ class CandidatForm(FlaskForm):
     email = EmailField(_l('Email'))
 
     # cursus academique
-    cursus = FieldList(FormField(CursusRowForm), min_entries=1)
+    # cursus = FieldList(FormField(CursusRowForm), min_entries=1)
     
     

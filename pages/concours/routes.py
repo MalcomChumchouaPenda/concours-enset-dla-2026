@@ -39,13 +39,13 @@ def _clean_temp_files():
             logger.warning
 
 
-@ui.route('/candidature', methods=['GET', 'POST'])
+@ui.route('/new', methods=['GET', 'POST'])
 @ui.login_required
-def candidature():
+def new_inscr():
     user_id = current_user.id
 
     # create a edit form
-    form = forms.CandidatForm()
+    form = forms.NewInscrForm()
     form.nationalite_id.choices = forms.list_nationalites()
     form.region_origine_id.choices = forms.list_regions()
     form.departement_origine_id.choices = forms.list_departements()
@@ -58,19 +58,8 @@ def candidature():
     if form.validate_on_submit():
         data = form.data
         data['id'] = user_id
-
-        print('\n\n', data)
-        # correct ids
-        invalid_ids = ['departement_origine_id', 
-                       'classe_id']
-        for col in invalid_ids:
-            data[col] = data[col].split('-')[-1]
-
-        # delete cols
-        invalid_cols = ['csrf_token', 
-                        'nationalite_id', 
-                        'region_origine_id',
-                        'filiere_id', 
+        invalid_cols = ['csrf_token', 'nationalite_id', 
+                        'region_origine_id', 'filiere_id', 
                         'option_id']
         for col in invalid_cols:
             data.pop(col)
@@ -78,22 +67,33 @@ def candidature():
         candidat = cmdl.Candidat(**data)
         db.session.add(candidat)
         db.session.commit()
-        return redirect(url_for('concours.fiche'))
+        return redirect(url_for('concours.view_inscr'))
 
-    return render_template('concours-candidature.jinja', form=form)
-
-
-@ui.route('/procedure')
-def procedure():
-    return render_template('concours-procedure.jinja')
+    return render_template('concours-new-inscr.jinja', form=form)
 
 
-@ui.route('/fiche')
-def fiche():
+@ui.route('/view')
+@ui.login_required
+def view_inscr():
     user_id = current_user.id
     inscription = cmdl.Candidat.query.filter_by(id=user_id).one_or_none()
     if inscription is None:
-        return redirect(url_for('concours.candidature'))
+        return redirect(url_for('concours.new_inscr'))
+    return render_template('concours-view-inscr.jinja', inscription=inscription)
+
+
+
+# @ui.route('/procedure')
+# def procedure():
+#     return render_template('concours-procedure.jinja')
+
+
+@ui.route('/print')
+def print_inscr():
+    user_id = current_user.id
+    inscription = cmdl.Candidat.query.filter_by(id=user_id).one_or_none()
+    if inscription is None:
+        return redirect(url_for('concours.new_inscr'))
     nom_fichier_pdf = f"fiche_inscription_{user_id.lower()}.pdf"
     nom_fichier_pdf = nom_fichier_pdf.replace('-', '_')
     chemin_pdf_final = os.path.join(temp_dir, nom_fichier_pdf)
