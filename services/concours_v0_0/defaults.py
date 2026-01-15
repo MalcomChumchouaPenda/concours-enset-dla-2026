@@ -84,7 +84,8 @@ def init_data():
         'classe_id': 'BTP1', 
         'centre_id': 'BAF', 
         'telephone': '65523', 
-        'email': ''}
+        'email': '',
+        'diplome_id':'BAC_C'}
     db.session.add(mdl.Candidat(**test))
     db.session.commit()
 

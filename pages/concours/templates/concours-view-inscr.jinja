@@ -51,6 +51,28 @@
             {{ render_card_field('departement_id', "Departement d'origine", inscription.departement_origine.nom.upper(), 'col-lg-6 col-10') }}
         {% endcall%} <!-- End Origine géographique -->
 
+        <!-- Cursus academique -->
+        {% call render_card(inscription, "4. Cursus academique")%}
+            <table id="academic_table" class="table table-bordered">
+                <thead>
+                        <tr>
+                        <th>Année</th>
+                        <th>Diplôme</th>
+                        <th>Mention</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in inscription.cursus %}
+                            <tr>
+                            <td>{{ row.annee }}</td>
+                            <td>{{ row.diplome }}</td>
+                            <td>{{ row.mention }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+        {% endcall%} <!-- End cursus academique-->
+
         <!-- Coordonnées -->
         {% call render_card(inscription, '5. Coordonnées')%}
             {{ render_card_field('telephone', 'Telephone', inscription.telephone, 'col-lg-6 col-10') }} 

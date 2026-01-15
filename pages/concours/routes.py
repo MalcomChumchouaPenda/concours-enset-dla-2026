@@ -53,8 +53,11 @@ def new_inscr():
     form.option_id.choices = forms.list_options()
     form.classe_id.choices = forms.list_classes()
     form.centre_id.choices = forms.list_centres()
+    form.diplome_id.choices = forms.list_diplomes()
 
     # traitement et enregistrement des donnees
+    data = form.data
+    print('\ndata=>\t', data)
     if form.validate_on_submit():
         data = form.data
         data['id'] = user_id
@@ -64,11 +67,18 @@ def new_inscr():
         for col in invalid_cols:
             data.pop(col)
 
+        cursus = data.pop('cursus')
         candidat = cmdl.Candidat(**data)
-        db.session.add(candidat)
+        db.session.add(candidat)     
+        for row in cursus:
+            row.pop('csrf_token')   
+            row['candidat_id'] = user_id
+            etape = cmdl.EtapeCursus(**row)
+            db.session.add(etape)
         db.session.commit()
         return redirect(url_for('concours.view_inscr'))
 
+    print('\nerrors=>\t', form.errors)
     return render_template('concours-new-inscr.jinja', form=form)
 
 

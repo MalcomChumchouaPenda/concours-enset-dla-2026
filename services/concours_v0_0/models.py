@@ -116,6 +116,10 @@ class Candidat(db.Model):
     centre_id = db.Column(db.String(10), db.ForeignKey('centre_concours.id'))
     centre = db.relationship('CentreConcours', back_populates='candidats')
 
+    # cursus academique
+    diplome_id = db.Column(db.String(200), nullable=False)
+    cursus = db.relationship('EtapeCursus', back_populates='candidat')
+
     @property
     def nom_complet(self):
         return ' '.join([self.nom, self.prenom])
@@ -141,4 +145,15 @@ class Candidat(db.Model):
         query = db.session.query(Departement)
         query = query.filter_by(id=self.departement_origine_id)
         return query.one_or_none()
-    
+
+
+class EtapeCursus(db.Model):
+    __bind_key__ = 'concours_v0'
+    __tablename__ = 'etape_cursus'
+
+    id = db.Column(db.Integer, primary_key=True) 
+    annee = db.Column(db.String(20), nullable=False)
+    diplome = db.Column(db.String(200), nullable=False)
+    mention = db.Column(db.String(50), nullable=False)
+    candidat_id = db.Column(db.String(20), db.ForeignKey('candidats.id'))
+    candidat = db.relationship('Candidat', back_populates='cursus')

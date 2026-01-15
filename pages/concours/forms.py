@@ -76,6 +76,13 @@ def list_departements():
     return items
 
 
+def list_diplomes():
+    query = cmdl.DiplomeConcours.query
+    items = [('', 'Choisir')]
+    items.extend([(obj.id, obj.nom_fr) for obj in query.all()])
+    return items
+
+
 class CursusRowForm(FlaskForm):
 
     # information d'un element du cursus
@@ -107,13 +114,13 @@ class NewInscrForm(FlaskForm):
     option_id = AttribSelectField(_l('Option sollicitée'), validators=validators1())
     classe_id = AttribSelectField(_l("Niveau examen"), validators=validators1())
     centre_id = SelectField(_l("Centre examen"), validators=validators1())
-    # diplome_id = StringField(_l("Diplôme donnant droit au concours"), validators=validators1())
 
     # Coordonnées
     telephone = StringField(_l('Téléphone'), validators=validators1())    
     email = EmailField(_l('Email'))
 
     # cursus academique
-    # cursus = FieldList(FormField(CursusRowForm), min_entries=1)
+    diplome_id = SelectField(_l("Diplôme donnant droit au concours"), validators=validators1())
+    cursus = FieldList(FormField(CursusRowForm), min_entries=1)
     
     

@@ -31,8 +31,9 @@
         {% call render_sub_form(form, "1. Filiere et Lieu de concours")%}
             {{ render_select_field(form.filiere_id, 'col-lg-6 col-10') }} 
             {{ render_select_field(form.option_id, 'col-lg-6 col-10') }} 
-            {{ render_select_field(form.classe_id, 'col-lg-6 col-10') }} 
-            {{ render_select_field(form.centre_id, 'col-lg-6 col-10') }} 
+            {{ render_select_field(form.classe_id, 'col-lg-3 col-10') }} 
+            {{ render_select_field(form.centre_id, 'col-lg- col-10') }} 
+            {{ render_select_field(form.diplome_id, 'col-lg-6 col-10') }}
         {% endcall%} <!-- End choix concours-->
 
         <!-- Info generales -->
@@ -55,27 +56,28 @@
 
         <!-- Cursus academique -->
         {% call render_sub_form(form, "4. Cursus academique")%}
-            {# <table id="academic_table" class="table table-bordered">
+            <table id="academic_table" class="table table-bordered">
                 <thead>
                         <tr>
                         <th>Année</th>
-                        <th>Établissement</th>
                         <th>Diplôme</th>
+                        <th>Mention</th>
                         <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for row in form.cursus %}
-                        <tr>
-                        <td>{{ row.annee() }}</td>
-                        <td>{{ row.diplome() }}</td>
-                        <td>{{ row.mention() }}</td>
-                        <td><button type="button" class="btn btn-danger delete-row">Supprimer</button></td>
-                        </tr>
+                            {{ row.csrf_token }}
+                            <tr>
+                            <td>{{ row.annee() }}</td>
+                            <td>{{ row.diplome() }}</td>
+                            <td>{{ row.mention() }}</td>
+                            <td><button type="button" class="btn btn-danger delete-row">Supprimer</button></td>
+                            </tr>
                         {% endfor %}
                     </tbody>
-                </table>
-                <button type="button" id="add_row" class="btn btn-success">Ajouter une ligne</button> #}
+            </table>
+            <button type="button" id="add_row" class="btn btn-success">Ajouter une ligne</button>
         {% endcall%} <!-- End cursus academique-->
 
         <!-- Coordonnées -->
@@ -107,10 +109,14 @@
 {% block custom_js %}
     <script>
         $(document).ready(function() {
+            
+            // chained select fields
             $("#option_id").chained("#filiere_id");
             $("#classe_id").chained("#option_id");
             $("#region_origine_id").chained("#nationalite_id");
             $("#departement_origine_id").chained("#region_origine_id");
+
+
         });
     </script>
     <script>
@@ -140,7 +146,7 @@
             function updateFieldNames() {
             $('#academic_table tbody tr').each(function(index) {
                 $(this).find('input').each(function() {
-                var fieldName = $(this).attr('name').replace(/\[\d+\]/, '[' + index + ']');
+                var fieldName = $(this).attr('name').replace('0', index);
                 $(this).attr('name', fieldName);
                 });
             });
