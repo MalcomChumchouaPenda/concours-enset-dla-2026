@@ -17,6 +17,7 @@
         method="POST" action="{{ url_for('concours.candidature') }}">
                     
         {{ form.csrf_token }}
+        {# {{ form.hidden_tag() }} #}
 
         <!-- Choix concours -->
         {% call render_sub_form(form, "1. Filiere et Lieu de concours")%}
@@ -46,8 +47,27 @@
 
         <!-- Cursus academique -->
         {% call render_sub_form(form, "4. Cursus academique")%}
-            {# {{ render_text_field(form.diplome, 'col-lg-8 col-10') }}  
-            {{ render_text_field(form.annee_diplome, 'col-lg-4 col-10') }}  #}
+            {# <table id="academic_table" class="table table-bordered">
+                <thead>
+                    <tr>
+                    <th>Année</th>
+                    <th>Établissement</th>
+                    <th>Diplôme</th>
+                    <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in form.cursus %}
+                    <tr>
+                    <td>{{ row.annee() }}</td>
+                    <td>{{ row.diplome() }}</td>
+                    <td>{{ row.mention() }}</td>
+                    <td><button type="button" class="btn btn-danger delete-row">Supprimer</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="button" id="add_row" class="btn btn-success">Ajouter une ligne</button> #}
         {% endcall%} <!-- End cursus academique-->
 
         <!-- Coordonnées -->
@@ -72,10 +92,52 @@
 
 {% block vendor_js %}
     <script src="{{ url_for('static', filename='vendor/jquery-3.6.0.min.js') }}"></script>  
+    <script src="{{ url_for('static', filename='vendor/jquery-chained/jquery.chained.js') }}"></script>
 {% endblock %}
 
 {% block custom_js %}
-    <script src="{{ url_for('concours.static', filename='js/concours-candidature.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $("#option_id").chained("#filiere_id");
+            $("#classe_id").chained("#option_id");
+            $("#region_origine_id").chained("#nationalite_id");
+            $("#departement_origine_id").chained("#region_origine_id");
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Ajouter une nouvelle ligne
+            $('#add_row').click(function() {
+            // Cloner la première ligne
+            var newRow = $('#academic_table tbody tr:first').clone();
+            
+            // Vider les champs de la nouvelle ligne
+            newRow.find('input').val('');
+            
+            // Ajouter la ligne clonée à la fin du tableau
+            $('#academic_table tbody').append(newRow);
+            
+            // Mettre à jour les noms des champs pour qu'ils soient uniques
+            updateFieldNames();
+            });
+
+            // Supprimer une ligne
+            $('#academic_table').on('click', '.delete-row', function() {
+            $(this).closest('tr').remove();
+            updateFieldNames();
+            });
+
+            // Fonction pour mettre à jour les noms des champs pour chaque ligne
+            function updateFieldNames() {
+            $('#academic_table tbody tr').each(function(index) {
+                $(this).find('input').each(function() {
+                var fieldName = $(this).attr('name').replace(/\[\d+\]/, '[' + index + ']');
+                $(this).attr('name', fieldName);
+                });
+            });
+            }
+        });
+    </script>
 {% endblock %}
 
 {% block page_authors%} 

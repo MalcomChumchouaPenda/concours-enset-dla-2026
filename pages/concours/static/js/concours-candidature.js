@@ -4,8 +4,10 @@ $(document).ready(function() {
     // desactivation des choix
     $('#region_origine_id').attr('disabled', 'disabled');
     $('#departement_origine_id').attr('disabled', 'disabled');
-    $('#option_id').attr('disabled', 'disabled');
-    $('#classe_id').attr('disabled', 'disabled');
+    // $('#option_id option[value=""]').attr('disabled', 'disabled');
+    // $('#classe_id option[value=""]').attr('disabled', 'disabled');
+
+    console.log(filiere_choice)
 
     // fonctions de mise a jour des options
     function updateOptions(choice) {
@@ -109,22 +111,41 @@ $(document).ready(function() {
         }
     }
 
+    // mise a jours
+    
+    // var filiere_choice = $('#filiere_id').val();
+    // var option_choice = $('#option_id').val();
+    // var classe_choice = $('#classe_id').val();
+
+    // console.log(filiere_choice);
+    // console.log(option_choice);
+    // console.log(classe_choice);
+
+    // if (filiere_choice != '' & option_choice == '') {
+    //     var propagate = updateOptions(filiere_choice);
+    //     if (propagate) {
+    //         updateClasses(filiere_choice);
+    //     } else {
+    //         updateClasses('');
+    //     }
+    // }
+
     // precedures evenementielles
 
-    $('#filiere_id').change(function () {
-        choice = $(this).val();
-        var propagate = updateOptions(choice);
-        if (propagate) {
-            updateClasses(choice);
-        } else {
-            updateClasses('');
-        }
-    })
+    // $('#filiere_id').change(function () {
+    //     choice = $(this).val();
+    //     var propagate = updateOptions(choice);
+    //     if (propagate) {
+    //         updateClasses(choice);
+    //     } else {
+    //         updateClasses('');
+    //     }
+    // })
 
-    $('#option_id').change(function () {
-        choice = $(this).val();
-        updateClasses(choice);
-    })
+    // $('#option_id').change(function () {
+    //     choice = $(this).val();
+    //     updateClasses(choice);
+    // })
 
 
     $('#nationalite_id').change(function () {

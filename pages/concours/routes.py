@@ -46,9 +46,9 @@ def candidature():
 
     # create a edit form
     form = forms.CandidatForm()
-    form.nationalite_id.choices = forms.choices(rtsk.list_nationalites(full_id=True))
-    form.region_origine_id.choices = forms.choices(rtsk.list_regions(full_id=True))
-    form.departement_origine_id.choices = forms.choices(rtsk.list_departements(full_id=True))
+    form.nationalite_id.choices = forms.list_nationalites()
+    form.region_origine_id.choices = forms.list_regions()
+    form.departement_origine_id.choices = forms.list_departements()
     form.filiere_id.choices = forms.list_filieres()
     form.option_id.choices = forms.list_options()
     form.classe_id.choices = forms.list_classes()
@@ -59,6 +59,7 @@ def candidature():
         data = form.data
         data['id'] = user_id
 
+        print('\n\n', data)
         # correct ids
         invalid_ids = ['departement_origine_id', 
                        'classe_id']

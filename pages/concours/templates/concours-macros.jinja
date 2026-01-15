@@ -85,9 +85,11 @@
     <div class="{{ class }} mb-lg-3 mb-2">
         {{ field.label(class_="form-label", required=required )}}
         {{ field(class_="form-control", disabled=disabled ) }}
-        {% for error in field.errors %}
-            <div class="invalid-feedback">[{{ error }}]</div>
-        {% endfor %}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <div class="invalid-feedback">[{{ error }}]</div>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endmacro %}
 
@@ -95,16 +97,18 @@
     <div class="{{ class }} mb-lg-3 mb-2">
         {{ field.label(class_="form-label", required=required )}}
         {{ field(class_="form-select", disabled=disabled ) }}
-        {% for error in field.errors %}
-            <div class="invalid-feedback">[{{ error }}]</div>
-        {% endfor %}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <div class="invalid-feedback">[{{ error }}]</div>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endmacro %}
 
 
 {% macro render_info_div(inscription) %}
-            <!-- Info generales -->
-            <div class="card my-2">
+    <!-- Info generales -->
+    <div class="card my-2">
         <div class="card-body">
             <div class="row g-3">
                 <h6 class="card-title mx-1 mt-3 mb-0">1. Informations personnelles</h6> 
