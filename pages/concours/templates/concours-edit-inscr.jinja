@@ -1,0 +1,172 @@
+{% extends 'dashboard/layout.jinja' %}
+{% set page_id = 'concours_inscription_pg' %}
+{% from 'concours-macros.jinja' import render_sub_form, render_text_field, 
+                                       render_select_field, render_text_cell,
+                                       render_messages %}
+
+{% block custom_css %}
+    <link href="{{ url_for('concours.static', filename='/css/new.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block page_header %}
+  <h1>{{ _('Modification Inscription') }}</h1>
+{% endblock %}
+
+{% block page_main %}
+<div class="container">
+    <section class="section row g-4 pt-0">
+    
+      <!-- Alertes -->
+      {{ render_messages() }}
+
+      <form class="px-4 col-lg-10 col-12 needs-validation" novalidate
+        method="POST" action="{{ url_for('concours.edit_inscr') }}">
+        
+        <!-- Actions initiales -->
+        <div class="my-3 g-3">
+          <div class="d-flex justify-content-end text-center pb-4">
+            <a href="{{ url_for('concours.view_inscr') }}" class="btn btn-secondary btn-lg m-1">Annuler les modifications</a>
+          </div>
+        </div> <!-- End Actions initiales -->
+
+        <!-- Fields -->
+        {{ form.csrf_token }}
+
+        <!-- Choix concours -->
+        {% call render_sub_form(form, "1. Concours")%}
+            {{ render_select_field(form.filiere_id, 'col-lg-6 col-10', disabled=True, required=false) }} 
+            {{ render_select_field(form.option_id, 'col-lg-6 col-10', disabled=True, required=false) }} 
+            {{ render_select_field(form.classe_id, 'col-lg-3 col-10', disabled=True, required=false) }} 
+            {{ render_select_field(form.centre_id, 'col-lg-3 col-10', disabled=True, required=false) }} 
+            {{ render_select_field(form.diplome_id, 'col-lg-6 col-10', disabled=True, required=false) }}
+        {% endcall%} <!-- End choix concours-->
+
+        <!-- Info generales -->
+        {% call render_sub_form(form, '2. Informations personnelles')%}  
+            {{ render_text_field(form.nom, 'col-lg-6 col-10') }}  
+            {{ render_text_field(form.prenom, 'col-lg-6 col-10', required=false) }}  
+            {{ render_text_field(form.date_naissance, 'col-lg-4 col-10')}}  
+            {{ render_text_field(form.lieu_naissance, 'col-lg-8 col-10')}} 
+            {{ render_select_field(form.sexe_id, 'col-lg-4 col-10') }}
+            {{ render_select_field(form.situation_matrimoniale_id, 'col-lg-4 col-10') }}
+        {% endcall%}  <!-- End Info generales -->
+
+        <!-- Origine géographique -->
+        {% call render_sub_form(form, '3. Origine géographique')%}
+            {{ render_select_field(form.langue_id, 'col-lg-6 col-10') }}
+            {{ render_select_field(form.nationalite_id, 'col-lg-6 col-10') }}
+            {{ render_select_field(form.region_origine_id, 'col-lg-6 col-10') }}
+            {{ render_select_field(form.departement_origine_id, 'col-lg-6 col-10') }}
+        {% endcall%} <!-- End Origine géographique -->
+        
+        <!-- Cursus academique -->
+        {% call render_sub_form(form, "4. Cursus academique")%}
+        <div class="table-responsive">
+            <table id="cursus_table" class="table table-bordered table-sm">
+                <thead>
+                        <tr>
+                        <th>Année</th>
+                        <th>Etablissement</th>
+                        <th>Diplôme</th>
+                        <th>Mention</th>
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in form.cursus %}
+                            {{ row.csrf_token }}
+                            <tr>
+                            <td>{{ render_text_cell(row.annee, '') }}</td>
+                            <td>{{ render_text_cell(row.etablissement, '') }}</td>
+                            <td>{{ render_text_cell(row.diplome, '') }}</td>
+                            <td>{{ render_text_cell(row.mention, '') }}</td>
+                            <td><button type="button" class="btn btn-sm btn-danger delete-row">Supprimer</button></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+        </div>
+        <button type="button" id="add_row" class="btn btn-primary">Ajouter une ligne</button>
+        {% endcall%} <!-- End cursus academique-->
+
+        <!-- Coordonnées -->
+        {% call render_sub_form(form, '5. Coordonnées')%}
+            {{ render_text_field(form.telephone, 'col-lg-6 col-10') }} 
+            {{ render_text_field(form.email, 'col-lg-6 col-10', required=false) }} 
+        {% endcall%} <!-- End Coordonnées -->
+
+
+        <!-- Actions finales -->
+        <div class="my-3 g-3">
+          <div class="d-flex flex-column flex-lg-row justify-content-center text-center pb-4">
+            <a href="{{ url_for('concours.view_inscr') }}" class="btn btn-secondary btn-lg m-1">Annuler les modifications</a>
+            <button type="submit" class="btn btn-primary btn-lg m-1">Valider les modifications</button>
+          </div>
+        </div> <!-- End Actions finales -->
+            
+      </form>
+    </section>
+</div>
+{% endblock %}
+
+
+{% block vendor_js %}
+    <script src="{{ url_for('static', filename='vendor/jquery-3.6.0.min.js') }}"></script>  
+    <script src="{{ url_for('static', filename='vendor/jquery-chained/jquery.chained.js') }}"></script>
+{% endblock %}
+
+{% block custom_js %}
+    <script>
+        $(document).ready(function() {
+            
+            // chained select fields
+            $("#region_origine_id").chained("#nationalite_id");
+            $("#departement_origine_id").chained("#region_origine_id");
+
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Ajouter une nouvelle ligne
+            $('#add_row').click(function() {
+            // Cloner la première ligne
+            var newRow = $('#cursus_table tbody tr:first').clone();
+            
+            // Vider les champs de la nouvelle ligne
+            newRow.find('input').val('');
+            
+            // Ajouter la ligne clonée à la fin du tableau
+            $('#cursus_table tbody').append(newRow);
+            
+            // Mettre à jour les noms des champs pour qu'ils soient uniques
+            updateFieldNames();
+            });
+
+            // Supprimer une ligne
+            $('#cursus_table').on('click', '.delete-row', function() {
+                var prevElmt1 = $(this).closest('tr');
+                var prevElmt2 = prevElmt1.prev("input");
+                console.log($(this).closest('tr'));
+                prevElmt1.remove();
+                prevElmt2.remove();
+                updateFieldNames();
+            });
+
+            // Fonction pour mettre à jour les noms des champs pour chaque ligne
+            function updateFieldNames() {
+            $('#cursus_table tbody tr').each(function(index) {
+                $(this).find('input').each(function() {
+                var fieldName = $(this).attr('name').replace('0', index);
+                $(this).attr('name', fieldName);
+                });
+            });
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block page_authors%} 
+    <a>Malcom C. Penda</a>
+{% endblock %}

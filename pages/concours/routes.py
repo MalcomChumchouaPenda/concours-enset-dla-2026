@@ -120,3 +120,45 @@ def print_inscr():
     chemin_pdf_final = os.path.join(temp_dir, nom_fichier_pdf)
     fichier_pdf = ctsk.generer_fiche_inscription(inscription, chemin_pdf_final)
     return send_file(fichier_pdf, as_attachment=True, download_name=nom_fichier_pdf)
+
+
+@ui.route('/edit', methods=['GET', 'POST'])
+@ui.login_required
+def edit_inscr():
+    user_id = current_user.id
+    inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
+    # create a edit form
+    form = forms.EditInscrForm(obj=inscription)
+    form.nationalite_id.choices = forms.list_nationalites()
+    form.region_origine_id.choices = forms.list_regions()
+    form.departement_origine_id.choices = forms.list_departements()
+
+    # traitement et enregistrement des donnees
+    data = form.data
+    print('\ndata=>\t', data)
+    if form.validate_on_submit():
+        data = form.data
+
+        # clear previous cursus
+        cursus = data.pop('cursus')
+        for etape in inscription.cursus:
+            db.session.remove(etape)
+
+        # add new cursus
+        for row in cursus:
+            row.pop('csrf_token')   
+            row['inscription_id'] = user_id
+            etape = cmdl.EtapeCursus(**row)
+            db.session.add(etape)
+
+        db.session.commit()
+        return redirect(url_for('concours.view_inscr'))
+
+    print('\nerrors=>\t', form.errors)
+    form.filiere_id.data = inscription.classe.option.filiere_id
+    form.option_id.data = inscription.classe.option_id
+    form.classe_id.data = inscription.classe_id
+    form.nationalite_id.data = inscription.departement_origine.region.pays_id
+    form.region_origine_id.data = inscription.departement_origine.region_id
+    form.departement_origine_id.data = inscription.departement_origine_id
+    return render_template('concours-edit-inscr.jinja', form=form)

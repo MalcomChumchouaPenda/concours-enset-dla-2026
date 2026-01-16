@@ -92,7 +92,7 @@ class CursusRowForm(FlaskForm):
     mention = StringField(_l('Mention'), validators=validators1())
 
 
-class NewInscrForm(FlaskForm):
+class InscrForm(FlaskForm):
     
     # Informations personnelles de base
     prenom = StringField(_l('Prenoms'))
@@ -110,18 +110,30 @@ class NewInscrForm(FlaskForm):
     departement_origine_id = AttribSelectField(_l("Departement d'origine"), validators=validators1())    
     langue_id = SelectField(_l('Langue'), validators=validators1(), choices=choices(cmdl.LANGUES))
 
-    # Choix concours
-    filiere_id = SelectField(_l('Filière sollicitée'), validators=validators1())
-    option_id = AttribSelectField(_l('Option sollicitée'), validators=validators1())
-    classe_id = AttribSelectField(_l("Niveau examen"), validators=validators1())
-    centre_id = SelectField(_l("Centre examen"), validators=validators1())
-
     # Coordonnées
     telephone = StringField(_l('Téléphone'), validators=validators1())    
     email = EmailField(_l('Email'))
 
     # cursus academique
-    diplome_id = SelectField(_l("Diplôme donnant droit au concours"), validators=validators1())
     cursus = FieldList(FormField(CursusRowForm), min_entries=1)
     
     
+
+class NewInscrForm(InscrForm):
+   
+    # Choix concours
+    filiere_id = SelectField(_l('Filière sollicitée'), validators=validators1())
+    option_id = AttribSelectField(_l('Option sollicitée'), validators=validators1())
+    classe_id = AttribSelectField(_l("Niveau examen"), validators=validators1())
+    centre_id = SelectField(_l("Centre examen"), validators=validators1())
+    diplome_id = SelectField(_l("Diplôme donnant droit au concours"), validators=validators1())
+
+
+class EditInscrForm(InscrForm):
+   
+    # Choix concours
+    filiere_id = StringField(_l('Filière sollicitée'))
+    option_id = StringField(_l('Option sollicitée'))
+    classe_id = StringField(_l("Niveau examen"))
+    centre_id = StringField(_l("Centre examen"))
+    diplome_id = StringField(_l("Diplôme donnant droit au concours"))
