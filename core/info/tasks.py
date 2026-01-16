@@ -2,8 +2,9 @@
 CONTACT = {
     "addresse":"Campus Ndogbong, Universite de Douala",
     "ville":"Douala - Cameroun",
-    "tel": "(+237) 699 99 99 99",
+    "tel": "(+237) 699 75 30 95",
     "email": "cabenset@yahoo.fr",
+    "postal": "1872 Douala-Cameroun",
     "twitter":"",
     "facebook":"",
     "instagram":"",
@@ -14,9 +15,9 @@ LINKS = [
     {
         "group":"Liens Utiles",
         "links":[
-            {"url":"#", "nom":"Universite de Douala"},
-            {"url":"#", "nom":"Systhag Online"},
-            {"url":"#", "nom":"Ministere de l'Enseignement Superieur"}
+            {"url":"https://www.univ-douala.cm/", "nom":"Universite de Douala"},
+            {"url":"http://www.systhag-online.cm/", "nom":"Systhag Online"},
+            {"url":"https://www.minesup.gov.cm/", "nom":"Ministere de l'Enseignement Superieur"}
         ]
     }
 ]
