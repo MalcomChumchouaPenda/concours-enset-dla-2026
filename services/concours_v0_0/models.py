@@ -21,6 +21,7 @@ class DiplomeConcours(db.Model):
     niveau_id = db.Column(db.Integer, nullable=False)
     nom_fr = db.Column(db.String(200), nullable=False)
     nom_en = db.Column(db.String(200), nullable=False)
+    inscriptions = db.relationship('InscriptionConcours', back_populates='diplome')
 
 
 class FiliereConcours(db.Model):
@@ -108,10 +109,6 @@ class InscriptionConcours(db.Model):
     telephone = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), nullable=True)
     
-    # Informations académiques
-    # diplome = db.Column(db.String(200), nullable=False)
-    # annee_diplome = db.Column(db.Integer, nullable=False)
-    
     # options examens
     classe_id = db.Column(db.String(10), db.ForeignKey('classe_concours.id'))
     classe = db.relationship('ClasseConcours', back_populates='inscriptions')
@@ -119,7 +116,8 @@ class InscriptionConcours(db.Model):
     centre = db.relationship('CentreConcours', back_populates='inscriptions')
 
     # cursus academique
-    diplome_id = db.Column(db.String(200), nullable=False)
+    diplome_id = db.Column(db.String(200), db.ForeignKey('diplome_concours.id'))
+    diplome = db.relationship('DiplomeConcours', back_populates='inscriptions')
     cursus = db.relationship('EtapeCursus', back_populates='inscription')
 
     @property

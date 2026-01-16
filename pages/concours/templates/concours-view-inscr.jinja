@@ -27,8 +27,8 @@
 
         <!-- Choix concours -->
         {% call render_card(inscription, "1. Concours")%}
-            {{ render_card_field('num_paiement', 'Numero paiement', current_user.id, 'col-lg-6 col-10') }} 
             {{ render_card_field('num_dossier', 'Numero dossier', inscription.numero_dossier, 'col-lg-6 col-10') }} 
+            {{ render_card_field('num_paiement', 'Numero paiement', current_user.id, 'col-lg-6 col-10') }} 
             {{ render_card_field('filiere_id', 'Filiere', inscription.classe.option.filiere.nom_fr.upper(), 'col-lg-6 col-10') }} 
             {{ render_card_field('option_id', 'Option', inscription.classe.option.nom_fr.upper(), 'col-lg-6 col-10') }} 
             {{ render_card_field('classe_id', 'Niveau', inscription.classe.niveau, 'col-lg-6 col-10') }} 

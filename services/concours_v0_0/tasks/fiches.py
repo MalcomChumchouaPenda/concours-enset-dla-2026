@@ -36,14 +36,14 @@ def generer_entete(canvas, size):
     # Vérifier l'existence des fichiers d'image
     if os.path.exists(logo_ud_path):
         # Le logo ENSET est placé en haut à gauche
-        c.drawImage(logo_ud_path, 15*mm, height - 40*mm, width=30*mm, height=30*mm)
+        c.drawImage(logo_ud_path, 15*mm, height - 38*mm, width=27*mm, height=27*mm)
     else:
         c.rect(20*mm, height - 40*mm, 20*mm, 20*mm, stroke=1)
         c.drawString(25*mm, height - 30*mm, "Logo ENSET")
 
     if os.path.exists(logo_enset_path):
         # Le logo de l'Université de Douala est placé en haut à droite, au-dessus de la photo
-        c.drawImage(logo_enset_path, width - 45*mm, height - 40*mm, width=32*mm, height=32*mm)
+        c.drawImage(logo_enset_path, width - 45*mm, height - 38*mm, width=29*mm, height=29*mm)
     else:
         c.rect(width - 40*mm, height - 40*mm, 20*mm, 20*mm, stroke=1)
         c.drawString(width - 35*mm, height - 30*mm, "Logo UD")
@@ -53,7 +53,7 @@ def generer_entete(canvas, size):
     else:
         c.rect(width - 80*mm, height - 40*mm, 20*mm, 20*mm, stroke=0)
 
-    c.setFont(font_name, 16)
+    c.setFont(font_name, 14)
     c.setFillColor(couleur_bleu_ud)
     c.drawCentredString(width/2, height - 15*mm, "UNIVERSITÉ DE DOUALA")
 
@@ -61,17 +61,48 @@ def generer_entete(canvas, size):
     c.setLineWidth(0.5)
     c.line(80*mm, height - 18*mm, width - 80*mm, height - 18*mm)
 
-    c.setFont(font_name, 12)
-    c.drawCentredString(width/2, height - 25*mm, "ÉCOLE NORMALE SUPÉRIEURE")
-    c.drawCentredString(width/2, height - 30*mm, "D'ENSEIGNEMENT TECHNIQUE")
+    c.setFont(font_name, 11)
+    c.drawCentredString(width/2, height - 25*mm, "ÉCOLE NORMALE SUPÉRIEURE D'ENSEIGNEMENT TECHNIQUE")
 
     c.setStrokeColorRGB(0,0,0)
     c.setLineWidth(0.5)
-    c.line(85*mm, height - 33*mm, width - 85*mm, height - 33*mm)
+    c.line(85*mm, height - 28*mm, width - 85*mm, height - 28*mm)
 
-    c.setFont(font_name, 10)
-    c.drawCentredString(width/2, height - 39*mm, "BP 1872 Douala - Cameroun Tél: (Fax) (237) 33 42 44 39")
-    c.drawCentredString(width/2, height - 43*mm, "www.enset-douala.cm - email: cabenset@yahoo.fr")
+    c.setFont(font_name, 9)
+    c.drawCentredString(width/2, height - 35*mm, "BP 1872 Douala - Cameroun Tél: (Fax) (237) 33 42 44 39")
+    c.drawCentredString(width/2, height - 39*mm, "www.enset-douala.cm - email: cabenset@yahoo.fr")
+
+
+def generer_petite_entete(canvas, size, y_start):
+    c = canvas
+    width, height = size
+    couleur_bleu_ud = Color(0/255, 60/255, 120/255)
+
+    # definition de la police
+    font_path = os.path.join(store_dir, 'fonts', 'times.ttf')
+    font_name = 'times'
+    pdfmetrics.registerFont(TTFont(font_name, font_path))
+        
+    # Positions fixes pour les logos
+    logo_ud_path = os.path.join(store_dir, 'imgs', 'udo.jpg')
+    logo_enset_path = os.path.join(store_dir, 'imgs', 'enset.jpg')
+
+    # Vérifier l'existence des fichiers d'image
+    if os.path.exists(logo_ud_path):
+        # Le logo ENSET est placé en haut à gauche
+        c.drawImage(logo_ud_path, 15*mm, y_start - 12*mm, width=17*mm, height=17*mm)
+
+    if os.path.exists(logo_enset_path):
+        # Le logo de l'Université de Douala est placé en haut à droite, au-dessus de la photo
+        c.drawImage(logo_enset_path, width - 45*mm, y_start - 12*mm, width=19*mm, height=19*mm)
+
+    c.setFont(font_name, 9)
+    c.setFillColor(couleur_bleu_ud)
+    c.drawCentredString(width/2, y_start, "UNIVERSITÉ DE DOUALA")
+
+    c.setFont(font_name, 7)
+    c.drawCentredString(width/2, y_start - 5*mm, "ÉCOLE NORMALE SUPÉRIEURE D'ENSEIGNEMENT TECHNIQUE")
+
 
 
 def generer_fiche_inscription(inscription, nom_fichier):
@@ -99,12 +130,12 @@ def generer_fiche_inscription(inscription, nom_fichier):
     generer_entete(c, A4)
     
     # --- 2. TITRE DU FORMULAIRE ---
-    c.setFont(font_bold_name, 18)
+    c.setFont(font_bold_name, 16)
     c.setFillColor(couleur_bleu_ud)
-    c.drawCentredString(width/2, height - 58*mm, f"FICHE D'INSCRIPTION CONCOURS 2026")
+    c.drawCentredString(width/2, height - 58*mm, f"FICHE D'INSCRIPTION AU CONCOURS 2026")
     
-    c.setFont(font_bold_name, 14)
-    c.drawCentredString(width/2, height - 68*mm, "TEST NOTHING")
+    # c.setFont(font_bold_name, 14)
+    # c.drawCentredString(width/2, height - 68*mm, "TEST NOTHING")
 
     # --- 3. NOTE IMPORTANTE ---
     # c.setFont("Helvetica-Oblique", 9)
@@ -126,26 +157,26 @@ def generer_fiche_inscription(inscription, nom_fichier):
     x_b3 = x_a2 + 25*mm
 
     # le systeme d'ecart entre les lignes
-    y_a = height - 85*mm
+    y_a = height - 75*mm
     dy_a = 9*mm
     dy_b = 12*mm
 
 
-    # MATRICULE + NUM DOSSIER PHYSIQUE
+    # NUM DOSSIER PHYSIQUE
 
     c.setFillColor(couleur_texte_noir)
     c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "N° D'ORDRE :")
+    c.drawString(x_b1, y_a, "N° DE DOSSIER :")
     c.setFillColor(couleur_bleu_ud)
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 22*mm, y_a, inscription.id)
+    c.drawString(x_b1 + 26*mm, y_a, inscription.numero_dossier)
 
     c.setFillColor(couleur_texte_noir)
     c.setFont(font_name, 9)
-    c.drawString(x_b3, y_a, "MATRICULE :")
+    c.drawString(x_b3, y_a, "N° DE PAIEMENT :")
     c.setFillColor(couleur_bleu_ud)
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b3 + 22*mm, y_a, 'Nothing')
+    c.drawString(x_b3 + 28*mm, y_a, inscription.id)
     y_a -= dy_b
 
 
@@ -210,6 +241,40 @@ def generer_fiche_inscription(inscription, nom_fichier):
     y_a -= dy_b
 
 
+    # INFORMATIONS ACADEMIQUES
+    classe = inscription.classe
+    filiere_concours = classe.option.filiere
+    c.setFont(font_name, 9)
+    c.drawString(x_a1, y_a, "FILIERE CHOISIE :")
+    c.setFont(font_bold_name, 10)
+    c.drawString(x_a1 + 28*mm, y_a, f'{filiere_concours.id}-{filiere_concours.nom_fr}'.upper())
+    y_a -= dy_a
+
+    option_concours = classe.option
+    c.setFont(font_name, 9)
+    c.drawString(x_a1, y_a, "OPTION CHOISIE :")
+    c.setFont(font_bold_name, 10)
+    c.drawString(x_a1 + 28*mm, y_a, f"{option_concours.id}-{option_concours.nom_fr}".upper())
+    y_a -= dy_a
+
+    c.setFont(font_name, 9)
+    c.drawString(x_b1, y_a, "NIVEAU EXAMEN :")
+    c.setFont(font_bold_name, 10)
+    c.drawString(x_b1 + 30*mm, y_a, classe.niveau.upper())
+    
+    c.setFont(font_name, 9)
+    c.drawString(x_b2, y_a, "DIPLOME CANDIDAT :")
+    c.setFont(font_bold_name, 10)
+    c.drawString(x_b2 + 35*mm, y_a, inscription.diplome.nom_fr.upper())
+    y_a -= dy_a
+
+    c.setFont(font_name, 9)
+    c.drawString(x_a1, y_a, "CENTRE EXAMEN:")
+    c.setFont(font_bold_name, 10)
+    c.drawString(x_a1 + 30*mm, y_a, inscription.centre.nom.upper())
+    y_a -= dy_b
+
+
     # TELEPHONES + EMAIL
 
     c.setFont(font_name, 9)
@@ -224,46 +289,95 @@ def generer_fiche_inscription(inscription, nom_fichier):
     y_a -= dy_b
 
 
-    # INFORMATIONS ACADEMIQUES
-    classe = inscription.classe
-    filiere_concours = classe.option.filiere
+    # SIGNATURES
+    c.setFillColor(couleur_bleu_ud)
+    c.setFont(font_bold_name, 9)
+    c.drawString(x_a1, y_a, "SIGNATURE DE L'AGENT :")
+    c.drawString(width - 70*mm, y_a, "SIGNATURE DU CANDIDAT :")
+    y_a -= dy_b + 10*mm
+
+
+    # METADONNEES
+    create_date = inscription.date_inscription.strftime('%d/%m/%Y')
+    footer = f"fiche créée le {create_date}"
+    c.setFillColor(couleur_texte_noir)
+    c.setFont(font_name, 8)
+    c.drawCentredString(width/2, y_a + 5*mm, footer)
+    y_a -= 5*mm
+
+    # GAP POUR RECEPISSE
+    c.setDash([5, 4], 0)
+    c.line(1*mm, y_a, width - 1*mm, y_a)
+    c.setDash([],0) # IMPORTANT POUR RESTAURER LES LIGNES PAR DEFAUT
+    y_a -= 10*mm
+
+    # --- 3. EN-TÊTE AVEC LOGOS ET TEXTE ---
+    generer_petite_entete(c, A4, y_a)
+    y_a -= 12*mm
+
+
+    # --- 4. TITRE DU FORMULAIRE ---
+    c.setFont(font_bold_name, 12)
+    c.setFillColor(couleur_texte_noir)
+    c.drawCentredString(width/2, y_a, f"RECEPISSE D'INSCRIPTION AU CONCOURS 2026")
+    y_a -= dy_a + 2*mm
+
+    c.setFillColor(couleur_texte_noir)
     c.setFont(font_name, 9)
-    c.drawString(x_a1, y_a, "FILIERE CHOISIE :")
+    c.drawString(x_b1, y_a, "N° DE DOSSIER :")
+    c.setFillColor(couleur_bleu_ud)
     c.setFont(font_bold_name, 10)
-    c.drawString(x_a1 + 40*mm, y_a, f'{filiere_concours.id}-{filiere_concours.nom_fr}'.upper())
+    c.drawString(x_b1 + 26*mm, y_a, inscription.numero_dossier)
+    
+    c.setFillColor(couleur_texte_noir)
+    c.setFont(font_name, 9)
+    c.drawString(x_b2, y_a, "NIVEAU :")
+    c.setFont(font_bold_name, 10)
+    c.drawString(x_b2 + 15*mm, y_a, classe.niveau.upper())
+    
+    c.setFont(font_name, 9)
+    c.drawString(x_b3 + 2*mm, y_a, "CENTRE:")
+    c.setFont(font_bold_name, 10)
+    c.drawString(x_b3 + 18*mm, y_a, inscription.centre.nom.upper())
+    y_a -= dy_a
+    
+    c.setFillColor(couleur_texte_noir)
+    c.setFont(font_name, 9)
+    c.drawString(x_a1, y_a, "NOM ET PRÉNOMS :")
+    c.setFont(font_bold_name, 10)
+    c.drawString(x_a1 + 32*mm, y_a, inscription.nom_complet.upper())
     y_a -= dy_a
 
+    c.setFont(font_name, 9)
+    c.drawString(x_b1, y_a, "DATE DE NAISSANCE :")
+    c.setFont(font_bold_name, 10)
+    c.drawString(x_b1 + 36*mm, y_a, inscription.date_naissance.strftime('%d/%m/%Y'))
+
+    c.setFont(font_name, 9)
+    c.drawString(x_b2, y_a, "LIEU :")
+    c.setFont(font_bold_name, 10)
+    c.drawString(x_b2 + 11*mm, y_a, inscription.lieu_naissance.upper())
+    y_a -= dy_a
+    
     option_concours = classe.option
     c.setFont(font_name, 9)
     c.drawString(x_a1, y_a, "OPTION CHOISIE :")
     c.setFont(font_bold_name, 10)
     c.drawString(x_a1 + 28*mm, y_a, f"{option_concours.id}-{option_concours.nom_fr}".upper())
-    y_a -= dy_a
-
-    c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "NIVEAU EXAMEN :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 31*mm, y_a, classe.niveau.upper())
-    
-    c.setFont(font_name, 9)
-    c.drawString(x_b3, y_a, "ANNÉE D'OBTENTION :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b3 + 36*mm, y_a, 'Test')
     y_a -= dy_b
 
+    # SIGNATURES
+    c.setFillColor(couleur_bleu_ud)
+    c.setFont(font_bold_name, 9)
+    c.drawString(x_a1, y_a, "SIGNATURE DE L'AGENT :")
     
-    # SIGNATURE ET CACHET
-    c.setFont(font_name, 10)
-    c.drawString(width - 70*mm, y_a-10*mm, "SIGNATURE DE L'ETUDIANT(E)")
-    c.line(width - 190*mm, y_a, width - 15*mm, y_a)
-
-
-    # METADONNEES ---
-    print_date = datetime.now().strftime('%d/%m/%Y')
+    # METADONNEES
     create_date = inscription.date_inscription.strftime('%d/%m/%Y')
-    footer = f"fiche créée le {create_date} et generée le {print_date}"
-    c.setFont(font_name, 9)
-    c.drawCentredString(width/2, 7*mm, footer)
+    footer = f"créée le {create_date}"
+    c.setFillColor(couleur_texte_noir)
+    c.setFont(font_name, 8)
+    c.drawCentredString(x_b3 + 25*mm, y_a, footer)
+
 
     # Sauvegarder le PDF
     c.save()
