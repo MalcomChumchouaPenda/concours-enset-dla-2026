@@ -58,7 +58,7 @@
         {% else %}
           <a class="btn btn-light" href="{{ url_for('change_lang', lang='fr') }}">Francais</a>
         {% endif %}
-        <a class="btn btn-primary" href="{{ url_for('home.login') }}">{{_('Connexion')}}</a>
+        <a class="btn btn-primary" href="{{ url_for('home.register', next=url_for('concours.new_inscr')) }}">{{_('Inscription')}}</a>
       {% endif %}
     </li>
   </ul>

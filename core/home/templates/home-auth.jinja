@@ -1,0 +1,64 @@
+{% extends "login/layout.jinja" %}
+{% set head_title='Login' %}
+
+{% block page_form %}
+    <form class="login-form container d-flex flex-column align-items-center" 
+          method="POST" action="{{ url_for(endpoint, next=next) }}">
+
+        {{ form.csrf_token }}
+
+        <!-- Header -->
+        <div class="row w-100 pt-5 pb-2 d-flex justify-content-center">
+            <div class="col-10 text-center">
+                <h4>{{ _('Identifiez votre paiement pour continuer') }}</h4>
+            </div>
+        </div>
+        
+        <!-- Alertes -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="field row my-1 py-0 w-100 d-flex justify-content-center">
+                    <div class="col-10 col-lg-6 text-center">
+                        <div class="alert alert-{{ category }} alert-dismissible fade show mb-0" role="alert">
+                            {{ message }}
+                            <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith%}
+        
+
+        {# {% if error %}
+        <div class="field row my-2 w-100 d-flex justify-content-center">
+            <div class="col-10 col-lg-4 text-center">
+                <div class="alert alert-danger fade show">{{ error }}</div>
+            </div>
+        </div>
+        {% endif %} #}
+
+        <!-- Identifiant -->
+        <div class="field row my-2 w-100 d-flex justify-content-center">
+            <div class="col-10 col-lg-4">
+                {{ form.id(class_="form-control", placeholder=_("Saisissez votre numéro de paiement"), size=20) }}           
+            </div>
+        </div><!-- End Identifiant -->
+
+
+        <div class="row pt-3 w-100 d-flex justify-content-center">
+            <div class="col-10 col-lg-4 flex-column align-items-start">
+                <input class="btn btn-primary w-100" type="submit" value="{{ _('Valider') }}">
+                <ul class="login-links">
+                    <li><a class="btn btn-link mt-5" href="#">{{ _("Besoin d'aide ?") }}</a></li>
+                    <li><a class="btn btn-link mt-1" href="{{ url_for('home.index') }}">{{ _("Retour a l'accueil !") }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block page_authors %}
+    <a>Malcom Chumchoua Penda</a>
+{% endblock %}

@@ -4,3 +4,7 @@
   background: transparent;
   border: none;
 } 
+
+#cursus_table td:nth-of-type(1) input {
+  width: 100px;
+}

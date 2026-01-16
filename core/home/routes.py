@@ -1,6 +1,7 @@
 
 import os
-from flask import render_template, request, url_for, redirect
+import re
+from flask import render_template, request, url_for, redirect, flash
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
 from flask_login import current_user
@@ -10,7 +11,7 @@ from wtforms.validators import DataRequired
 
 from core.config import login_manager, db
 from core.utils import UiBlueprint, read_json, get_locale, default_deadline
-from core.auth.tasks import connect_user, disconnect_user
+from core.auth.tasks import connect_user, disconnect_user, get_user, add_roles_to_user, add_user
 
 
 ui = UiBlueprint(__name__)
@@ -41,39 +42,47 @@ def wait():
     # hero = dict(msg=msg, img=img)
     # return render_template('home.jinja', hero=hero)
 
-
-class RegisterForm(FlaskForm):
+class AuthForm(FlaskForm):
     id = StringField(_l('numero de paiement'), validators=[DataRequired()])
-    new_pwd = PasswordField(_l('mot de passe'), validators=[DataRequired()])
-    confirm_pwd = PasswordField(_l('Confirmer mot de passe'), validators=[DataRequired()])
+
+
+def check_id(id_):
+    return re.match(r'^\d+$', id_)
 
 
 @ui.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegisterForm()
+    form = AuthForm()
     next = request.args.get('next')
     if form.validate_on_submit():
-        user_id = form.id.data
-        password = form.pwd.data
-        # if connect_user(user_id, password):
-        #     if next:
-        #         return redirect(next)
-        #     return redirect(url_for('home.dashboard'))
-        error = _("Informations incorrectes")
-        return render_template('home-register.jinja', form=form, next=next, error=error)
-    return render_template('home-register.jinja', form=form,  next=next)
+        id_ = form.id.data
+        if not check_id(id_):
+            flash('ce numero de paiement est invalide', 'danger')
+            return render_template('home-auth.jinja', form=form, 
+                                    next=next, endpoint='home.register')
 
+        if get_user(db.session, id_):
+            return render_template('landing/message.jinja',
+                                title=_("Avertissement"),
+                                message=_("Ce numero de paiement a deja ete utilise pour une inscription"),
+                                actions = [{'text':_("Voir l'inscription"), 'url':url_for('concours.view_inscr')},
+                                        {'text':_("Revenir a l'accueil"), 'url':url_for('home.logout')}])
 
-class LoginForm(FlaskForm):
-    id = StringField(_l('numero de paiement'), validators=[DataRequired()])
+        add_user(db.session, id_, id_, id_)
+        add_roles_to_user(db.session, id_, 'candidat')
+        connect_user(id_, id_)
+        if next:
+            return redirect(next)
+        return redirect(url_for('home.index'))
+    flash('Vous devez payer les frais de concours avant de debuter', 'warning')
+    return render_template('home-auth.jinja', form=form, 
+                           next=next, endpoint='home.register')
 
 
 @ui.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
+    form = AuthForm()
     next = request.args.get('next')
-    # if next is None:
-    #     next = request.referrer
     if form.validate_on_submit():
         user_id = form.id.data
         password = user_id
@@ -81,9 +90,9 @@ def login():
             if next:
                 return redirect(next)
             return redirect(url_for('home.index'))
-        error = _("Informations incorrectes")
-        return render_template('home-login.jinja', form=form, next=next, error=error)
-    return render_template('home-login.jinja', form=form,  next=next)
+        flash('Ce numero de paiement est invalide', 'danger')
+        return render_template('home-login.jinja', form=form, next=next)
+    return render_template('home-login.jinja', form=form, next=next)
 
 @ui.route('/logout')
 def logout():
