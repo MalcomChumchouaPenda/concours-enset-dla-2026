@@ -1,6 +1,7 @@
 
 import os
 import csv
+from flask import current_app
 from datetime import datetime
 from core.config import db
 from core.auth.tasks import add_role, add_user, add_roles_to_user
@@ -16,15 +17,9 @@ def _read_csv(filename, sep=','):
         records = list(reader)
     return records
 
-
-def init_data():
-    session = db.session
+def _init_concours(session):
     add_role(session, 'candidat', 'Candidat')
-    for i in range(10):
-        id_ = str(i).rjust(4, '0')
-        add_user(session, id_, id_, id_)
-        add_roles_to_user(session, id_, 'candidat')
-    
+
     data = _read_csv('diplomes.csv', sep=',')
     for row in data:
         db.session.merge(mdl.DiplomeConcours(
@@ -71,6 +66,13 @@ def init_data():
         ))
     db.session.commit()
 
+
+def _init_candidates(session):
+    for i in range(10):
+        id_ = str(i).rjust(4, '0')
+        add_user(session, id_, id_, id_)
+        add_roles_to_user(session, id_, 'candidat')
+
     test = {
         'id': '0000',
         'prenom': 'yu', 
@@ -89,4 +91,14 @@ def init_data():
         'numero_dossier':'26BAF-BAC-C0001'}
     db.session.add(mdl.InscriptionConcours(**test))
     db.session.commit()
+
+def init_data():
+    session = db.session
+    _init_concours(session)
+    
+    config = current_app.config
+    if config['DEBUG']:
+        _init_candidates(session)
+    
+
 

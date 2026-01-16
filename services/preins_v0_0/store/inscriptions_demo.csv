@@ -1,8 +1,0 @@
-admission_id;nom;prenom;date_naissance;lieu_naissance;sexe_id;situation_matrimoniale_id;departement_origine_id;telephone;email;langue_id;diplome;annee_diplome;nom_pere;profession_pere;telephone_pere;residence_pere;nom_mere;profession_mere;telephone_mere;residence_mere
-dev3;Developper 3;;01/01/2001;Maternite de la ville 1;F;C;dep4;6 70 70 90 91;admis1@yahoo.co;FR;Diplome demo type 1;2011;Pere developper 3;Metier demo;6 75 75 75 / 6 99 98 98 98;Ville demo;;;;
-dev4;Developper 4;;02/02/2002;Maternite de la ville 2;M;M;dep6;6 90 90 70 72;admis2@yahoo.en;EN;Diplome demo type 2;2012;;;;;Mere developper 4;Autre Metier demo;6 94 94 95 95;Autre Ville Demo
-DEMO-25AA-001;Etudiant demo 1;Test;03/02/2002;Maternite de la ville 3;M;M;dep4;6 90 90 70 72;admis2@yahoo.en;EN;Diplome demo type 3;2003;;;;;;;;
-DEMO-25AA-002;Etudiant demo 2;Test;04/02/2002;Maternite de la ville 4;M;M;dep6;7 90 90 70 72;admis2@yahoo.en;EN;Diplome demo type 4;2004;;;;;;;;
-DEMO-25AA-003;Etudiant demo 3;Test;05/02/2002;Maternite de la ville 5;M;M;dep4;6 90 90 70 72;admis2@yahoo.en;EN;Diplome demo type 5;2005;;;;;;;;
-DEMO-25AA-004;Etudiant demo 4;Test;06/02/2002;Maternite de la ville 6;M;M;dep6;7 90 90 70 72;admis2@yahoo.en;EN;Diplome demo type 6;2006;;;;;;;;
-DEMO-25AA-005;Etudiant demo 5;Test;07/02/2002;Maternite de la ville 7;M;M;dep4;6 90 90 70 72;admis2@yahoo.en;EN;Diplome demo type 7;2007;;;;;;;;
