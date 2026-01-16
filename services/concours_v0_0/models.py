@@ -10,7 +10,7 @@ from services.regions_v0_0.models import Departement
 SEXES = {'F':'Feminin', 'M':'Masculin'}
 SITUATIONS = {'C': 'Celibataire', 'M':'Marie(e)', 'V':'Veuf(ve)', 'D':'Divorce(e)'}
 LANGUES = {'FR': 'Francais', 'EN': 'Anglais'}
-NIVEAUX = {1:'BACCALAUREAT', 4:'LICENCE'}
+NIVEAUX = {1:'NIVEAU 1', 4:'NIVEAU 4'}
 
 
 class DiplomeConcours(db.Model):
