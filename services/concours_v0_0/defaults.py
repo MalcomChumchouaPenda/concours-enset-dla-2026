@@ -68,13 +68,12 @@ def _init_concours(session):
 
 
 def _init_candidates(session):
-    for i in range(10):
-        id_ = str(i).rjust(4, '0')
-        add_user(session, id_, id_, id_)
-        add_roles_to_user(session, id_, 'candidat')
+    id_ = '0000'
+    add_user(session, id_, id_, id_)
+    add_roles_to_user(session, id_, 'candidat')
 
     candidat = {
-        'id': '0000',
+        'id': id_,
         'prenom': 'yu', 
         'nom': 'KONOFINO NEMALA ARISTIDE JUNIOR', 
         'date_naissance': datetime(2026, 1, 22).date(), 
@@ -96,7 +95,7 @@ def _init_candidates(session):
         'diplome': 'BAC C', 
         'etablissement': 'Lycee de New-Bell',
         'mention': 'ASSEZ BIEN',
-        'inscription_id':'0000',
+        'inscription_id':id_,
     }
     db.session.add(mdl.InscriptionConcours(**candidat))
     db.session.add(mdl.EtapeCursus(**cursus))
