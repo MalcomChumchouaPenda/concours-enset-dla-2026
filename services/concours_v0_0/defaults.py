@@ -20,7 +20,7 @@ def _read_csv(filename, sep=','):
 def _init_concours(session):
     add_role(session, 'candidat', 'Candidat')
 
-    data = _read_csv('diplomes.csv', sep=',')
+    data = _read_csv('diplomes.csv', sep=';')
     for row in data:
         db.session.merge(mdl.DiplomeConcours(
             id  = row['code'],
