@@ -73,7 +73,7 @@ def _init_candidates(session):
         add_user(session, id_, id_, id_)
         add_roles_to_user(session, id_, 'candidat')
 
-    test = {
+    candidat = {
         'id': '0000',
         'prenom': 'yu', 
         'nom': 'KONOFINO NEMALA ARISTIDE JUNIOR', 
@@ -88,8 +88,18 @@ def _init_candidates(session):
         'telephone': '65523', 
         'email': '',
         'diplome_id':'BAC_C',
-        'numero_dossier':'26BAF-BAC-C0001'}
-    db.session.add(mdl.InscriptionConcours(**test))
+        'numero_dossier':'26BAF-BAC-C0001'
+    }
+    
+    cursus = {
+        'annee': '2004', 
+        'diplome': 'BAC C', 
+        'etablissement': 'Lycee de New-Bell',
+        'mention': 'ASSEZ BIEN',
+        'inscription_id':'0000',
+    }
+    db.session.add(mdl.InscriptionConcours(**candidat))
+    db.session.add(mdl.EtapeCursus(**cursus))
     db.session.commit()
 
 def init_data():

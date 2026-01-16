@@ -142,7 +142,7 @@ def edit_inscr():
         # clear previous cursus
         cursus = data.pop('cursus')
         for etape in inscription.cursus:
-            db.session.remove(etape)
+            db.session.delete(etape)
 
         # add new cursus
         for row in cursus:
@@ -155,9 +155,11 @@ def edit_inscr():
         return redirect(url_for('concours.view_inscr'))
 
     print('\nerrors=>\t', form.errors)
-    form.filiere_id.data = inscription.classe.option.filiere_id
-    form.option_id.data = inscription.classe.option_id
-    form.classe_id.data = inscription.classe_id
+    form.filiere.data = inscription.classe.option.filiere.nom_fr
+    form.option.data = inscription.classe.option.nom_fr
+    form.classe.data = inscription.classe_id
+    form.centre.data = inscription.centre.nom
+    form.diplome.data = inscription.diplome.nom_fr
     form.nationalite_id.data = inscription.departement_origine.region.pays_id
     form.region_origine_id.data = inscription.departement_origine.region_id
     form.departement_origine_id.data = inscription.departement_origine_id

@@ -132,8 +132,8 @@ class NewInscrForm(InscrForm):
 class EditInscrForm(InscrForm):
    
     # Choix concours
-    filiere_id = StringField(_l('Filière sollicitée'))
-    option_id = StringField(_l('Option sollicitée'))
-    classe_id = StringField(_l("Niveau examen"))
-    centre_id = StringField(_l("Centre examen"))
-    diplome_id = StringField(_l("Diplôme donnant droit au concours"))
+    filiere = StringField(_l('Filière sollicitée'))
+    option = StringField(_l('Option sollicitée'))
+    classe = StringField(_l("Niveau examen"))
+    centre = StringField(_l("Centre examen"))
+    diplome = StringField(_l("Diplôme donnant droit au concours"))
