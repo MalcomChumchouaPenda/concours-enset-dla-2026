@@ -72,8 +72,6 @@ def new_inscr():
     form.diplome_id.choices = forms.list_diplomes()
 
     # traitement et enregistrement des donnees
-    data = form.data
-    print('\ndata=>\t', data)
     if form.validate_on_submit():
         data = form.data
 

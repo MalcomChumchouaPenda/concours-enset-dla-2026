@@ -2,7 +2,7 @@
 {% set page_id = 'concours_inscription_pg' %}
 {% from 'concours-macros.jinja' import render_sub_form, render_text_field, 
                                        render_select_field, render_text_cell,
-                                       render_messages %}
+                                       render_confirm_modal, render_messages %}
 
 {% block custom_css %}
     <link href="{{ url_for('concours.static', filename='/css/new.css') }}" rel="stylesheet">
@@ -19,6 +19,17 @@
     
       <!-- Alertes -->
       {{ render_messages() }}
+      
+        <!-- Confirmation -->
+        {% call render_confirm_modal('confirm_modal', 'confirm_button') %}
+            <p>Vérifiez les informations ci-dessous qui sont non-modifiables après validation:</p>
+            <ul>
+                <li><b>Option choisie :</b> <span id="option_value"></span></li>
+                <li><b>centre examen :</b> <span id="centre_value"></span></li>
+                <li><b>diplome d'entree :</b> <span id="diplome_value"></span></li>
+            </ul>
+            <p>Confirmer-vous votre inscription?</p>
+        {% endcall %}
 
       <form class="px-4 col-lg-10 col-12 needs-validation" novalidate
         method="POST" action="{{ url_for('concours.new_inscr') }}">
@@ -100,7 +111,7 @@
         <div class="my-3 g-3">
           <div class="d-flex flex-column flex-lg-row justify-content-center text-center pb-4">
             <a href="{{ url_for('home.logout') }}" class="btn btn-secondary btn-lg m-1">Annuler l'inscription</a>
-            <button type="submit" class="btn btn-primary btn-lg m-1">Valider l'inscription</button>
+            <button id="ok_button" type="submit" class="btn btn-primary btn-lg m-1">Valider l'inscription</button>
           </div>
         </div> <!-- End Actions finales -->
             
@@ -131,6 +142,27 @@
             // format date
             $('#date_naissance').inputmask('99/99/9999');
 
+            // trigger the modal confirmation
+            $("#ok_button").click(function(event) {
+                var option_value = $('#option_id option:selected').text();
+                var diplome_value = $('#diplome_id option:selected').text();
+                var centre_value = $('#centre_id option:selected').text();
+                var test = option_value !== null && option_value !== "";
+                test = test && diplome_value !== null && diplome_value !== "";
+                test = test && centre_value !== null && centre_value !== "";
+                if ( test ) {
+                    event.preventDefault();
+                    $('#option_value').text(option_value);
+                    $('#diplome_value').text(diplome_value);
+                    $('#centre_value').text(centre_value);
+                    $('#confirm_modal').modal('show');
+                }
+            })
+            
+            // confirms submission
+            $('#confirm_button').click(function() {
+                $('form').submit();
+            })
         });
     </script>
 {% endblock %}

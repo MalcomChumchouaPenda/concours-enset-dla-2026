@@ -49,7 +49,6 @@ def list_options():
     query = cmdl.OptionConcours.query
     items = [('', 'Choisir', {})]
     items.extend([f(obj) for obj in query.all()])
-    print(items)
     return items
 
 def list_centres():
