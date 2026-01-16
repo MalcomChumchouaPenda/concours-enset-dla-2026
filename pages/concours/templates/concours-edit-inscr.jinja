@@ -35,11 +35,11 @@
 
         <!-- Choix concours -->
         {% call render_sub_form(form, "1. Concours")%}
+            {{ render_select_field(form.centre, 'col-lg-3 col-10', disabled=True, required=false) }} 
+            {{ render_select_field(form.niveau, 'col-lg-3 col-10', disabled=True, required=false) }} 
+            {{ render_select_field(form.diplome, 'col-lg-6 col-10', disabled=True, required=false) }}
             {{ render_select_field(form.filiere, 'col-lg-6 col-10', disabled=True, required=false) }} 
             {{ render_select_field(form.option, 'col-lg-6 col-10', disabled=True, required=false) }} 
-            {{ render_select_field(form.classe, 'col-lg-3 col-10', disabled=True, required=false) }} 
-            {{ render_select_field(form.centre, 'col-lg-3 col-10', disabled=True, required=false) }} 
-            {{ render_select_field(form.diplome, 'col-lg-6 col-10', disabled=True, required=false) }}
         {% endcall%} <!-- End choix concours-->
 
         <!-- Info generales -->

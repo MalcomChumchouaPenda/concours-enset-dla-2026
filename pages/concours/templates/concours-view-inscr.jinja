@@ -28,11 +28,13 @@
         <!-- Choix concours -->
         {% call render_card(inscription, "1. Concours")%}
             {{ render_card_field('num_dossier', 'Numero dossier', inscription.numero_dossier, 'col-lg-6 col-10') }} 
-            {{ render_card_field('num_paiement', 'Numero paiement', current_user.id, 'col-lg-6 col-10') }} 
+            {{ render_card_field('num_paiement', 'Numero paiement', current_user.id, 'col-lg-3 col-10') }} 
+            <div class="col-lg-3 col-2"></div>
+            {{ render_card_field('centre_id', 'Centre', inscription.centre.nom.upper(), 'col-lg-3 col-10') }} 
+            {{ render_card_field('niveau_id', 'Niveau', inscription.classe.niveau, 'col-lg-3 col-10') }} 
+            {{ render_card_field('diplome_id', 'Diplome', inscription.diplome.nom_fr.upper(), 'col-lg-6 col-10') }} 
             {{ render_card_field('filiere_id', 'Filiere', inscription.classe.option.filiere.nom_fr.upper(), 'col-lg-6 col-10') }} 
             {{ render_card_field('option_id', 'Option', inscription.classe.option.nom_fr.upper(), 'col-lg-6 col-10') }} 
-            {{ render_card_field('classe_id', 'Niveau', inscription.classe.niveau, 'col-lg-6 col-10') }} 
-            {{ render_card_field('centre_id', 'Centre', inscription.centre.nom.upper(), 'col-lg-6 col-10') }} 
         {% endcall%} <!-- End choix concours-->
 
         <!-- Info generales -->

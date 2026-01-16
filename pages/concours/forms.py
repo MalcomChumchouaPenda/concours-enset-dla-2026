@@ -27,11 +27,21 @@ def choices(data, only_keys=False):
 def validators1():
     return [DataRequired()]
 
+def list_niveaux():
+    items = [('', 'Choisir')]
+    items.extend([(f'N{k}', v) for k,v in cmdl.NIVEAUX.items()])
+    return items
 
 def list_filieres():
-    query = cmdl.FiliereConcours.query
-    items = [('', 'Choisir')]
-    items.extend([(obj.id, obj.nom_fr) for obj in query.all()])
+    query = cmdl.ClasseConcours.query
+    items = []
+    for classe in query.all():
+        filiere = classe.option.filiere
+        item = (filiere.id, filiere.nom_fr, f'N{classe.niveau_id}')
+        items.append(item)
+    items = list(set(items))  # remove duplicated
+    items = [(k, v, {'data-chained':d}) for k, v, d in items]
+    items.insert(0, ('', 'Choisir', {}))
     return items
 
 def list_options():
@@ -39,13 +49,7 @@ def list_options():
     query = cmdl.OptionConcours.query
     items = [('', 'Choisir', {})]
     items.extend([f(obj) for obj in query.all()])
-    return items
-
-def list_classes():
-    f = lambda obj: (obj.id, obj.niveau, {'data-chained':obj.option_id})
-    query = cmdl.ClasseConcours.query
-    items = [('', 'Choisir', {})]
-    items.extend([f(obj) for obj in query.all()])
+    print(items)
     return items
 
 def list_centres():
@@ -77,9 +81,10 @@ def list_departements():
 
 
 def list_diplomes():
+    f = lambda obj: (obj.id, obj.nom_fr, {'data-chained': f'N{obj.niveau_id}'})
     query = cmdl.DiplomeConcours.query
-    items = [('', 'Choisir')]
-    items.extend([(obj.id, obj.nom_fr) for obj in query.all()])
+    items = [('', 'Choisir', {})]
+    items.extend([f(obj) for obj in query.all()])
     return items
 
 
@@ -122,9 +127,9 @@ class InscrForm(FlaskForm):
 class NewInscrForm(InscrForm):
    
     # Choix concours
-    filiere_id = SelectField(_l('Filière sollicitée'), validators=validators1())
+    niveau_id = SelectField(_l("Niveau examen"), validators=validators1(), choices=choices(cmdl.NIVEAUX))
+    filiere_id = AttribSelectField(_l('Filière sollicitée'), validators=validators1())
     option_id = AttribSelectField(_l('Option sollicitée'), validators=validators1())
-    classe_id = AttribSelectField(_l("Niveau examen"), validators=validators1())
     centre_id = SelectField(_l("Centre examen"), validators=validators1())
     diplome_id = SelectField(_l("Diplôme donnant droit au concours"), validators=validators1())
 
@@ -132,8 +137,8 @@ class NewInscrForm(InscrForm):
 class EditInscrForm(InscrForm):
    
     # Choix concours
+    niveau = StringField(_l("Niveau examen"))
     filiere = StringField(_l('Filière sollicitée'))
     option = StringField(_l('Option sollicitée'))
-    classe = StringField(_l("Niveau examen"))
     centre = StringField(_l("Centre examen"))
     diplome = StringField(_l("Diplôme donnant droit au concours"))

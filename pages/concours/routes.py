@@ -59,9 +59,9 @@ def new_inscr():
     form.nationalite_id.choices = forms.list_nationalites()
     form.region_origine_id.choices = forms.list_regions()
     form.departement_origine_id.choices = forms.list_departements()
+    form.niveau_id.choices = forms.list_niveaux()
     form.filiere_id.choices = forms.list_filieres()
     form.option_id.choices = forms.list_options()
-    form.classe_id.choices = forms.list_classes()
     form.centre_id.choices = forms.list_centres()
     form.diplome_id.choices = forms.list_diplomes()
 
@@ -71,9 +71,10 @@ def new_inscr():
     if form.validate_on_submit():
         data = form.data
         data['id'] = user_id
+        data['classe_id'] = data['option_id'] + data['niveau_id'][-1]
         invalid_cols = ['csrf_token', 'nationalite_id', 
                         'region_origine_id', 'filiere_id', 
-                        'option_id']
+                        'option_id', 'niveau_id']
         for col in invalid_cols:
             data.pop(col)
 
@@ -157,7 +158,7 @@ def edit_inscr():
     print('\nerrors=>\t', form.errors)
     form.filiere.data = inscription.classe.option.filiere.nom_fr
     form.option.data = inscription.classe.option.nom_fr
-    form.classe.data = inscription.classe_id
+    form.niveau.data = inscription.classe.niveau
     form.centre.data = inscription.centre.nom
     form.diplome.data = inscription.diplome.nom_fr
     form.nationalite_id.data = inscription.departement_origine.region.pays_id
