@@ -1,11 +1,15 @@
 import os
-from flask import current_app, render_template, redirect, url_for, flash, send_file
+import re
+
+from flask import current_app, request
+from flask import render_template, redirect, url_for, flash, send_file
 from flask_login import current_user
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
 
 from core.config import db
 from core.utils import UiBlueprint
+from core.auth.tasks import get_user, add_user, add_roles_to_user, connect_user
 from services.regions_v0_0 import tasks as rtsk
 from services.formations_v0_1 import tasks as ftsk
 from services.concours_v0_0 import tasks as ctsk
@@ -42,8 +46,34 @@ def _clean_temp_files():
             logger.warning
 
 
+def _check_id(id_):
+    return re.match(r'^\d+$', id_)
+
+
+@ui.route('/register', methods=['GET', 'POST'])
+def register():
+    form = forms.AuthForm()
+    if form.validate_on_submit():
+        id_ = form.id.data
+        if not _check_id(id_):
+            flash('ce numero de paiement est invalide', 'danger')
+            return render_template('concours-register.jinja', form=form)
+
+        if get_user(db.session, id_):
+            return render_template('landing/message.jinja',
+                                title=_("Avertissement"),
+                                message=_("Ce numero de paiement a deja ete utilise pour une inscription"),
+                                actions = [{'text':_("Voir l'inscription"), 'url':url_for('concours.view_inscr')},
+                                        {'text':_("Revenir a l'accueil"), 'url':url_for('home.logout')}])
+
+        add_user(db.session, id_, id_, id_)
+        add_roles_to_user(db.session, id_, 'candidat')
+        connect_user(id_, id_)
+        return redirect(url_for('concours.new_inscr'))
+    flash('Vous devez payer les frais de concours avant de debuter', 'warning')
+    return render_template('concours-register.jinja', form=form)
+
 @ui.route('/new', methods=['GET', 'POST'])
-@ui.login_required
 def new_inscr():
     user_id = current_user.id
     inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()

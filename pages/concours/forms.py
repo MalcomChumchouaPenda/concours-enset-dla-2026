@@ -87,6 +87,9 @@ def list_diplomes():
     items.extend([f(obj) for obj in query.all()])
     return items
 
+class AuthForm(FlaskForm):
+    id = StringField(_l('numero de paiement'), validators=validators1())
+
 
 class CursusRowForm(FlaskForm):
 

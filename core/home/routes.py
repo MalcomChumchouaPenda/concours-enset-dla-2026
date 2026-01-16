@@ -46,39 +46,6 @@ class AuthForm(FlaskForm):
     id = StringField(_l('numero de paiement'), validators=[DataRequired()])
 
 
-def check_id(id_):
-    return re.match(r'^\d+$', id_)
-
-
-@ui.route('/register', methods=['GET', 'POST'])
-def register():
-    form = AuthForm()
-    next = request.args.get('next')
-    if form.validate_on_submit():
-        id_ = form.id.data
-        if not check_id(id_):
-            flash('ce numero de paiement est invalide', 'danger')
-            return render_template('home-auth.jinja', form=form, 
-                                    next=next, endpoint='home.register')
-
-        if get_user(db.session, id_):
-            return render_template('landing/message.jinja',
-                                title=_("Avertissement"),
-                                message=_("Ce numero de paiement a deja ete utilise pour une inscription"),
-                                actions = [{'text':_("Voir l'inscription"), 'url':url_for('concours.view_inscr')},
-                                        {'text':_("Revenir a l'accueil"), 'url':url_for('home.logout')}])
-
-        add_user(db.session, id_, id_, id_)
-        add_roles_to_user(db.session, id_, 'candidat')
-        connect_user(id_, id_)
-        if next:
-            return redirect(next)
-        return redirect(url_for('home.index'))
-    flash('Vous devez payer les frais de concours avant de debuter', 'warning')
-    return render_template('home-auth.jinja', form=form, 
-                           next=next, endpoint='home.register')
-
-
 @ui.route('/login', methods=['GET', 'POST'])
 def login():
     form = AuthForm()
