@@ -112,8 +112,7 @@ def new_inscr():
         inscription = cmdl.InscriptionConcours(**data)
         ctsk.creer_numero(db.session, inscription)
         db.session.add(inscription)     
-        for row in cursus:
-            row.pop('csrf_token')   
+        for row in cursus:  
             row['inscription_id'] = user_id
             etape = cmdl.EtapeCursus(**row)
             db.session.add(etape)
@@ -177,7 +176,6 @@ def edit_inscr():
 
         # add new cursus
         for row in cursus:
-            row.pop('csrf_token')   
             row['inscription_id'] = user_id
             etape = cmdl.EtapeCursus(**row)
             db.session.add(etape)

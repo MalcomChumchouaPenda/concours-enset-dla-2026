@@ -75,14 +75,16 @@
                     </thead>
                     <tbody>
                         {% for row in form.cursus %}
-                            {{ row.csrf_token }}
-                            <tr>
+                        <tr>
                             <td>{{ render_text_cell(row.annee, '') }}</td>
                             <td>{{ render_text_cell(row.etablissement, '') }}</td>
                             <td>{{ render_text_cell(row.diplome, '') }}</td>
                             <td>{{ render_text_cell(row.mention, '') }}</td>
-                            <td><button type="button" class="btn btn-sm btn-danger delete-row">Supprimer</button></td>
-                            </tr>
+                            <td>
+                                {{ row.csrf_token }}
+                                <button type="button" class="btn btn-sm btn-danger delete-row">Supprimer</button>
+                            </td>
+                        </tr>
                         {% endfor %}
                     </tbody>
             </table>
@@ -117,6 +119,7 @@
 {% endblock %}
 
 {% block custom_js %}
+    <script src="{{ url_for('concours.static', filename='js/cursus.js') }}"></script>
     <script>
         $(document).ready(function() {
             
@@ -125,44 +128,6 @@
             $("#departement_origine_id").chained("#region_origine_id");
 
 
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            // Ajouter une nouvelle ligne
-            $('#add_row').click(function() {
-            // Cloner la première ligne
-            var newRow = $('#cursus_table tbody tr:first').clone();
-            
-            // Vider les champs de la nouvelle ligne
-            newRow.find('input').val('');
-            
-            // Ajouter la ligne clonée à la fin du tableau
-            $('#cursus_table tbody').append(newRow);
-            
-            // Mettre à jour les noms des champs pour qu'ils soient uniques
-            updateFieldNames();
-            });
-
-            // Supprimer une ligne
-            $('#cursus_table').on('click', '.delete-row', function() {
-                var prevElmt1 = $(this).closest('tr');
-                var prevElmt2 = prevElmt1.prev("input");
-                console.log($(this).closest('tr'));
-                prevElmt1.remove();
-                prevElmt2.remove();
-                updateFieldNames();
-            });
-
-            // Fonction pour mettre à jour les noms des champs pour chaque ligne
-            function updateFieldNames() {
-            $('#cursus_table tbody tr').each(function(index) {
-                $(this).find('input').each(function() {
-                var fieldName = $(this).attr('name').replace('0', index);
-                $(this).attr('name', fieldName);
-                });
-            });
-            }
         });
     </script>
 {% endblock %}

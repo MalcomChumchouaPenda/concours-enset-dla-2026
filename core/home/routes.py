@@ -56,7 +56,7 @@ def login():
         if connect_user(user_id, password):
             if next:
                 return redirect(next)
-            return redirect(url_for('home.index'))
+            return redirect(url_for('concours.view_inscr'))
         flash('Ce numero de paiement est invalide', 'danger')
         return render_template('home-login.jinja', form=form, next=next)
     return render_template('home-login.jinja', form=form, next=next)
