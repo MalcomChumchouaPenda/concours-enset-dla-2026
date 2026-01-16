@@ -2,7 +2,7 @@
 {% set page_id = 'concours_inscription_pg' %}
 {% from 'concours-macros.jinja' import render_sub_form, render_text_field, 
                                        render_select_field, render_text_cell,
-                                       render_messages %}
+                                       render_confirm_modal, render_messages %}
 
 {% block custom_css %}
     <link href="{{ url_for('concours.static', filename='/css/new.css') }}" rel="stylesheet">
@@ -20,24 +20,10 @@
         <!-- Alertes -->
         {{ render_messages() }}
 
-        <!-- Confirmation modification --->
-        <div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="confirm_modal_label" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirm_modal_label">Confirmation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </div>
-                <div class="modal-body">
-                    Voulez-vous vraiment modifier cette fiche?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-                    <button type="button" class="btn btn-primary" id="confirm_button">Oui</button>
-                </div>
-                </div>
-            </div>
-        </div><!-- Confirmation modification --->
+        <!-- Confirmation -->
+        {% call render_confirm_modal('confirm_modal', 'confirm_button') %}
+            <p>Voulez-vous vraiment modifier cette fiche?</p>
+        {% endcall %}
 
 
         <form class="px-4 col-lg-10 col-12 needs-validation" novalidate
