@@ -2,6 +2,7 @@ import os
 import re
 from datetime import datetime
 
+import Levenshtein as lv
 from flask import current_app, request
 from flask import render_template, redirect, url_for, flash, send_file
 from flask_login import current_user
@@ -138,6 +139,12 @@ def print_inscr():
     return send_file(fichier_pdf, as_attachment=True, download_name=nom_fichier_pdf)
 
 
+def _verification_noms(inscription, data):
+    nom_complet = ' '.join([data['nom'], data['prenom']])
+    ratio = lv.ratio(nom_complet.upper(), inscription.nom_complet.upper())
+    print('\n\ttest =>', nom_complet.upper(), inscription.nom_complet.upper(), ratio)
+    return ratio >= 0.75
+
 @ui.route('/edit', methods=['GET', 'POST'])
 @ui.login_required
 def edit_inscr():
@@ -154,10 +161,26 @@ def edit_inscr():
     if form.validate_on_submit():
         data = form.data
 
+        # verification du noms
+        if not _verification_noms(inscription, data):
+            msg = "Ce compte est reserve au candidat "
+            msg += f"<b>{inscription.nom_complet}</b> "
+            msg += "(Vous n'etes pas dans votre inscription)"
+            flash(msg, 'danger')
+            return redirect(url_for('concours.view_inscr'))
+
         # pretraitement des donnees
         date_naiss = datetime.strptime(data['date_naissance'], r'%d/%m/%Y')
         date_naiss = date_naiss.date()
         inscription.date_naissance = date_naiss
+
+        # modification simple
+        simple_fields = ['prenom', 'nom', 'lieu_naissance', 
+                         'sexe_id', 'situation_matrimoniale_id',
+                         'departement_origine_id', 'langue_id', 
+                         'telephone', 'email']
+        for field in simple_fields:
+            setattr(inscription, field, data[field])
 
         # clear previous cursus
         cursus = data.pop('cursus')
