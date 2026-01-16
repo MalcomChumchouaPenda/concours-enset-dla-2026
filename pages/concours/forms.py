@@ -98,7 +98,7 @@ class CursusRowForm(FlaskForm):
     diplome = StringField(_l('Diplome'), validators=validators1())
     etablissement = StringField(_l('Etablissement'), validators=validators1())
     mention = StringField(_l('Mention'), validators=validators1())
-    
+
     class Meta:
             csrf = False
 
@@ -107,7 +107,7 @@ class InscrForm(FlaskForm):
     # Informations personnelles de base
     prenom = StringField(_l('Prenoms'))
     nom = StringField(_l('Noms'), validators=validators1())
-    date_naissance = DateField(_l('Date de naissance'), validators=validators1())
+    date_naissance = StringField(_l('Date de naissance'), validators=validators1())
     lieu_naissance = StringField(_l('Lieu de naissance'), validators=validators1())
     sexe_id = SelectField(_l('Sexe'), validators=validators1(), choices=choices(cmdl.SEXES))
     situation_matrimoniale_id = SelectField(_l('Situation Matrimoniale'), 

@@ -1,5 +1,6 @@
 import os
 import re
+from datetime import datetime
 
 from flask import current_app, request
 from flask import render_template, redirect, url_for, flash, send_file
@@ -46,34 +47,8 @@ def _clean_temp_files():
             logger.warning
 
 
-def _check_id(id_):
-    return re.match(r'^\d+$', id_)
-
-
-@ui.route('/register', methods=['GET', 'POST'])
-def register():
-    form = forms.AuthForm()
-    if form.validate_on_submit():
-        id_ = form.id.data
-        if not _check_id(id_):
-            flash('ce numero de paiement est invalide', 'danger')
-            return render_template('concours-register.jinja', form=form)
-
-        if get_user(db.session, id_):
-            return render_template('landing/message.jinja',
-                                title=_("Avertissement"),
-                                message=_("Ce numero de paiement a deja ete utilise pour une inscription"),
-                                actions = [{'text':_("Voir l'inscription"), 'url':url_for('concours.view_inscr')},
-                                        {'text':_("Revenir a l'accueil"), 'url':url_for('home.logout')}])
-
-        add_user(db.session, id_, id_, id_)
-        add_roles_to_user(db.session, id_, 'candidat')
-        connect_user(id_, id_)
-        return redirect(url_for('concours.new_inscr'))
-    flash('Vous devez payer les frais de concours avant de debuter', 'warning')
-    return render_template('concours-register.jinja', form=form)
-
 @ui.route('/new', methods=['GET', 'POST'])
+@ui.login_required
 def new_inscr():
     user_id = current_user.id
     inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
@@ -100,14 +75,23 @@ def new_inscr():
     print('\ndata=>\t', data)
     if form.validate_on_submit():
         data = form.data
+
+        # pretraitement des donnees
+        classe_id = data['option_id'] + data['niveau_id'][-1]
+        date_naiss = datetime.strptime(data['date_naissance'], r'%d/%m/%Y')
+        date_naiss = date_naiss.date()
         data['id'] = user_id
-        data['classe_id'] = data['option_id'] + data['niveau_id'][-1]
+        data['classe_id'] = classe_id
+        data['date_naissance'] = date_naiss
+
+        # retrait des donnees inutiles
         invalid_cols = ['csrf_token', 'nationalite_id', 
                         'region_origine_id', 'filiere_id', 
                         'option_id', 'niveau_id']
         for col in invalid_cols:
             data.pop(col)
 
+        # traitement du cursus
         cursus = data.pop('cursus')
         inscription = cmdl.InscriptionConcours(**data)
         ctsk.creer_numero(db.session, inscription)
@@ -116,6 +100,8 @@ def new_inscr():
             row['inscription_id'] = user_id
             etape = cmdl.EtapeCursus(**row)
             db.session.add(etape)
+        
+        # finalisation
         db.session.commit()
         return redirect(url_for('concours.view_inscr'))
 
