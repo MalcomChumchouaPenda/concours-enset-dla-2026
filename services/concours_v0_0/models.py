@@ -61,7 +61,7 @@ class ClasseConcours(db.Model):
     niveau_id = db.Column(db.Integer, nullable=False)
     option_id = db.Column(db.String(10), db.ForeignKey('option_concours.id'))
     option = db.relationship('OptionConcours', back_populates='classes')
-    candidats = db.relationship('Candidat', back_populates='classe')
+    inscriptions = db.relationship('InscriptionConcours', back_populates='classe')
 
     @property
     def full_id(self):
@@ -79,16 +79,18 @@ class CentreConcours(db.Model):
 
     id = db.Column(db.String(5), primary_key=True)
     nom = db.Column(db.String(100), nullable=False)
-    candidats = db.relationship('Candidat', back_populates='centre')
+    inscriptions = db.relationship('InscriptionConcours', back_populates='centre')
 
 
-class Candidat(db.Model):
+class InscriptionConcours(db.Model):
     __bind_key__ = 'concours_v0'
-    __tablename__ = 'candidats'
+    __tablename__ = 'inscription_concours'
 
     # Métadonnées
     id = db.Column(db.String(20), primary_key=True)  # numero paiement
+    numero_dossier = db.Column(db.String(20), primary_key=True)  # numero paiement
     date_inscription = db.Column(db.DateTime, default=datetime.now)
+    annee_concours = '2025/2026'
 
     # Informations personnelles de base
     nom = db.Column(db.String(200), nullable=False)
@@ -112,13 +114,13 @@ class Candidat(db.Model):
     
     # options examens
     classe_id = db.Column(db.String(10), db.ForeignKey('classe_concours.id'))
-    classe = db.relationship('ClasseConcours', back_populates='candidats')
+    classe = db.relationship('ClasseConcours', back_populates='inscriptions')
     centre_id = db.Column(db.String(10), db.ForeignKey('centre_concours.id'))
-    centre = db.relationship('CentreConcours', back_populates='candidats')
+    centre = db.relationship('CentreConcours', back_populates='inscriptions')
 
     # cursus academique
     diplome_id = db.Column(db.String(200), nullable=False)
-    cursus = db.relationship('EtapeCursus', back_populates='candidat')
+    cursus = db.relationship('EtapeCursus', back_populates='inscription')
 
     @property
     def nom_complet(self):
@@ -156,5 +158,5 @@ class EtapeCursus(db.Model):
     etablissement = db.Column(db.String(200), nullable=False)
     diplome = db.Column(db.String(200), nullable=False)
     mention = db.Column(db.String(50), nullable=False)
-    candidat_id = db.Column(db.String(20), db.ForeignKey('candidats.id'))
-    candidat = db.relationship('Candidat', back_populates='cursus')
+    inscription_id = db.Column(db.String(20), db.ForeignKey('inscription_concours.id'))
+    inscription = db.relationship('InscriptionConcours', back_populates='cursus')

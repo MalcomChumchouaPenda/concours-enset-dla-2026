@@ -1,10 +1,9 @@
 {% extends 'dashboard/layout.jinja' %}
-{% set page_id = 'concours_candidature_pg' %}
+{% set page_id = 'concours_ins_pg' %}
 {% from 'concours-macros.jinja' import render_card, render_card_field, render_messages %}
 
 {% block page_header %}
   <h1>{{ _('Fiche Inscription') }}</h1>
-  <p class="fst-italic">Numero de paiement: {{ current_user.id }} </p>
 {% endblock %}
 
 {% block page_main %}
@@ -27,7 +26,9 @@
       <form class="px-4 col-lg-10 col-12">
 
         <!-- Choix concours -->
-        {% call render_card(inscription, "1. Filiere et Lieu de concours")%}
+        {% call render_card(inscription, "1. Concours")%}
+            {{ render_card_field('num_paiement', 'Numero paiement', current_user.id, 'col-lg-6 col-10') }} 
+            {{ render_card_field('num_dossier', 'Numero dossier', inscription.numero_dossier, 'col-lg-6 col-10') }} 
             {{ render_card_field('filiere_id', 'Filiere', inscription.classe.option.filiere.nom_fr.upper(), 'col-lg-6 col-10') }} 
             {{ render_card_field('option_id', 'Option', inscription.classe.option.nom_fr.upper(), 'col-lg-6 col-10') }} 
             {{ render_card_field('classe_id', 'Niveau', inscription.classe.niveau, 'col-lg-6 col-10') }} 

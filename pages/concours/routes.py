@@ -46,7 +46,7 @@ def _clean_temp_files():
 @ui.login_required
 def new_inscr():
     user_id = current_user.id
-    inscription = cmdl.Candidat.query.filter_by(id=user_id).one_or_none()
+    inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if inscription is not None:
         return render_template('landing/message.jinja',
                             title=_("Avertissement"),
@@ -78,11 +78,12 @@ def new_inscr():
             data.pop(col)
 
         cursus = data.pop('cursus')
-        candidat = cmdl.Candidat(**data)
-        db.session.add(candidat)     
+        inscription = cmdl.InscriptionConcours(**data)
+        ctsk.creer_numero(db.session, inscription)
+        db.session.add(inscription)     
         for row in cursus:
             row.pop('csrf_token')   
-            row['candidat_id'] = user_id
+            row['inscription_id'] = user_id
             etape = cmdl.EtapeCursus(**row)
             db.session.add(etape)
         db.session.commit()
@@ -96,7 +97,7 @@ def new_inscr():
 @ui.login_required
 def view_inscr():
     user_id = current_user.id
-    inscription = cmdl.Candidat.query.filter_by(id=user_id).one_or_none()
+    inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if inscription is None:
         return redirect(url_for('concours.new_inscr'))
     return render_template('concours-view-inscr.jinja', inscription=inscription)
@@ -111,7 +112,7 @@ def view_inscr():
 @ui.route('/print')
 def print_inscr():
     user_id = current_user.id
-    inscription = cmdl.Candidat.query.filter_by(id=user_id).one_or_none()
+    inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if inscription is None:
         return redirect(url_for('concours.new_inscr'))
     nom_fichier_pdf = f"fiche_inscription_{user_id.lower()}.pdf"

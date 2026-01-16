@@ -1,5 +1,5 @@
 {% extends 'dashboard/layout.jinja' %}
-{% set page_id = 'concours_candidature_pg' %}
+{% set page_id = 'concours_inscription_pg' %}
 {% from 'concours-macros.jinja' import render_sub_form, render_text_field, 
                                        render_select_field, render_messages %}
 
@@ -28,7 +28,7 @@
         {{ form.csrf_token }}
 
         <!-- Choix concours -->
-        {% call render_sub_form(form, "1. Filiere et Lieu de concours")%}
+        {% call render_sub_form(form, "1. Concours")%}
             {{ render_select_field(form.filiere_id, 'col-lg-6 col-10') }} 
             {{ render_select_field(form.option_id, 'col-lg-6 col-10') }} 
             {{ render_select_field(form.classe_id, 'col-lg-3 col-10') }} 

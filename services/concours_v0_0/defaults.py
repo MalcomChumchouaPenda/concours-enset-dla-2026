@@ -85,7 +85,8 @@ def init_data():
         'centre_id': 'BAF', 
         'telephone': '65523', 
         'email': '',
-        'diplome_id':'BAC_C'}
-    db.session.add(mdl.Candidat(**test))
+        'diplome_id':'BAC_C',
+        'numero_dossier':'26BAF-BAC-C0001'}
+    db.session.add(mdl.InscriptionConcours(**test))
     db.session.commit()
 
