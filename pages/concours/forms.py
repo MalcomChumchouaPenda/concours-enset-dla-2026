@@ -61,7 +61,7 @@ def list_centres():
 def list_nationalites():
     query = rmdl.Pays.query
     items = [('', 'Choisir')]
-    items.extend([(obj.id, obj.nom) for obj in query.all()])
+    items.extend([(obj.id, obj.nationalite) for obj in query.all()])
     return items
 
 def list_regions():
