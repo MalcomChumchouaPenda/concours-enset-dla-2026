@@ -143,6 +143,7 @@ def print_inscr():
 def edit_inscr():
     user_id = current_user.id
     inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
+
     # create a edit form
     form = forms.EditInscrForm(obj=inscription)
     form.nationalite_id.choices = forms.list_nationalites()
@@ -150,10 +151,13 @@ def edit_inscr():
     form.departement_origine_id.choices = forms.list_departements()
 
     # traitement et enregistrement des donnees
-    data = form.data
-    print('\ndata=>\t', data)
     if form.validate_on_submit():
         data = form.data
+
+        # pretraitement des donnees
+        date_naiss = datetime.strptime(data['date_naissance'], r'%d/%m/%Y')
+        date_naiss = date_naiss.date()
+        inscription.date_naissance = date_naiss
 
         # clear previous cursus
         cursus = data.pop('cursus')
@@ -175,6 +179,7 @@ def edit_inscr():
     form.niveau.data = inscription.classe.niveau
     form.centre.data = inscription.centre.nom
     form.diplome.data = inscription.diplome.nom_fr
+    form.date_naissance.data = inscription.date_naissance.strftime(r'%d/%m/%Y')
     form.nationalite_id.data = inscription.departement_origine.region.pays_id
     form.region_origine_id.data = inscription.departement_origine.region_id
     form.departement_origine_id.data = inscription.departement_origine_id

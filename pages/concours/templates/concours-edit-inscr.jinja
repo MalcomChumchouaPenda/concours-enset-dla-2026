@@ -116,6 +116,7 @@
 {% block vendor_js %}
     <script src="{{ url_for('static', filename='vendor/jquery-3.6.0.min.js') }}"></script>  
     <script src="{{ url_for('static', filename='vendor/jquery-chained/jquery.chained.js') }}"></script>
+    <script src="{{ url_for('concours.static', filename='js/jquery.inputmask.bundle.min.js') }}"></script>
 {% endblock %}
 
 {% block custom_js %}
@@ -126,7 +127,9 @@
             // chained select fields
             $("#region_origine_id").chained("#nationalite_id");
             $("#departement_origine_id").chained("#region_origine_id");
-
+            
+            // format date
+            $('#date_naissance').inputmask('99/99/9999');
 
         });
     </script>

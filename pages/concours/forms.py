@@ -102,6 +102,7 @@ class CursusRowForm(FlaskForm):
     class Meta:
             csrf = False
 
+
 class InscrForm(FlaskForm):
     
     # Informations personnelles de base
@@ -128,7 +129,6 @@ class InscrForm(FlaskForm):
     cursus = FieldList(FormField(CursusRowForm), min_entries=1)
     
     
-
 class NewInscrForm(InscrForm):
    
     # Choix concours
