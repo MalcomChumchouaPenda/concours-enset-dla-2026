@@ -1,6 +1,9 @@
 import os
 from flask import current_app, render_template, redirect, url_for, flash, send_file
 from flask_login import current_user
+from flask_babel import gettext as _
+from flask_babel import lazy_gettext as _l
+
 from core.config import db
 from core.utils import UiBlueprint
 from services.regions_v0_0 import tasks as rtsk
@@ -43,6 +46,13 @@ def _clean_temp_files():
 @ui.login_required
 def new_inscr():
     user_id = current_user.id
+    inscription = cmdl.Candidat.query.filter_by(id=user_id).one_or_none()
+    if inscription is not None:
+        return render_template('landing/message.jinja',
+                            title=_("Avertissement"),
+                            message=_("Ce numero de paiement a deja ete utilise pour une inscription"),
+                            actions = [{'text':_("Voir l'inscription"), 'url':url_for('concours.view_inscr')},
+                                       {'text':_("Revenir a l'accueil"), 'url':url_for('home.logout')}])
 
     # create a edit form
     form = forms.NewInscrForm()

@@ -153,6 +153,7 @@ class EtapeCursus(db.Model):
 
     id = db.Column(db.Integer, primary_key=True) 
     annee = db.Column(db.String(20), nullable=False)
+    etablissement = db.Column(db.String(200), nullable=False)
     diplome = db.Column(db.String(200), nullable=False)
     mention = db.Column(db.String(50), nullable=False)
     candidat_id = db.Column(db.String(20), db.ForeignKey('candidats.id'))

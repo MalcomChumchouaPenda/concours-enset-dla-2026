@@ -32,7 +32,7 @@
             {{ render_select_field(form.filiere_id, 'col-lg-6 col-10') }} 
             {{ render_select_field(form.option_id, 'col-lg-6 col-10') }} 
             {{ render_select_field(form.classe_id, 'col-lg-3 col-10') }} 
-            {{ render_select_field(form.centre_id, 'col-lg- col-10') }} 
+            {{ render_select_field(form.centre_id, 'col-lg-3 col-10') }} 
             {{ render_select_field(form.diplome_id, 'col-lg-6 col-10') }}
         {% endcall%} <!-- End choix concours-->
 
@@ -60,6 +60,7 @@
                 <thead>
                         <tr>
                         <th>Année</th>
+                        <th>Etablissement</th>
                         <th>Diplôme</th>
                         <th>Mention</th>
                         <th>Actions</th>
@@ -69,7 +70,8 @@
                         {% for row in form.cursus %}
                             {{ row.csrf_token }}
                             <tr>
-                            <td>{{ row.annee() }}</td>
+                            <td>{{ render_text_field(row.annee, 'w-100') }}</td>
+                            <td>{{ row.etablissement() }}</td>
                             <td>{{ row.diplome() }}</td>
                             <td>{{ row.mention() }}</td>
                             <td><button type="button" class="btn btn-danger delete-row">Supprimer</button></td>

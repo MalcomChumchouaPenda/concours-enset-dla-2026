@@ -88,6 +88,7 @@ class CursusRowForm(FlaskForm):
     # information d'un element du cursus
     annee = StringField(_l('Année'), validators=validators1())
     diplome = StringField(_l('Diplome'), validators=validators1())
+    etablissement = StringField(_l('Etablissement'), validators=validators1())
     mention = StringField(_l('Mention'), validators=validators1())
 
 
