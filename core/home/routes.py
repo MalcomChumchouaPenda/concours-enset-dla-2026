@@ -42,34 +42,76 @@ def wait():
     # hero = dict(msg=msg, img=img)
     # return render_template('home.jinja', hero=hero)
 
-class AuthForm(FlaskForm):
+
+class RegisterForm(FlaskForm):
     id = StringField(_l('numero de paiement'), validators=[DataRequired()])
+    pwd = PasswordField(_l('mot de passe'), validators=[DataRequired()])
+    confirm_pwd = PasswordField(_l('confirmer mot de passe'), validators=[DataRequired()])
 
 
 def _check_id(id_):
     return re.match(r'^\d+$', id_)
 
 
+@ui.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        uid = form.id.data
+        if not _check_id(uid):
+            flash('Numero de paiement invalide', 'danger')
+            return render_template('home-register.jinja', form=form)
+        
+        next = url_for('concours.new_inscr')
+        if get_user(db.session, uid):
+            return render_template('landing/message.jinja',
+                                    title=_("Avertissement"),
+                                    message=_("Ce numero de paiement a deja ete utilise pour une inscription"),
+                                    actions = [{'text':_("Voir l'inscription"), 'url':url_for('concours.view_inscr')},
+                                               {'text':_("Revenir a l'accueil"), 'url':url_for('home.logout')}])
+
+        pwd = form.pwd.data
+        if pwd != form.confirm_pwd.data:
+            flash('Mot de passe non confirme', 'danger')
+            return render_template('home-register.jinja', form=form)
+        
+        add_user(db.session, uid, uid, pwd)
+        add_roles_to_user(db.session, uid, 'candidat')
+        connect_user(uid, pwd)
+        return redirect(next)
+
+    flash('Vous devez payer vos frais de concours avant cette etape', 'warning')  
+    return render_template('home-register.jinja', form=form)
+
+
+class LoginForm(FlaskForm):
+    id = StringField(_l('numero de paiement'), validators=[DataRequired()])
+    pwd = PasswordField(_l('mot de passe'), validators=[DataRequired()])
+
+
 @ui.route('/login', methods=['GET', 'POST'])
 def login():
-    form = AuthForm()
-    next = request.args.get('next', url_for('concours.view_inscr'))
+    form = LoginForm()
+    next = request.args.get('next')
+    if not next:
+        next = url_for('concours.view_inscr')
+
     if form.validate_on_submit():
-        uid = pwd = form.id.data
-        if next == url_for('concours.new_inscr'):
-            if not _check_id(uid):
-                flash('ce numero de paiement est invalide', 'danger')
-                return render_template('home-login.jinja', form=form, next=next)
-            if not get_user(db.session, uid):
-                add_user(db.session, uid, uid, pwd)
-                add_roles_to_user(db.session, uid, 'candidat')
-            connect_user(uid, pwd)
-            return redirect(next)
-        else:
-            if connect_user(uid, pwd):
-                return redirect(next)
-            flash('Ce numero de paiement est invalide', 'danger')
-            return render_template('home-login.jinja', form=form, next=next)    
+        uid = form.id.data
+        if not _check_id(uid):
+            flash('Numero de paiement invalide', 'danger')
+            return render_template('home-login.jinja', form=form, next=next)
+        
+        if not get_user(db.session, uid):
+            flash("Aucune inscription en cours", 'danger')
+            return render_template('home-login.jinja', form=form, next=next)
+
+        pwd = form.pwd.data
+        if not connect_user(uid, pwd):
+            flash('Mot de passe incorrecte', 'danger')
+            return render_template('home-login.jinja', form=form, next=next)
+        
+        return redirect(next)
     return render_template('home-login.jinja', form=form, next=next)
 
 

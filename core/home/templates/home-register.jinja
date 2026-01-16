@@ -1,16 +1,16 @@
 {% extends "login/layout.jinja" %}
-{% set head_title='Login' %}
+{% set head_title='Register' %}
 
 {% block page_form %}
     <form class="login-form container d-flex flex-column align-items-center" 
-          method="POST" action="{{ url_for(endpoint, next=next) }}">
+          method="POST" action="{{ url_for('home.register') }}">
 
         {{ form.csrf_token }}
 
         <!-- Header -->
-        <div class="row w-100 pt-5 pb-2 d-flex justify-content-center">
+        <div class="row w-100 pt-5 pb-4 d-flex justify-content-center">
             <div class="col-10 text-center">
-                <h4>{{ _('Identifiez votre paiement pour continuer') }}</h4>
+                <h4>{{ _("Creez une inscription pour commencer") }}</h4>
             </div>
         </div>
         
@@ -34,7 +34,9 @@
         <!-- Identifiant -->
         <div class="field row my-2 w-100 d-flex justify-content-center">
             <div class="col-10 col-lg-4">
-                {{ form.id(class_="form-control", placeholder=_("Saisissez votre numéro de paiement"), size=20) }}           
+                {{ form.id(class_="form-control my-2", placeholder=_("numéro du paiement"), size=20) }}  
+                {{ form.pwd(class_="form-control my-2", placeholder=_("mot de passe"), size=20) }}    
+                {{ form.confirm_pwd(class_="form-control my-2", placeholder=_("Confirmer mot de passe"), size=20) }}           
             </div>
         </div><!-- End Identifiant -->
 

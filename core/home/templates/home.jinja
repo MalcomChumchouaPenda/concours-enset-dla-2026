@@ -12,8 +12,8 @@
     <div class="hero-info w-75 d-flex flex-column justify-content-center align-items-center">
       {{ hero.msg | safe_md }}
       <div class="d-flex flex-lg-row flex-column mt-4">
-        <a href="{{ url_for('concours.new_inscr') }}" class="btn btn-primary my-1">{{ _('Commencer une inscription') }}</a>
-        <a href="{{ url_for('concours.view_inscr') }}" class="btn btn-secondary my-1">{{ _('Réimprimer une inscription') }}</a>
+        <a href="{{ url_for('home.register') }}" class="btn btn-primary my-1">{{ _('Commencer une inscription') }}</a>
+        <a href="{{ url_for('home.login') }}" class="btn btn-secondary my-1">{{ _('Réimprimer une inscription') }}</a>
       </div>
     </div> 
     <div class="hero-bg">
