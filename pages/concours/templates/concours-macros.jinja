@@ -127,6 +127,29 @@
 {% endmacro %}
 
 
+{% macro render_text_cell(field, class, disabled=false) %}                         
+    <div class="{{ class }}">
+        {{ field(disabled=disabled) }}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <div class="invalid-feedback">[{{ error }}]</div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_select_cell(field, class, disabled=false) %}                              
+    <div class="{{ class }}">
+        {{ field(disabled=disabled) }}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <div class="invalid-feedback">[{{ error }}]</div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+
 {% macro render_info_div(inscription) %}
     <!-- Info generales -->
     <div class="card my-2">

@@ -1,0 +1,6 @@
+/* Basic table styling */
+
+#cursus_table td input {
+  background: transparent;
+  border: none;
+} 

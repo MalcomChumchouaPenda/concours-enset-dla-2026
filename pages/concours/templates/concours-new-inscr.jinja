@@ -1,7 +1,13 @@
 {% extends 'dashboard/layout.jinja' %}
 {% set page_id = 'concours_inscription_pg' %}
 {% from 'concours-macros.jinja' import render_sub_form, render_text_field, 
-                                       render_select_field, render_messages %}
+                                       render_select_field, render_text_cell,
+                                       render_messages %}
+
+{% block custom_css %}
+    <link href="{{ url_for('concours.static', filename='/css/new.css') }}" rel="stylesheet">
+{% endblock %}
+
 
 {% block page_header %}
   <h1>{{ _('Nouvelle Inscription') }}</h1>
@@ -53,33 +59,35 @@
             {{ render_select_field(form.region_origine_id, 'col-lg-6 col-10') }}
             {{ render_select_field(form.departement_origine_id, 'col-lg-6 col-10') }}
         {% endcall%} <!-- End Origine géographique -->
-
+        
         <!-- Cursus academique -->
         {% call render_sub_form(form, "4. Cursus academique")%}
-            <table id="academic_table" class="table table-bordered">
+        <div class="table-responsive">
+            <table id="cursus_table" class="table table-bordered table-sm">
                 <thead>
                         <tr>
                         <th>Année</th>
                         <th>Etablissement</th>
                         <th>Diplôme</th>
                         <th>Mention</th>
-                        <th>Actions</th>
+                        <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for row in form.cursus %}
                             {{ row.csrf_token }}
                             <tr>
-                            <td>{{ render_text_field(row.annee, 'w-100') }}</td>
-                            <td>{{ row.etablissement() }}</td>
-                            <td>{{ row.diplome() }}</td>
-                            <td>{{ row.mention() }}</td>
-                            <td><button type="button" class="btn btn-danger delete-row">Supprimer</button></td>
+                            <td>{{ render_text_cell(row.annee, '') }}</td>
+                            <td>{{ render_text_cell(row.etablissement, '') }}</td>
+                            <td>{{ render_text_cell(row.diplome, '') }}</td>
+                            <td>{{ render_text_cell(row.mention, '') }}</td>
+                            <td><button type="button" class="btn btn-sm btn-danger delete-row">Supprimer</button></td>
                             </tr>
                         {% endfor %}
                     </tbody>
             </table>
-            <button type="button" id="add_row" class="btn btn-success">Ajouter une ligne</button>
+        </div>
+        <button type="button" id="add_row" class="btn btn-primary">Ajouter une ligne</button>
         {% endcall%} <!-- End cursus academique-->
 
         <!-- Coordonnées -->
@@ -126,27 +134,27 @@
             // Ajouter une nouvelle ligne
             $('#add_row').click(function() {
             // Cloner la première ligne
-            var newRow = $('#academic_table tbody tr:first').clone();
+            var newRow = $('#cursus_table tbody tr:first').clone();
             
             // Vider les champs de la nouvelle ligne
             newRow.find('input').val('');
             
             // Ajouter la ligne clonée à la fin du tableau
-            $('#academic_table tbody').append(newRow);
+            $('#cursus_table tbody').append(newRow);
             
             // Mettre à jour les noms des champs pour qu'ils soient uniques
             updateFieldNames();
             });
 
             // Supprimer une ligne
-            $('#academic_table').on('click', '.delete-row', function() {
+            $('#cursus_table').on('click', '.delete-row', function() {
             $(this).closest('tr').remove();
             updateFieldNames();
             });
 
             // Fonction pour mettre à jour les noms des champs pour chaque ligne
             function updateFieldNames() {
-            $('#academic_table tbody tr').each(function(index) {
+            $('#cursus_table tbody tr').each(function(index) {
                 $(this).find('input').each(function() {
                 var fieldName = $(this).attr('name').replace('0', index);
                 $(this).attr('name', fieldName);
