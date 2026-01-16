@@ -4,6 +4,7 @@ from core.utils import navbar, sidebar
 
 
 navbar.add('home_pg', _l('Accueil'), endpoint='home.index', rank=0)
+navbar.add('register_pg', _l('Inscription'), endpoint='home.register', rank=1)
 # docmenu = navbar.add('doc_menu', _l('Procedures'), rank=1)
 # workspacemenu = navbar.add('space_menu', _l('Espaces'), rank=2)
 # workspacemenu.add('student_dash', _l('Etudiants'), endpoint='home.student_dashboard')
