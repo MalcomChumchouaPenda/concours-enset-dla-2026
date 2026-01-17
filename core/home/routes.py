@@ -3,7 +3,8 @@ import os
 import re
 
 import Levenshtein as lv
-from flask import render_template, request, url_for, redirect, flash, send_file
+from flask import request, session
+from flask import render_template, url_for, redirect, flash, send_file
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
 from flask_login import current_user
@@ -77,7 +78,6 @@ def register():
             flash('Numero de paiement invalide', 'danger')
             return render_template('home-register.jinja', form=form)
         
-        next = url_for('inscriptions.new')
         if get_user(db.session, uid):
             return render_template('landing/message.jinja',
                                     title=_("Avertissement"),
@@ -90,10 +90,10 @@ def register():
             flash('Mot de passe non confirme', 'danger')
             return render_template('home-register.jinja', form=form)
         
-        add_user(db.session, uid, uid, pwd)
-        add_roles_to_user(db.session, uid, 'candidat')
-        connect_user(uid, pwd)
-        return redirect(next)
+        session['candidat_id'] = uid
+        session['candidat_pwd'] = pwd
+        session['step'] = 'registered'
+        return redirect(url_for('inscriptions.new'))
 
     flash('Vous devez payer vos frais de concours avant cette etape', 'warning')  
     return render_template('home-register.jinja', form=form)

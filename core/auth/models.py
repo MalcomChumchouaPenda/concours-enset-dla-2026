@@ -1,8 +1,21 @@
 
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from core.config import db
+from core.config import db, login_manager
 
+
+# Custom User interfaces
+class AbstractUser:
+    
+    def has_role(self, role_id):
+        return False
+
+    def has_roles(self, role_ids):
+        return False
+    
+    def filter_domains(self, services):
+        return []
+    
 
 # Association table for many-to-many relationship
 user_roles = db.Table('user_roles',
@@ -14,7 +27,7 @@ class Role(db.Model):
     id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
 
-class User(db.Model, UserMixin):
+class User(db.Model, AbstractUser, UserMixin):
     id = db.Column(db.String(100), primary_key=True)
     first_name = db.Column(db.String(100), nullable=True)
     last_name = db.Column(db.String(100), nullable=False)
@@ -66,4 +79,11 @@ class User(db.Model, UserMixin):
                 filtered_groups.append(accepted_group)
         return filtered_groups
 
-print('created models')
+
+class AnonymousUser(AnonymousUserMixin, AbstractUser):
+
+    def __init__(self):
+        super().__init__()
+        self.id = '#'
+
+login_manager.anonymous_user = AnonymousUser

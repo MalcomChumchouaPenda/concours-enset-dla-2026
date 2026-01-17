@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 
 import Levenshtein as lv
-from flask import current_app, request
+from flask import current_app, request, session
 from flask import render_template, redirect, url_for, flash, send_file
 from flask_login import current_user
 from flask_babel import gettext as _
@@ -11,6 +11,7 @@ from flask_babel import lazy_gettext as _l
 
 from core.config import db
 from core.utils import UiBlueprint, read_markdown
+from core.auth import models as amdl
 from core.auth.tasks import get_user, add_user, add_roles_to_user, connect_user
 from services.regions_v0_0 import tasks as rtsk
 from services.formations_v0_1 import tasks as ftsk
@@ -49,8 +50,17 @@ def _clean_temp_files():
 
 
 @ui.route('/new', methods=['GET', 'POST'])
-@ui.login_required
 def new():
+    # verification des etapes
+    current_step = session.get('step', 'undefined')
+    if current_step in ['undefined', 'submitted']:
+        session['step'] = 'reset'
+        for key in ['candidat_id', 'candidat_pwd']:
+            if key in session:
+                session.pop(key)
+        return redirect(url_for('home.register'))
+    
+    # creation du formulaire
     form = forms.NewInscrForm()
     form.nationalite_id.choices = forms.list_nationalites()
     form.region_origine_id.choices = forms.list_regions()
@@ -66,11 +76,11 @@ def new():
         data = form.data
 
         # pretraitement des donnees
-        user_id = current_user.id
+        uid = session['candidat_id']
         classe_id = data['option_id'] + data['niveau_id'][-1]
         date_naiss = datetime.strptime(data['date_naissance'], r'%d/%m/%Y')
         date_naiss = date_naiss.date()
-        data['id'] = user_id
+        data['id'] = uid
         data['classe_id'] = classe_id
         data['date_naissance'] = date_naiss
 
@@ -87,12 +97,24 @@ def new():
         ctsk.creer_numero(db.session, inscription)
         db.session.add(inscription)     
         for row in cursus:  
-            row['inscription_id'] = user_id
+            row['inscription_id'] = uid
             etape = cmdl.EtapeCursus(**row)
             db.session.add(etape)
+
+        # creation du compte utilisateur
+        uid = session.pop('candidat_id')
+        pwd = session.pop('candidat_pwd')
+        role = amdl.Role.query.get('candidat')
+        user = amdl.User(id=uid, last_name=uid)
+        user.set_password(pwd)
+        user.roles.append(role)
+        db.session.add(user)
         
         # finalisation
         db.session.commit()
+        connect_user(uid, pwd)
+        session['step'] = 'submitted'
+        flash('Inscription enregistree avec success', 'success')
         return redirect(url_for('inscriptions.view'))
 
     print('\nerrors=>\t', form.errors)
@@ -194,6 +216,7 @@ def edit():
             db.session.add(etape)
 
         db.session.commit()
+        flash('Inscription modifiee avec success', 'success')
         return redirect(url_for('inscriptions.view'))
 
     print('\nerrors=>\t', form.errors)
