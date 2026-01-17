@@ -1,6 +1,11 @@
 {% extends "landing/layout.jinja" %}
 {% set page_id = 'concours_help_pg' %}
 
+{% block custom_css %}
+    <link href="{{ url_for('home.static', filename='/css/help.css') }}" rel="stylesheet">
+{% endblock %}
+
+
 {% block page_sections %}
 
   <!-- section intro -->
@@ -10,7 +15,7 @@
         <div class="col-lg-8 col-12">
           <h1>Aide</h1>
         </div>
-        <div class="col-lg-8 col-12 about-content">
+        <div class="col-lg-8 col-12 about-content help-intro">
           {{ help_intro }}
         </div>
       </div>
@@ -22,7 +27,7 @@
     {{ landing.section_title(_('Inscription'), subtitle=_('Faire son <b>inscription</b>')) }}
     <div class="container">
       <div class="row gy-4">
-        <div class="col-lg-10 col-12 about-content">
+        <div class="col-lg-10 col-12 about-content help-part">
           {{ help_new_inscr }}
         </div>
       </div>
@@ -35,7 +40,7 @@
     {{ landing.section_title(_('Impression'), subtitle=_('<b>Imprimer</b> son inscription')) }}
     <div class="container">
       <div class="row gy-4">
-        <div class="col-lg-10 col-12 about-content">
+        <div class="col-lg-10 col-12 about-content help-part">
           {{ help_print_inscr }}
         </div>
       </div>
@@ -48,7 +53,7 @@
     {{ landing.section_title(_('Modification'), subtitle=_('<b>Modifier</b> son inscription')) }}
     <div class="container">
       <div class="row gy-4">
-        <div class="col-lg-10 col-12 about-content">
+        <div class="col-lg-10 col-12 about-content help-part">
           {{ help_edit_inscr }}
         </div>
       </div>
