@@ -1,11 +1,11 @@
 {% extends 'dashboard/layout.jinja' %}
 {% set page_id = 'concours_inscription_pg' %}
-{% from 'concours-macros.jinja' import render_sub_form, render_text_field, 
+{% from 'inscriptions/macros.jinja' import render_sub_form, render_text_field, 
                                        render_select_field, render_text_cell,
                                        render_confirm_modal, render_messages %}
 
 {% block custom_css %}
-    <link href="{{ url_for('concours.static', filename='/css/new.css') }}" rel="stylesheet">
+    <link href="{{ url_for('inscriptions.static', filename='/css/new.css') }}" rel="stylesheet">
 {% endblock %}
 
 
@@ -27,12 +27,12 @@
 
 
         <form class="px-4 col-lg-10 col-12 needs-validation" novalidate
-            method="POST" action="{{ url_for('concours.edit_inscr') }}">
+            method="POST" action="{{ url_for('inscriptions.edit') }}">
             
             <!-- Actions initiales -->
             <div class="my-3 g-3">
             <div class="d-flex justify-content-end text-center pb-4">
-                <a href="{{ url_for('concours.view_inscr') }}" class="btn btn-secondary btn-lg m-1">Annuler les modifications</a>
+                <a href="{{ url_for('inscriptions.view') }}" class="btn btn-secondary btn-lg m-1">Annuler les modifications</a>
             </div>
             </div> <!-- End Actions initiales -->
 
@@ -108,7 +108,7 @@
             <!-- Actions finales -->
             <div class="my-3 g-3">
             <div class="d-flex flex-column flex-lg-row justify-content-center text-center pb-4">
-                <a href="{{ url_for('concours.view_inscr') }}" class="btn btn-secondary btn-lg m-1">Annuler les modifications</a>
+                <a href="{{ url_for('inscriptions.view') }}" class="btn btn-secondary btn-lg m-1">Annuler les modifications</a>
                 <button id="ok_button" type="submit" class="btn btn-primary btn-lg m-1">Valider les modifications</button>
             </div>
             </div> <!-- End Actions finales -->
@@ -122,11 +122,11 @@
 {% block vendor_js %}
     <script src="{{ url_for('static', filename='vendor/jquery-3.6.0.min.js') }}"></script>  
     <script src="{{ url_for('static', filename='vendor/jquery-chained/jquery.chained.js') }}"></script>
-    <script src="{{ url_for('concours.static', filename='js/jquery.inputmask.bundle.min.js') }}"></script>
+    <script src="{{ url_for('inscriptions.static', filename='js/jquery.inputmask.bundle.min.js') }}"></script>
 {% endblock %}
 
 {% block custom_js %}
-    <script src="{{ url_for('concours.static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('inscriptions.static', filename='js/main.js') }}"></script>
     <script>
         $(document).ready(function() {
             

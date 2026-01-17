@@ -1,7 +1,7 @@
 
 import os
 import re
-from flask import render_template, request, url_for, redirect, flash
+from flask import render_template, request, url_for, redirect, flash, send_file
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
 from flask_login import current_user
@@ -10,7 +10,7 @@ from wtforms import StringField, PasswordField, DateField
 from wtforms.validators import DataRequired
 
 from core.config import login_manager, db
-from core.utils import UiBlueprint, read_json, get_locale, default_deadline
+from core.utils import UiBlueprint, read_json, get_locale, default_deadline, read_markdown
 from core.auth.tasks import connect_user, disconnect_user, get_user, add_roles_to_user, add_user
 
 
@@ -28,6 +28,23 @@ def index():
     return render_template('home.jinja', hero=hero)
 
 
+@ui.route('/help')
+def help():
+    f = lambda n:read_markdown(os.path.join(static_dir, n))
+    return render_template('home-help.jinja', 
+                           help_intro=f('md/help-intro.md'), 
+                           help_new_inscr=f('md/help-new-inscr.md'), 
+                           help_edit_inscr=f('md/help-edit-inscr.md'), 
+                           help_print_inscr=f('md/help-print-inscr.md'))
+
+
+@ui.route('/communique')
+def communique():
+    nom_fichier_pdf = 'Concours-ENSET-Douala-2026_1er-et-2nd-cycle.pdf'
+    chemin_pdf = os.path.join(static_dir, nom_fichier_pdf)
+    return send_file(chemin_pdf, as_attachment=False, download_name=nom_fichier_pdf)
+
+
 @ui.route('/wait')
 def wait():
     return render_template('landing/coming-soon.jinja',
@@ -35,12 +52,6 @@ def wait():
                            title='Concours 2026',
                            alert_title='En maintenance',
                            alert_msg='Cette plateforme est en maintenance. Elle sera disponible dans:')
-    # locale = get_locale() 
-    # print('\n\tlocale', locale)
-    # msg = os.path.join(static_dir, f'md/hero-msg-{locale}.md')
-    # img = f'img/hero-bg.jpg'
-    # hero = dict(msg=msg, img=img)
-    # return render_template('home.jinja', hero=hero)
 
 
 class RegisterForm(FlaskForm):
@@ -62,12 +73,12 @@ def register():
             flash('Numero de paiement invalide', 'danger')
             return render_template('home-register.jinja', form=form)
         
-        next = url_for('concours.new_inscr')
+        next = url_for('inscriptions.new')
         if get_user(db.session, uid):
             return render_template('landing/message.jinja',
                                     title=_("Avertissement"),
                                     message=_("Ce numero de paiement a deja ete utilise pour une inscription"),
-                                    actions = [{'text':_("Voir l'inscription"), 'url':url_for('concours.view_inscr')},
+                                    actions = [{'text':_("Voir l'inscription"), 'url':url_for('inscriptions.view')},
                                                {'text':_("Revenir a l'accueil"), 'url':url_for('home.logout')}])
 
         pwd = form.pwd.data
@@ -94,7 +105,7 @@ def login():
     form = LoginForm()
     next = request.args.get('next')
     if not next:
-        next = url_for('concours.view_inscr')
+        next = url_for('inscriptions.view')
 
     if form.validate_on_submit():
         uid = form.id.data

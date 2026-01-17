@@ -48,26 +48,9 @@ def _clean_temp_files():
             logger.warning
 
 
-@ui.route('/communique')
-def communique():
-    nom_fichier_pdf = 'Concours-ENSET-Douala-2026_1er-et-2nd-cycle.pdf'
-    chemin_pdf = os.path.join(static_dir, nom_fichier_pdf)
-    return send_file(chemin_pdf, as_attachment=False, download_name=nom_fichier_pdf)
-
-
-@ui.route('/help')
-def help():
-    f = lambda n:read_markdown(os.path.join(static_dir, n))
-    return render_template('concours-help.jinja', 
-                           help_intro=f('md/help-intro.md'), 
-                           help_new_inscr=f('md/help-new-inscr.md'), 
-                           help_edit_inscr=f('md/help-edit-inscr.md'), 
-                           help_print_inscr=f('md/help-print-inscr.md'))
-
-
 @ui.route('/new', methods=['GET', 'POST'])
 @ui.login_required
-def new_inscr():
+def new():
     form = forms.NewInscrForm()
     form.nationalite_id.choices = forms.list_nationalites()
     form.region_origine_id.choices = forms.list_regions()
@@ -110,20 +93,20 @@ def new_inscr():
         
         # finalisation
         db.session.commit()
-        return redirect(url_for('concours.view_inscr'))
+        return redirect(url_for('inscriptions.view'))
 
     print('\nerrors=>\t', form.errors)
-    return render_template('concours-new-inscr.jinja', form=form)
+    return render_template('inscriptions/new.jinja', form=form)
 
 
 @ui.route('/view')
 @ui.login_required
-def view_inscr():
+def view():
     user_id = current_user.id
     inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if inscription is None:
-        return redirect(url_for('concours.new_inscr'))
-    return render_template('concours-view-inscr.jinja', inscription=inscription)
+        return redirect(url_for('inscriptions.new'))
+    return render_template('inscriptions/view.jinja', inscription=inscription)
 
 
 
@@ -133,11 +116,11 @@ def view_inscr():
 
 
 @ui.route('/print')
-def print_inscr():
+def print_():
     user_id = current_user.id
     inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if inscription is None:
-        return redirect(url_for('concours.new_inscr'))
+        return redirect(url_for('inscriptions.new'))
     nom_fichier_pdf = f"fiche_inscription_{user_id.lower()}.pdf"
     nom_fichier_pdf = nom_fichier_pdf.replace('-', '_')
     chemin_pdf_final = os.path.join(temp_dir, nom_fichier_pdf)
@@ -153,7 +136,7 @@ def _verification_noms(inscription, data):
 
 @ui.route('/edit', methods=['GET', 'POST'])
 @ui.login_required
-def edit_inscr():
+def edit():
     user_id = current_user.id
     inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if request.method == 'POST':
@@ -184,7 +167,7 @@ def edit_inscr():
             msg += f"<b>{inscription.nom_complet}</b> "
             msg += "(Vous n'etes pas dans votre inscription)"
             flash(msg, 'danger')
-            return redirect(url_for('concours.view_inscr'))
+            return redirect(url_for('inscriptions.view'))
 
         # pretraitement des donnees
         date_naiss = datetime.strptime(data['date_naissance'], r'%d/%m/%Y')
@@ -211,7 +194,7 @@ def edit_inscr():
             db.session.add(etape)
 
         db.session.commit()
-        return redirect(url_for('concours.view_inscr'))
+        return redirect(url_for('inscriptions.view'))
 
     print('\nerrors=>\t', form.errors)
-    return render_template('concours-edit-inscr.jinja', form=form)
+    return render_template('inscriptions/edit.jinja', form=form)

@@ -1,6 +1,6 @@
 {% extends 'dashboard/layout.jinja' %}
 {% set page_id = 'concours_ins_pg' %}
-{% from 'concours-macros.jinja' import render_card, render_card_field, render_messages %}
+{% from 'inscriptions/macros.jinja' import render_card, render_card_field, render_messages %}
 
 {% block page_header %}
   <h1>{{ _('Fiche Inscription') }}</h1>
@@ -17,8 +17,8 @@
         <div class="row mt-3 d-flex justify-content-center">
           <div class="col-lg-6 col-12 d-flex justify-content-end">
             <a href="{{ url_for('home.logout') }}" class="btn btn-secondary btn-lg m-1">Fermer</a>
-            <a href="{{ url_for('concours.edit_inscr') }}" class="btn btn-secondary btn-lg m-1">Modifier</a>
-            <a href="{{ url_for('concours.print_inscr') }}" class="btn btn-primary btn-lg m-1">Imprimer</a>
+            <a href="{{ url_for('inscriptions.edit') }}" class="btn btn-secondary btn-lg m-1">Modifier</a>
+            <a href="{{ url_for('inscriptions.print_') }}" class="btn btn-primary btn-lg m-1">Imprimer</a>
           </div>
         </div> <!-- End Actions initiales -->
 
@@ -90,8 +90,8 @@
         <div class="row mt-3 d-flex justify-content-center">
           <div class="col-lg-6 col-12 d-flex justify-content-center">
             <a href="{{ url_for('home.logout') }}" class="btn btn-secondary btn-lg m-1">Fermer</a>
-            <a href="{{ url_for('concours.edit_inscr') }}" class="btn btn-secondary btn-lg m-1">Modifier</a>
-            <a href="{{ url_for('concours.print_inscr') }}" class="btn btn-primary btn-lg m-1">Imprimer</a>
+            <a href="{{ url_for('inscriptions.edit') }}" class="btn btn-secondary btn-lg m-1">Modifier</a>
+            <a href="{{ url_for('inscriptions.print_') }}" class="btn btn-primary btn-lg m-1">Imprimer</a>
           </div>
         </div> <!-- End Actions finales -->
 
