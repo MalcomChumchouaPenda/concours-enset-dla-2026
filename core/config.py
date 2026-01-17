@@ -1,6 +1,7 @@
 import os
 import re
 import json
+from collections import OrderedDict
 from importlib import import_module
 
 from flask import Flask, Blueprint
@@ -81,6 +82,11 @@ class ProdConfig(Config):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_BINDS = {}
+
+    # MySQL configuration
+    MYSQL_USER = os.getenv('PIGAL_MYSQL_USER')
+    MYSQL_PASSWORD = os.getenv('PIGAL_MYSQL_PASSWORD')
+    MYSQL_HOST = os.getenv('PIGAL_MYSQL_HOST')
 
 
 class DevConfig(Config):
@@ -180,12 +186,22 @@ def init_dbs(app, env_name):
     db.init_app(app)
     migrate.init_app(app, db)
     ma.init_app(app)
+    app.data_generators = OrderedDict()
+
+def create_dbs(app, env_name):
     with app.app_context():
         if env_name in ['development', 'testing']:
             db.drop_all()
             app.logger.info('drop all table')
+        else:
+            db.create_schema(app, 'default')
+            for key in app.config['SQLALCHEMY_BINDS']:
+                db.create_schema(app, key)
         db.create_all()
         app.logger.info('create all table')
+        for key, method in app.data_generators.items():
+            method()
+            app.logger.info(f'init data: {key}')
 
 
 def register_pages(app):
@@ -240,6 +256,7 @@ def register_services(app, env_name):
 
 def register_service(app, env_name, service_root, url_prefix):
     try:
+        models = import_module(f'{service_root}.models')   # important for migrations
         routes = import_module(f'{service_root}.routes')
         api.add_namespace(routes.ns, path=url_prefix)
         app.logger.info(f'Register service: {service_root} => {url_prefix}')
@@ -247,8 +264,8 @@ def register_service(app, env_name, service_root, url_prefix):
             with app.app_context():
                 defaults = import_module(f'{service_root}.defaults')
                 if hasattr(defaults, 'init_data'):
-                    defaults.init_data()
-                    app.logger.info(f'Init data: {service_root}')
+                    app.data_generators[service_root] = defaults.init_data
+                    app.logger.info(f'register defaults: {service_root}')
                 if hasattr(defaults, 'init_stats'):
                     app.stat_generator.methods.append(defaults.init_stats)
                     app.logger.info(f'register stat generator: {service_root}')

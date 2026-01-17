@@ -4,6 +4,7 @@ import re
 import inspect
 from importlib import import_module
 from flask_sqlalchemy import SQLAlchemy
+import pymysql
 from .constants import (
     STORE_DIR, 
     TESTS_DIR, 
@@ -22,13 +23,12 @@ class ExtendedSQLAlchemy(SQLAlchemy):
     def get_default_uri(cls, env_name):
         if env_name == 'testing':
             return "sqlite:///:memory:"
-        else:
+        if env_name == 'development':
             return f"sqlite:///{os.path.join(STORE_DIR, 'default.db')}"
-        # if env_name == 'development':
-        #     return f"sqlite:///{os.path.join(STORE_DIR, 'default.db')}"
-        # MYSQL_USER = os.getenv('PIGAL_MYSQL_USER')
-        # MYSQL_PWD = os.getenv('PIGAL_MYSQL_PWD')
-        # return f"mysql://{MYSQL_USER}:{MYSQL_PWD}@localhost/default"
+        user = os.getenv('PIGAL_MYSQL_USER')
+        pwd = os.getenv('PIGAL_MYSQL_PASSWORD')
+        host = os.getenv('PIGAL_MYSQL_HOST')
+        return f"mysql+pymysql://{user}:{pwd}@{host}/pigal_default"
     
     def get_binds(self, env_name):
         bind_keys = self._list_core_bind_keys()
@@ -40,17 +40,31 @@ class ExtendedSQLAlchemy(SQLAlchemy):
             binds[bind_key] = bind_uri
         return binds
 
+    def create_schema(self, app, name):
+        user = app.config['MYSQL_USER']
+        password = app.config['MYSQL_PASSWORD']
+        host = app.config['MYSQL_HOST']
+        try:
+            conn = pymysql.connect(user=user, password=password, host=host)
+            cursor = conn.cursor()            
+            cursor.execute(f"CREATE DATABASE IF NOT EXISTS pigal_{name}")
+            print(f"{name} schema created successfully.")
+        except pymysql.MySQLError as err:
+            print(f'\nError: {err}')
+        finally:
+            cursor.close()
+            conn.close()
+
     @classmethod
     def _create_tenant_uri(cls, env_name, key):
         if env_name == 'testing':
             return f"sqlite:///{os.path.join(TESTS_DIR, 'data', key + '.db')}"
-        else:
+        if env_name == 'development':
             return f"sqlite:///{os.path.join(STORE_DIR, key + '.db')}"
-        # if env_name == 'development':
-        #     return f"sqlite:///{os.path.join(STORE_DIR, key + '.db')}"
-        # MYSQL_USER = os.getenv('PIGAL_MYSQL_USER')
-        # MYSQL_PWD = os.getenv('PIGAL_MYSQL_PWD')
-        # return f"mysql://{MYSQL_USER}:{MYSQL_PWD}@localhost/{key}"
+        user = os.getenv('PIGAL_MYSQL_USER')
+        pwd = os.getenv('PIGAL_MYSQL_PASSWORD')
+        host = os.getenv('PIGAL_MYSQL_HOST')
+        return f"mysql+pymysql://{user}:{pwd}@{host}/pigal_{key}"
 
     def _list_core_bind_keys(self):
         bind_keys = []

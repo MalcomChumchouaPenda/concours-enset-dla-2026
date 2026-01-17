@@ -4,7 +4,7 @@ import click
 import markdown as md
 from flask import redirect, url_for, request, session
 from core.utils import read_markdown, ROOT_DIR
-from core.config import create_app
+from core.config import create_app, create_dbs
 # from flask_mail import Mail
 
 import git
@@ -16,6 +16,10 @@ app = create_app()
 
 
 # CLASSIC ROUTES
+@app.before_first_request
+def setup():
+    print('init databases')
+    create_dbs(app, os.getenv('FLASK_ENV'))
 
 @app.route('/')
 def index():

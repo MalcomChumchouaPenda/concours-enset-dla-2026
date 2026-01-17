@@ -33,6 +33,7 @@ MarkupSafe==3.0.2
 marshmallow==4.0.0
 pillow==11.3.0
 pycairo==1.23.0
+pymysql
 python-dotenv==1.1.1
 pytz==2025.2
 referencing==0.30.2

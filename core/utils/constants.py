@@ -29,6 +29,7 @@ SERVICE_NAME_PATTERN = '^([a-z][a-z0-9_]*)_(v[0-9]_+[0-9]+)$'
 
 # load variables from .env
 load_dotenv(__ENV_PATH)
+print('loaded env', __ENV_PATH, os.path.isfile(__ENV_PATH))
 MYSQL_USER = os.getenv('PIGAL_MYSQL_USER')
 MYSQL_PWD = os.getenv('PIGAL_MYSQL_PWD')
 
