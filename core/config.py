@@ -120,10 +120,13 @@ configs = {
 #-------------------------------------
 
 def create_app():
-    env_name = os.getenv('FLASK_ENV', 'production')
     app = Flask(__name__, 
                 static_folder=THEMES_DIR, 
                 template_folder=THEMES_DIR)
+    
+    env_name = choose_config_name(app)
+    print('\tdebug=>', app.debug)
+    print('\ttesting=>', app.testing)
     
     config = prepare_db_config(env_name)
     app.config.from_object(config)
@@ -155,6 +158,12 @@ def create_app():
     build_menus(app)
     return app
 
+def choose_config_name(app):
+    if app.debug:
+        return 'development'
+    if app.testing:
+        return 'testing'
+    return 'production'
 
 def prepare_db_config(env_name):
     config = configs[env_name]
@@ -188,9 +197,9 @@ def init_dbs(app, env_name):
     ma.init_app(app)
     app.data_generators = OrderedDict()
 
-def create_dbs(app, env_name):
+def create_dbs(app):
     with app.app_context():
-        if env_name in ['development', 'testing']:
+        if app.debug or app.testing:
             db.drop_all()
             app.logger.info('drop all table')
         else:

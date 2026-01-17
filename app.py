@@ -19,7 +19,7 @@ app = create_app()
 @app.before_first_request
 def setup():
     print('init databases')
-    create_dbs(app, os.getenv('FLASK_ENV'))
+    create_dbs(app)
 
 @app.route('/')
 def index():
