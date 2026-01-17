@@ -1,6 +1,8 @@
 
 import os
 import re
+
+import Levenshtein as lv
 from flask import render_template, request, url_for, redirect, flash, send_file
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
@@ -12,6 +14,7 @@ from wtforms.validators import DataRequired
 from core.config import login_manager, db
 from core.utils import UiBlueprint, read_json, get_locale, default_deadline, read_markdown
 from core.auth.tasks import connect_user, disconnect_user, get_user, add_roles_to_user, add_user
+from services.concours_v0_0 import models as cmdl
 
 
 ui = UiBlueprint(__name__)
@@ -25,6 +28,7 @@ def index():
     msg = os.path.join(static_dir, f'md/hero-msg-{locale}.md')
     img = f'img/hero-bg.jpg'
     hero = dict(msg=msg, img=img)
+    disconnect_user()
     return render_template('home.jinja', hero=hero)
 
 
@@ -151,23 +155,65 @@ def profile():
     return render_template('home-dashboard-profile.jinja')
 
 
+class RecoverPasswordForm(FlaskForm):
+    id = StringField(_l('numero de paiement'), validators=[DataRequired()])
+    nom_complet = StringField(_l('Noms et prenoms'), validators=[DataRequired()])
+    date_naissance = StringField(_l('Date de naissance'), validators=[DataRequired()])
+    lieu_naissance = StringField(_l('Lieu de naissance'), validators=[DataRequired()])
+
+
+def _verification_infos(inscription, data):
+    ratio1 = lv.ratio(data['nom_complet'].upper(), inscription.nom_complet.upper())
+    ratio2 = lv.ratio(data['date_naissance'], inscription.date_naissance.strftime(r'%d/%m/%Y'))
+    ratio3 = lv.ratio(data['lieu_naissance'].upper(), inscription.lieu_naissance.upper())
+    ratio_moy = sum([ratio1, ratio2, ratio3]) / 3
+    return ratio_moy >= 0.85
+
+@ui.route('/recover-password', methods=['GET', 'POST'])
+def recover_password():
+    next = request.args.get('next')
+    if not next:
+        next = url_for('inscriptions.view')
+
+    form = RecoverPasswordForm()
+    if form.validate_on_submit():
+        data = form.data
+        query = cmdl.InscriptionConcours.query.filter_by(id=data['id'])
+        inscription = query.one_or_none()
+        if inscription is None:
+            flash('Numero de paiement inconnu', 'danger')
+            return render_template('home-recover-password.jinja', form=form, next=next)
+        
+        if not _verification_infos(inscription, data):
+            flash('Informations incorrectes', 'danger')
+            return render_template('home-recover-password.jinja', form=form, next=next)
+        user = get_user(db.session, inscription.id)
+        user.set_password('X')
+        db.session.commit()
+        connect_user(user.id, 'X')
+        return redirect(url_for('home.change_password', next=next))
+    return render_template('home-recover-password.jinja', form=form, next=next)
+
+
 class ChangePasswordForm(FlaskForm):
     new_pwd = PasswordField(_l('Nouveau mot de passe'), validators=[DataRequired()])
     confirm_pwd = PasswordField(_l('Confirmer mot de passe'), validators=[DataRequired()])
 
 @ui.route('/change-password', methods=['GET', 'POST'])
 def change_password():
-    error = None
+    next = request.args.get('next')
+    if not next:
+        next = url_for('home.profile')
+
     form = ChangePasswordForm()
     if form.validate_on_submit():
         new_pwd = form.new_pwd.data
         if new_pwd == form.confirm_pwd.data:
             current_user.set_password(new_pwd)
             db.session.commit()
-            return redirect(url_for('home.profile'))
-        error = "Mot de passe non confirmé"
-        form = ChangePasswordForm()
-    return render_template('home-change-password.jinja', form=form, error=error)
+            return redirect(next)
+        flash("Mot de passe non confirmé", 'danger')
+    return render_template('home-change-password.jinja', form=form, next=next)
 
 
 @ui.route('/dashboard')

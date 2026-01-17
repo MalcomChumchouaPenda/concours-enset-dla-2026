@@ -88,3 +88,21 @@
     {% endfor %}
   </ul>
 {% endmacro %}
+
+
+{% macro render_messages() %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="field row my-1 py-0 w-100 d-flex justify-content-center">
+          <div class="col-10 col-lg-6 text-center">
+            <div class="alert alert-{{ category }} alert-dismissible fade show mb-0" role="alert">
+              {{ message }}
+              <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith%}
+{% endmacro %}
