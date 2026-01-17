@@ -214,6 +214,4 @@ archives access secret/
 
 
 # pdf files
-**.pdf
 **/temp/**.pdf
-.*\.pdf
