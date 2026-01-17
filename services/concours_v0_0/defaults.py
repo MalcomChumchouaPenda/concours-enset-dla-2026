@@ -75,17 +75,17 @@ def _init_candidates(session):
 
     candidat = {
         'id': uid,
-        'prenom': 'yu', 
-        'nom': 'KONOFINO NEMALA ARISTIDE JUNIOR', 
+        'prenom': 'ARISTIDE JUNIOR', 
+        'nom': 'KONOFINO NEMALA', 
         'date_naissance': datetime(2026, 1, 22).date(), 
-        'lieu_naissance': 'rt', 
+        'lieu_naissance': 'DOUALA', 
         'sexe_id': 'F', 
         'situation_matrimoniale_id': 'C', 
         'departement_origine_id': 'CO', 
         'langue_id': 'EN', 
         'classe_id': 'BTP1', 
         'centre_id': 'BAF', 
-        'telephone': '65523', 
+        'telephone': '655234566', 
         'email': '',
         'diplome_id':'BAC_C',
         'numero_dossier':'26BAF-BAC-C0001'
@@ -94,7 +94,7 @@ def _init_candidates(session):
     cursus = {
         'annee': '2004', 
         'diplome': 'BAC C', 
-        'etablissement': 'Lycee de New-Bell',
+        'etablissement': 'LYCEE DE NEW-BELL',
         'mention': 'ASSEZ BIEN',
         'inscription_id':uid,
     }

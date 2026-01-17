@@ -33,7 +33,7 @@
             {{ render_card_field('num_paiement', 'Numero paiement', current_user.id, 'col-lg-3 col-8') }} 
             <div class="col-lg-3 col-2"></div>
             {{ render_card_field('centre_id', 'Centre', inscription.centre.nom.upper(), 'col-lg-3 col-8') }} 
-            {{ render_card_field('niveau_id', 'Niveau', inscription.classe.niveau, 'col-lg-3 col-8') }} 
+            {{ render_card_field('niveau_id', 'Niveau', inscription.classe.niveau.upper(), 'col-lg-3 col-8') }} 
             {{ render_card_field('diplome_id', 'Diplome', inscription.diplome.nom_fr.upper(), 'col-lg-6 col-12') }} 
             {{ render_card_field('filiere_id', 'Filiere', inscription.classe.option.filiere.nom_fr.upper(), 'col-lg-6 col-12') }} 
             {{ render_card_field('option_id', 'Option', inscription.classe.option.nom_fr.upper(), 'col-lg-6 col-12') }} 
@@ -44,14 +44,14 @@
             {{ render_card_field('nom', 'Noms', inscription.nom.upper(), 'col-lg-6 col-12') }}  
             {{ render_card_field('prenom', 'Prenoms', inscription.prenom.upper(), 'col-lg-6 col-12') }}  
             {{ render_card_field('date_naissance', 'Date naissance', inscription.date_naissance.strftime('%d/%m/%Y'), 'col-lg-4 col-12')}}  
-            {{ render_card_field('lieu_naissance', 'Lieu naissance', inscription.lieu_naissance, 'col-lg-8 col-12')}} 
-            {{ render_card_field('sexe_id', 'Sexe', inscription.sexe, 'col-lg-4 col-8') }}
-            {{ render_card_field('situation_id', 'Situation matrimoniale', inscription.situation_matrimoniale, 'col-lg-4 col-8') }}
+            {{ render_card_field('lieu_naissance', 'Lieu naissance', inscription.lieu_naissance.upper(), 'col-lg-8 col-12')}} 
+            {{ render_card_field('sexe_id', 'Sexe', inscription.sexe.upper(), 'col-lg-4 col-8') }}
+            {{ render_card_field('situation_id', 'Situation matrimoniale', inscription.situation_matrimoniale.upper(), 'col-lg-4 col-8') }}
         {% endcall%}  <!-- End Info generales -->
 
         <!-- Origine géographique -->
         {% call render_card(inscription, '3. Origine géographique')%}
-            {{ render_card_field('langue_id', 'Langue', inscription.langue, 'col-lg-6 col-8') }}
+            {{ render_card_field('langue_id', 'Langue', inscription.langue.upper(), 'col-lg-6 col-8') }}
             {{ render_card_field('nationalite_id', 'Nationalite', inscription.departement_origine.region.pays.nationalite.upper(), 'col-lg-6 col-12') }}
             {{ render_card_field('region_id', "Region d'origine", inscription.departement_origine.region.nom.upper(), 'col-lg-6 col-12') }}
             {{ render_card_field('departement_id', "Departement d'origine", inscription.departement_origine.nom.upper(), 'col-lg-6 col-12') }}

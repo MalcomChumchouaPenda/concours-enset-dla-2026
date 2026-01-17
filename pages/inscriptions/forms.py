@@ -29,7 +29,7 @@ def validators1():
 
 def list_niveaux():
     items = [('', 'Choisir')]
-    items.extend([(f'N{k}', v) for k,v in cmdl.NIVEAUX.items()])
+    items.extend([(f'N{k}', v.upper()) for k,v in cmdl.NIVEAUX.items()])
     return items
 
 def list_filieres():
@@ -37,7 +37,7 @@ def list_filieres():
     items = []
     for classe in query.all():
         filiere = classe.option.filiere
-        item = (filiere.id, filiere.nom_fr, f'N{classe.niveau_id}')
+        item = (filiere.id, filiere.nom_fr.upper(), f'N{classe.niveau_id}')
         items.append(item)
     items = list(set(items))  # remove duplicated
     items = [(k, v, {'data-chained':d}) for k, v, d in items]
@@ -45,7 +45,7 @@ def list_filieres():
     return items
 
 def list_options():
-    f = lambda obj: (obj.id, obj.nom_fr, {'data-chained':obj.filiere_id})
+    f = lambda obj: (obj.id, obj.nom_fr.upper(), {'data-chained':obj.filiere_id})
     query = cmdl.OptionConcours.query
     items = [('', 'Choisir', {})]
     items.extend([f(obj) for obj in query.all()])
@@ -54,25 +54,25 @@ def list_options():
 def list_centres():
     query = cmdl.CentreConcours.query
     items = [('', 'Choisir')]
-    items.extend([(obj.id, obj.nom) for obj in query.all()])
+    items.extend([(obj.id, obj.nom.upper()) for obj in query.all()])
     return items
 
 
 def list_nationalites():
     query = rmdl.Pays.query
     items = [('', 'Choisir')]
-    items.extend([(obj.id, obj.nationalite) for obj in query.all()])
+    items.extend([(obj.id, obj.nationalite.upper()) for obj in query.all()])
     return items
 
 def list_regions():
-    f = lambda obj: (obj.id, obj.nom, {'data-chained':obj.pays_id})
+    f = lambda obj: (obj.id, obj.nom.upper(), {'data-chained':obj.pays_id})
     query = rmdl.Region.query
     items = [('', 'Choisir', {})]
     items.extend([f(obj) for obj in query.all()])
     return items
 
 def list_departements():
-    f = lambda obj: (obj.id, obj.nom, {'data-chained':obj.region_id})
+    f = lambda obj: (obj.id, obj.nom.upper(), {'data-chained':obj.region_id})
     query = rmdl.Departement.query
     items = [('', 'Choisir', {})]
     items.extend([f(obj) for obj in query.all()])
@@ -80,7 +80,7 @@ def list_departements():
 
 
 def list_diplomes():
-    f = lambda obj: (obj.id, obj.nom_fr, {'data-chained': f'N{obj.niveau_id}'})
+    f = lambda obj: (obj.id, obj.nom_fr.upper(), {'data-chained': f'N{obj.niveau_id}'})
     query = cmdl.DiplomeConcours.query
     items = [('', 'Choisir', {})]
     items.extend([f(obj) for obj in query.all()])

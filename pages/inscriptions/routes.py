@@ -48,6 +48,16 @@ def _clean_temp_files():
         except OSError as e:
             logger.warning
 
+def _upper_data_values(data):
+    keys = list(data.keys())
+    for key in keys:
+        if key.endswith('_id'):
+            continue
+        value = data[key]
+        if isinstance(value, str):
+            data[key] = value.upper()
+    return data
+
 
 @ui.route('/new', methods=['GET', 'POST'])
 def new():
@@ -84,6 +94,7 @@ def new():
         data['id'] = uid
         data['classe_id'] = classe_id
         data['date_naissance'] = date_naiss
+        data = _upper_data_values(data)
 
         # retrait des donnees inutiles
         invalid_cols = ['csrf_token', 'nationalite_id', 
@@ -99,6 +110,7 @@ def new():
         db.session.add(inscription)     
         for row in cursus:  
             row['inscription_id'] = uid
+            row = _upper_data_values(row)
             etape = cmdl.EtapeCursus(**row)
             db.session.add(etape)
 
@@ -171,11 +183,11 @@ def edit():
         form.region_origine_id.data = inscription.departement_origine.region_id
         form.departement_origine_id.data = inscription.departement_origine_id
 
-    form.filiere.data = inscription.classe.option.filiere.nom_fr
-    form.option.data = inscription.classe.option.nom_fr
-    form.niveau.data = inscription.classe.niveau
-    form.centre.data = inscription.centre.nom
-    form.diplome.data = inscription.diplome.nom_fr
+    form.filiere.data = inscription.classe.option.filiere.nom_fr.upper()
+    form.option.data = inscription.classe.option.nom_fr.upper()
+    form.niveau.data = inscription.classe.niveau.upper()
+    form.centre.data = inscription.centre.nom.upper()
+    form.diplome.data = inscription.diplome.nom_fr.upper()
     form.nationalite_id.choices = forms.list_nationalites()
     form.region_origine_id.choices = forms.list_regions()
     form.departement_origine_id.choices = forms.list_departements()
@@ -196,6 +208,7 @@ def edit():
         date_naiss = datetime.strptime(data['date_naissance'], r'%d/%m/%Y')
         date_naiss = date_naiss.date()
         inscription.date_naissance = date_naiss
+        data = _upper_data_values(data)
 
         # modification simple
         simple_fields = ['prenom', 'nom', 'lieu_naissance', 
@@ -213,6 +226,7 @@ def edit():
         # add new cursus
         for row in cursus:
             row['inscription_id'] = user_id
+            row = _upper_data_values(row)
             etape = cmdl.EtapeCursus(**row)
             db.session.add(etape)
 
