@@ -360,3 +360,11 @@
     </div>
 </div>
 {% endmacro %}
+
+
+{% macro render_notes(level='warning') %}
+<div class="d-flex flex-row justify-content-start align-items-start">
+    <i class="text-{{ level }} bi bi-exclamation-triangle ms-0 me-2"></i>
+    {{ caller() }}
+</div>
+{% endmacro %}

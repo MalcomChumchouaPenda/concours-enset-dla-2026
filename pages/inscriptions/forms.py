@@ -94,7 +94,7 @@ class CursusRowForm(FlaskForm):
 
     # information d'un element du cursus
     annee = StringField(_l('Année'), validators=validators1())
-    diplome = StringField(_l('Diplome'), validators=validators1())
+    diplome = StringField(_l('Diplôme'), validators=validators1())
     etablissement = StringField(_l('Etablissement'), validators=validators1())
     mention = StringField(_l('Mention'), validators=validators1())
 
@@ -135,7 +135,7 @@ class NewInscrForm(InscrForm):
     filiere_id = AttribSelectField(_l('Filière sollicitée'), validators=validators1())
     option_id = AttribSelectField(_l('Option sollicitée'), validators=validators1())
     centre_id = SelectField(_l("Centre examen"), validators=validators1())
-    diplome_id = SelectField(_l("Diplôme donnant droit au concours"), validators=validators1())
+    diplome_id = SelectField(_l("Diplôme du candidat"), validators=validators1())
 
 
 class EditInscrForm(InscrForm):

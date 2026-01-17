@@ -2,7 +2,8 @@
 {% set page_id = 'concours_inscription_pg' %}
 {% from 'inscriptions/macros.jinja' import render_sub_form, render_text_field, 
                                        render_select_field, render_text_cell,
-                                       render_confirm_modal, render_messages %}
+                                       render_confirm_modal, render_messages,
+                                       render_notes %}
 
 {% block custom_css %}
     <link href="{{ url_for('inscriptions.static', filename='/css/new.css') }}" rel="stylesheet">
@@ -26,9 +27,9 @@
             <ul>
                 <li><b>Option choisie :</b> <span id="option_value"></span></li>
                 <li><b>centre examen :</b> <span id="centre_value"></span></li>
-                <li><b>diplome d'entree :</b> <span id="diplome_value"></span></li>
+                <li><b>diplôme du candidat:</b> <span id="diplome_value"></span></li>
             </ul>
-            <p>Confirmer-vous votre inscription?</p>
+            <p>Validez-vous vraiment cette inscription?</p>
         {% endcall %}
 
       <form class="px-4 col-lg-10 col-12 needs-validation" novalidate
@@ -73,31 +74,43 @@
         
         <!-- Cursus academique -->
         {% call render_sub_form(form, "4. Cursus academique")%}
-        <div class="table-responsive">
-            <table id="cursus_table" class="table table-bordered table-sm">
-                <thead>
-                        <tr>
-                        <th>Année</th>
-                        <th>Etablissement</th>
-                        <th>Diplôme</th>
-                        <th>Mention</th>
-                        <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in form.cursus %}
-                        <tr>
-                            <td>{{ render_text_cell(row.annee, '') }}</td>
-                            <td>{{ render_text_cell(row.etablissement, '') }}</td>
-                            <td>{{ render_text_cell(row.diplome, '') }}</td>
-                            <td>{{ render_text_cell(row.mention, '') }}</td>
-                            <td><button type="button" class="btn btn-sm btn-danger delete-row">Supprimer</button></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-            </table>
-        </div>
-        <button type="button" id="add_row" class="btn btn-primary">Ajouter une ligne</button>
+            {% call render_notes() %}
+            <div class="d-flex flex-column">
+                Precisez pour chaque diplôme:
+                <ul>
+                    <li>L'annee d'obtention</li>
+                    <li>L'etablissement frequente</li>
+                    <li>Le nom du diplôme</li>
+                    <li>La mention obtenue</li>
+                </ul>
+            </div>
+            {% endcall %}
+            
+            <div class="table-responsive-md">
+                <table id="cursus_table" class="table table-bordered table-sm">
+                    <thead>
+                            <tr>
+                            <th>Année</th>
+                            <th>Etablissement</th>
+                            <th>Diplôme</th>
+                            <th>Mention</th>
+                            <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in form.cursus %}
+                            <tr>
+                                <td>{{ render_text_cell(row.annee, '') }}</td>
+                                <td>{{ render_text_cell(row.etablissement, '') }}</td>
+                                <td>{{ render_text_cell(row.diplome, '') }}</td>
+                                <td>{{ render_text_cell(row.mention, '') }}</td>
+                                <td><button type="button" class="btn btn-sm btn-danger delete-row">Supprimer</button></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                </table>
+            </div>
+            <button type="button" id="add_row" class="btn btn-primary">Ajouter un diplôme</button>
         {% endcall%} <!-- End cursus academique-->
 
         <!-- Coordonnées -->
