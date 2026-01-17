@@ -25,6 +25,14 @@ $(document).ready(function() {
         }, 200) // duration of animation
     }
 
+    // activate invalid-feedback
+    $(this).on('click', '.invalid-feedback', function() {
+
+        // find related input / select / textarea
+        const $input = $(this).siblings('input, select, textarea').first();
+        if (!$input.length) return;
+        $input.trigger('focus');
+    })
 
     // Ajouter une nouvelle ligne du cursus
     $('#add_row').click(function() {
