@@ -44,7 +44,7 @@
             <div class="col-10 col-lg-4 flex-column align-items-start">
                 <input class="btn btn-primary w-100" type="submit" value="{{ _('Valider') }}">
                 <ul class="login-links">
-                    <li><a class="btn btn-link mt-5" href="#">{{ _("Besoin d'aide ?") }}</a></li>
+                    <li><a class="btn btn-link mt-5" href="{{ url_for('concours.help') }}">{{ _("Besoin d'aide ?") }}</a></li>
                     <li><a class="btn btn-link mt-1" href="{{ url_for('home.index') }}">{{ _("Retour a l'accueil !") }}</a></li>
                 </ul>
             </div>
