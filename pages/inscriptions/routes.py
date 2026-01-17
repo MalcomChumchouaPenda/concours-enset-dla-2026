@@ -125,7 +125,7 @@ def print_():
     nom_fichier_pdf = nom_fichier_pdf.replace('-', '_')
     chemin_pdf_final = os.path.join(temp_dir, nom_fichier_pdf)
     fichier_pdf = ctsk.generer_fiche_inscription(inscription, chemin_pdf_final)
-    return send_file(fichier_pdf, as_attachment=True, download_name=nom_fichier_pdf)
+    return send_file(fichier_pdf, as_attachment=False, download_name=nom_fichier_pdf)
 
 
 def _verification_noms(inscription, data):
