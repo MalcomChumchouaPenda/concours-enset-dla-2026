@@ -128,10 +128,10 @@
 {% endblock %}
 
 {% block custom_js %}
-    <script src="{{ url_for('concours.static', filename='js/cursus.js') }}"></script>
+    <script src="{{ url_for('concours.static', filename='js/main.js') }}"></script>
     <script>
         $(document).ready(function() {
-            
+
             // chained select fields
             $("#diplome_id").chained("#niveau_id");
             $("#filiere_id").chained("#niveau_id");
@@ -142,19 +142,20 @@
             // format date
             $('#date_naissance').inputmask('99/99/9999');
 
+
             // trigger the modal confirmation
             $("#ok_button").click(function(event) {
-                var option_value = $('#option_id option:selected').text();
-                var diplome_value = $('#diplome_id option:selected').text();
-                var centre_value = $('#centre_id option:selected').text();
-                var test = option_value !== null && option_value !== "";
-                test = test && diplome_value !== null && diplome_value !== "";
-                test = test && centre_value !== null && centre_value !== "";
+                var optionId = $('#option_id').val();
+                var diplomeId = $('#diplome_id').val();
+                var centreId = $('#centre_id').val();
+                var test = optionId !== null && optionId !== "";
+                test = test && diplomeId !== null && diplomeId !== "";
+                test = test && centreId !== null && centreId !== "";
                 if ( test ) {
                     event.preventDefault();
-                    $('#option_value').text(option_value);
-                    $('#diplome_value').text(diplome_value);
-                    $('#centre_value').text(centre_value);
+                    $('#option_value').text($('#option_id option:selected').text());
+                    $('#diplome_value').text($('#diplome_id option:selected').text());
+                    $('#centre_value').text($('#centre_id option:selected').text());
                     $('#confirm_modal').modal('show');
                 }
             })

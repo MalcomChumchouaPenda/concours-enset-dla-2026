@@ -139,9 +139,20 @@ def _verification_noms(inscription, data):
 def edit_inscr():
     user_id = current_user.id
     inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
+    if request.method == 'POST':
+        form = forms.EditInscrForm()
+    else:
+        form = forms.EditInscrForm(obj=inscription)
+        form.date_naissance.data = inscription.date_naissance.strftime(r'%d/%m/%Y')
+        form.nationalite_id.data = inscription.departement_origine.region.pays_id
+        form.region_origine_id.data = inscription.departement_origine.region_id
+        form.departement_origine_id.data = inscription.departement_origine_id
 
-    # create a edit form
-    form = forms.EditInscrForm(obj=inscription)
+    form.filiere.data = inscription.classe.option.filiere.nom_fr
+    form.option.data = inscription.classe.option.nom_fr
+    form.niveau.data = inscription.classe.niveau
+    form.centre.data = inscription.centre.nom
+    form.diplome.data = inscription.diplome.nom_fr
     form.nationalite_id.choices = forms.list_nationalites()
     form.region_origine_id.choices = forms.list_regions()
     form.departement_origine_id.choices = forms.list_departements()
@@ -186,13 +197,4 @@ def edit_inscr():
         return redirect(url_for('concours.view_inscr'))
 
     print('\nerrors=>\t', form.errors)
-    form.filiere.data = inscription.classe.option.filiere.nom_fr
-    form.option.data = inscription.classe.option.nom_fr
-    form.niveau.data = inscription.classe.niveau
-    form.centre.data = inscription.centre.nom
-    form.diplome.data = inscription.diplome.nom_fr
-    form.date_naissance.data = inscription.date_naissance.strftime(r'%d/%m/%Y')
-    form.nationalite_id.data = inscription.departement_origine.region.pays_id
-    form.region_origine_id.data = inscription.departement_origine.region_id
-    form.departement_origine_id.data = inscription.departement_origine_id
     return render_template('concours-edit-inscr.jinja', form=form)
