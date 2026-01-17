@@ -21,7 +21,6 @@
   }
 
   document.querySelectorAll('.countdown').forEach(function(countDownItem) {
-    console.log(countDownItem);
     updateCountDown(countDownItem);
     setInterval(function() {
       updateCountDown(countDownItem);

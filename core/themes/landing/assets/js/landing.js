@@ -61,8 +61,6 @@
           return;
       let $hero = document.querySelector('#hero');
       let threshold = $hero.clientHeight - $header.clientHeight;
-      console.log($hero.clientHeight)
-      console.log($hero.children.length)
       if ($hero.children.length == 0) {
         $body.classList.add('scrolled');
         $body.classList.add('scrolled-light');
@@ -338,7 +336,6 @@
               block:'center'
             })
           }
-          console.log(firstInvalid);
           event.preventDefault()
           event.stopPropagation()
         }

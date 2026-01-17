@@ -10,7 +10,7 @@ from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
 
 from core.config import db
-from core.utils import UiBlueprint
+from core.utils import UiBlueprint, read_markdown
 from core.auth.tasks import get_user, add_user, add_roles_to_user, connect_user
 from services.regions_v0_0 import tasks as rtsk
 from services.formations_v0_1 import tasks as ftsk
@@ -53,6 +53,16 @@ def communique():
     nom_fichier_pdf = 'Concours-ENSET-Douala-2026_1er-et-2nd-cycle.pdf'
     chemin_pdf = os.path.join(static_dir, nom_fichier_pdf)
     return send_file(chemin_pdf, as_attachment=False, download_name=nom_fichier_pdf)
+
+
+@ui.route('/help')
+def help():
+    f = lambda n:read_markdown(os.path.join(static_dir, n))
+    return render_template('concours-help.jinja', 
+                           help_intro=f('md/help-intro.md'), 
+                           help_new_inscr=f('md/help-new-inscr.md'), 
+                           help_edit_inscr=f('md/help-edit-inscr.md'), 
+                           help_print_inscr=f('md/help-print-inscr.md'))
 
 
 @ui.route('/new', methods=['GET', 'POST'])

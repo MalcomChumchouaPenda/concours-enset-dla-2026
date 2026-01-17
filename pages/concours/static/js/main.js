@@ -7,7 +7,6 @@ $(document).ready(function() {
     if (firstInvalidCell.length) {
         var tableContainer = firstInvalidCell.closest('.table-responsive');
         var offset = firstInvalidCell.offset();
-        console.log(tableContainer.html())
 
         // vertical scroll
         $('html, body').animate({

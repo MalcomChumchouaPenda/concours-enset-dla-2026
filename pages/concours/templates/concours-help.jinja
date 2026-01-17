@@ -1,0 +1,57 @@
+{% extends "landing/layout.jinja" %}
+{% set page_id = 'concours_help_pg' %}
+
+{% block page_sections %}
+
+  <!-- section intro -->
+  <section class="about mt-4 mb-2">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-8 col-12">
+          <h1>Aide</h1>
+        </div>
+        <div class="col-lg-8 col-12 about-content">
+          {{ help_intro }}
+        </div>
+      </div>
+    </div>
+  </section><!-- /section about -->
+
+  <!-- section new help -->
+  <section id="new-help" class="about light-background mt-2">
+    {{ landing.section_title(_('Inscription'), subtitle=_('Faire son <b>inscription</b>')) }}
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-10 col-12 about-content">
+          {{ help_new_inscr }}
+        </div>
+      </div>
+    </div>
+  </section><!-- /section new help -->
+  
+
+  <!-- section print help -->
+  <section id="print-help" class="about mt-2">
+    {{ landing.section_title(_('Impression'), subtitle=_('<b>Imprimer</b> son inscription')) }}
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-10 col-12 about-content">
+          {{ help_print_inscr }}
+        </div>
+      </div>
+    </div>
+  </section><!-- /section print help -->
+  
+
+  <!-- section edit help -->
+  <section id="edit-help" class="about light-background mt-2 mb-3">
+    {{ landing.section_title(_('Modification'), subtitle=_('<b>Modifier</b> son inscription')) }}
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-10 col-12 about-content">
+          {{ help_edit_inscr }}
+        </div>
+      </div>
+    </div>
+  </section><!-- /section edit help -->
+{% endblock %}
