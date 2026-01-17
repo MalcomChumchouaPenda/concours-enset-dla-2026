@@ -48,6 +48,13 @@ def _clean_temp_files():
             logger.warning
 
 
+@ui.route('/communique')
+def communique():
+    nom_fichier_pdf = 'Concours-ENSET-Douala-2026_1er-et-2nd-cycle.pdf'
+    chemin_pdf = os.path.join(static_dir, nom_fichier_pdf)
+    return send_file(chemin_pdf, as_attachment=False, download_name=nom_fichier_pdf)
+
+
 @ui.route('/new', methods=['GET', 'POST'])
 @ui.login_required
 def new_inscr():
