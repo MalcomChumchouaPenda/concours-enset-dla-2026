@@ -53,8 +53,9 @@ def _clean_temp_files():
 def new():
     # verification des etapes
     current_step = session.get('step', 'undefined')
-    if current_step in ['undefined', 'submitted']:
-        session['step'] = 'reset'
+    print('\ncurrentstep=>', current_step)
+    if not current_step in ['registered']:
+        session['step'] = 'undefined'
         for key in ['candidat_id', 'candidat_pwd']:
             if key in session:
                 session.pop(key)
@@ -216,6 +217,7 @@ def edit():
             db.session.add(etape)
 
         db.session.commit()
+        session['step'] = 'edited'
         flash('Inscription modifiee avec success', 'success')
         return redirect(url_for('inscriptions.view'))
 

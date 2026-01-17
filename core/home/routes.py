@@ -82,7 +82,7 @@ def register():
             return render_template('landing/message.jinja',
                                     title=_("Avertissement"),
                                     message=_("Ce numero de paiement a deja ete utilise pour une inscription"),
-                                    actions = [{'text':_("Voir l'inscription"), 'url':url_for('inscriptions.view')},
+                                    actions = [{'text':_("Voir l'inscription"), 'url':url_for('home.login')},
                                                {'text':_("Revenir a l'accueil"), 'url':url_for('home.logout')}])
 
         pwd = form.pwd.data
