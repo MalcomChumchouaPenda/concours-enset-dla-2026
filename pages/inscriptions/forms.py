@@ -21,14 +21,14 @@ def choices(data, only_keys=False):
             items = sorted([(k,v.upper()) for k,v in data.items()])
         else:
             items = sorted([(k,v.upper()) for k,v in data])
-    items.insert(0, ('', 'Choisir...'))
+    items.insert(0, ('', _('Choisir...')))
     return items
 
 def validators1():
     return [DataRequired()]
 
 def list_niveaux():
-    items = [('', 'Choisir')]
+    items = [('', _('Choisir'))]
     items.extend([(f'N{k}', v.upper()) for k,v in cmdl.NIVEAUX.items()])
     return items
 
@@ -41,40 +41,40 @@ def list_filieres():
         items.append(item)
     items = list(set(items))  # remove duplicated
     items = [(k, v, {'data-chained':d}) for k, v, d in items]
-    items.insert(0, ('', 'Choisir', {}))
+    items.insert(0, ('', _('Choisir'), {}))
     return items
 
 def list_options():
     f = lambda obj: (obj.id, obj.nom_fr.upper(), {'data-chained':obj.filiere_id})
     query = cmdl.OptionConcours.query
-    items = [('', 'Choisir', {})]
+    items = [('', _('Choisir'), {})]
     items.extend([f(obj) for obj in query.all()])
     return items
 
 def list_centres():
     query = cmdl.CentreConcours.query
-    items = [('', 'Choisir')]
+    items = [('', _('Choisir'))]
     items.extend([(obj.id, obj.nom.upper()) for obj in query.all()])
     return items
 
 
 def list_nationalites():
     query = rmdl.Pays.query
-    items = [('', 'Choisir')]
+    items = [('', _('Choisir'))]
     items.extend([(obj.id, obj.nationalite.upper()) for obj in query.all()])
     return items
 
 def list_regions():
     f = lambda obj: (obj.id, obj.nom.upper(), {'data-chained':obj.pays_id})
     query = rmdl.Region.query
-    items = [('', 'Choisir', {})]
+    items = [('', _('Choisir'), {})]
     items.extend([f(obj) for obj in query.all()])
     return items
 
 def list_departements():
     f = lambda obj: (obj.id, obj.nom.upper(), {'data-chained':obj.region_id})
     query = rmdl.Departement.query
-    items = [('', 'Choisir', {})]
+    items = [('', _('Choisir'), {})]
     items.extend([f(obj) for obj in query.all()])
     return items
 
@@ -82,7 +82,7 @@ def list_departements():
 def list_diplomes():
     f = lambda obj: (obj.id, obj.nom_fr.upper(), {'data-chained': f'N{obj.niveau_id}'})
     query = cmdl.DiplomeConcours.query
-    items = [('', 'Choisir', {})]
+    items = [('', _('Choisir'), {})]
     items.extend([f(obj) for obj in query.all()])
     return items
 
@@ -145,4 +145,4 @@ class EditInscrForm(InscrForm):
     filiere = StringField(_l('Filière sollicitée'))
     option = StringField(_l('Option sollicitée'))
     centre = StringField(_l("Centre examen"))
-    diplome = StringField(_l("Diplôme donnant droit au concours"))
+    diplome = StringField(_l("Diplôme du candidat"))

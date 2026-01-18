@@ -24,7 +24,7 @@
 
         <!-- Confirmation -->
         {% call render_confirm_modal('confirm_modal', 'confirm_button') %}
-            <p>Voulez-vous vraiment modifier cette fiche?</p>
+            <p>{{ _('Voulez-vous vraiment modifier cette fiche?') }}</p>
         {% endcall %}
 
 
@@ -34,7 +34,7 @@
             <!-- Actions initiales -->
             <div class="my-3 g-3">
             <div class="d-flex justify-content-lg-end justify-content-center text-center pb-4">
-                <a href="{{ url_for('inscriptions.view') }}" class="btn btn-secondary btn-lg m-1">Annuler les modifications</a>
+                <a href="{{ url_for('inscriptions.view') }}" class="btn btn-secondary btn-lg m-1">{{ _('Annuler les modifications') }}</a>
             </div>
             </div> <!-- End Actions initiales -->
 
@@ -42,7 +42,7 @@
             {{ form.csrf_token }}
 
             <!-- Choix concours -->
-            {% call render_sub_form(form, "1. Concours")%}
+            {% call render_sub_form(form, _("1. Concours"))%}
                 {{ render_select_field(form.centre, 'col-lg-3 col-10', disabled=True, required=false) }} 
                 {{ render_select_field(form.niveau, 'col-lg-3 col-10', disabled=True, required=false) }} 
                 {{ render_select_field(form.diplome, 'col-lg-6 col-10', disabled=True, required=false) }}
@@ -51,7 +51,7 @@
             {% endcall%} <!-- End choix concours-->
 
             <!-- Info generales -->
-            {% call render_sub_form(form, '2. Informations personnelles')%}  
+            {% call render_sub_form(form, _('2. Informations personnelles'))%}  
                 {{ render_text_field(form.nom, 'col-lg-6 col-10') }}  
                 {{ render_text_field(form.prenom, 'col-lg-6 col-10', required=false) }}  
                 {{ render_text_field(form.date_naissance, 'col-lg-4 col-10')}}  
@@ -61,7 +61,7 @@
             {% endcall%}  <!-- End Info generales -->
 
             <!-- Origine géographique -->
-            {% call render_sub_form(form, '3. Origine géographique')%}
+            {% call render_sub_form(form, _('3. Origine géographique'))%}
                 {{ render_select_field(form.langue_id, 'col-lg-6 col-10') }}
                 {{ render_select_field(form.nationalite_id, 'col-lg-6 col-10') }}
                 {{ render_select_field(form.region_origine_id, 'col-lg-6 col-10') }}
@@ -69,15 +69,15 @@
             {% endcall%} <!-- End Origine géographique -->
             
             <!-- Cursus academique -->
-            {% call render_sub_form(form, "4. Cursus academique")%}
+            {% call render_sub_form(form, _("4. Cursus academique"))%}
             <div class="table-responsive-md">
                 <table id="cursus_table" class="table table-bordered table-sm">
                     <thead>
                             <tr>
-                            <th>Année</th>
-                            <th>Etablissement</th>
-                            <th>Diplôme</th>
-                            <th>Mention</th>
+                            <th>{{ _('Année') }}</th>
+                            <th>{{ _('Etablissement') }}</th>
+                            <th>{{ _('Diplôme') }}</th>
+                            <th>{{ _('Mention') }}</th>
                             <th></th>
                             </tr>
                         </thead>
@@ -90,18 +90,18 @@
                                 <td>{{ render_text_cell(row.mention, '') }}</td>
                                 <td>
                                     {{ row.csrf_token }}
-                                    <button type="button" class="btn btn-sm btn-danger delete-row">Supprimer</button>
+                                    <button type="button" class="btn btn-sm btn-danger delete-row">{{ _('Supprimer') }}</button>
                                 </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                 </table>
             </div>
-            <button type="button" id="add_row" class="btn btn-primary">Ajouter un diplôme</button>
+            <button type="button" id="add_row" class="btn btn-primary">{{ _('Ajouter un diplôme') }}</button>
             {% endcall%} <!-- End cursus academique-->
 
             <!-- Coordonnées -->
-            {% call render_sub_form(form, '5. Coordonnées')%}
+            {% call render_sub_form(form, _('5. Coordonnées'))%}
                 {{ render_text_field(form.telephone, 'col-lg-6 col-10') }} 
                 {{ render_text_field(form.email, 'col-lg-6 col-10', required=false) }} 
             {% endcall%} <!-- End Coordonnées -->
@@ -110,8 +110,8 @@
             <!-- Actions finales -->
             <div class="my-3 g-3">
             <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center text-center pb-4">
-                <a href="{{ url_for('inscriptions.view') }}" class="btn btn-secondary btn-lg m-1 px-4 py-2">Annuler les modifications</a>
-                <button id="ok_button" type="submit" class="btn btn-primary btn-lg m-1 px-4 py-2">Valider les modifications</button>
+                <a href="{{ url_for('inscriptions.view') }}" class="btn btn-secondary btn-lg m-1 px-4 py-2">{{ _('Annuler les modifications') }}</a>
+                <button id="ok_button" type="submit" class="btn btn-primary btn-lg m-1 px-4 py-2">{{ _('Valider les modifications') }}</button>
             </div>
             </div> <!-- End Actions finales -->
                 

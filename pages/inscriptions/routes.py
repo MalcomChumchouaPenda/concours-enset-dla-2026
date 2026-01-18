@@ -127,7 +127,7 @@ def new():
         db.session.commit()
         connect_user(uid, pwd)
         session['step'] = 'submitted'
-        flash('Inscription enregistree avec success', 'success')
+        flash(_('Inscription enregistree avec success'), 'success')
         return redirect(url_for('inscriptions.view'))
 
     print('\nerrors=>\t', form.errors)
@@ -198,9 +198,9 @@ def edit():
 
         # verification du noms
         if not _verification_noms(inscription, data):
-            msg = "Ce compte est reserve au candidat "
+            msg = _("Ce compte est reserve au candidat ")
             msg += f"<b>{inscription.nom_complet}</b> "
-            msg += "(Vous n'etes pas dans votre inscription)"
+            msg += _("(Vous n'etes pas dans votre inscription)")
             flash(msg, 'danger')
             return redirect(url_for('inscriptions.view'))
 
@@ -232,7 +232,7 @@ def edit():
 
         db.session.commit()
         session['step'] = 'edited'
-        flash('Inscription modifiee avec success', 'success')
+        flash(_('Inscription modifiee avec success'), 'success')
         return redirect(url_for('inscriptions.view'))
 
     print('\nerrors=>\t', form.errors)

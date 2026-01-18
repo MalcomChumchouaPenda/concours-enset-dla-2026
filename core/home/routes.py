@@ -54,9 +54,9 @@ def communique():
 def wait():
     return render_template('landing/coming-soon.jinja',
                            deadline='2026/1/16',
-                           title='Concours 2026',
-                           alert_title='En maintenance',
-                           alert_msg='Cette plateforme est en maintenance. Elle sera disponible dans:')
+                           title=_('Concours 2026'),
+                           alert_title=_('En maintenance'),
+                           alert_msg=_('Cette plateforme est en maintenance. Elle sera disponible dans:'))
 
 
 class RegisterForm(FlaskForm):
@@ -75,7 +75,7 @@ def register():
     if form.validate_on_submit():
         uid = form.id.data
         if not _check_id(uid):
-            flash('Numero de paiement invalide', 'danger')
+            flash(_('Numero de paiement invalide'), 'danger')
             return render_template('home-register.jinja', form=form)
         
         if get_user(db.session, uid):
@@ -87,7 +87,7 @@ def register():
 
         pwd = form.pwd.data
         if pwd != form.confirm_pwd.data:
-            flash('Mot de passe non confirme', 'danger')
+            flash(_('Mot de passe non confirme'), 'danger')
             return render_template('home-register.jinja', form=form)
         
         session['candidat_id'] = uid
@@ -95,7 +95,7 @@ def register():
         session['step'] = 'registered'
         return redirect(url_for('inscriptions.new'))
 
-    flash('Vous devez payer vos frais de concours avant cette etape', 'warning')  
+    flash(_('Vous devez payer vos frais de concours avant cette etape'), 'warning')  
     return render_template('home-register.jinja', form=form)
 
 
@@ -114,16 +114,16 @@ def login():
     if form.validate_on_submit():
         uid = form.id.data
         if not _check_id(uid):
-            flash('Numero de paiement invalide', 'danger')
+            flash(_('Numero de paiement invalide'), 'danger')
             return render_template('home-login.jinja', form=form, next=next)
         
         if not get_user(db.session, uid):
-            flash("Aucune inscription en cours", 'danger')
+            flash(_("Aucune inscription en cours"), 'danger')
             return render_template('home-login.jinja', form=form, next=next)
 
         pwd = form.pwd.data
         if not connect_user(uid, pwd):
-            flash('Mot de passe incorrecte', 'danger')
+            flash(_('Mot de passe incorrecte'), 'danger')
             return render_template('home-login.jinja', form=form, next=next)
         
         return redirect(next)
@@ -181,11 +181,11 @@ def recover_password():
         query = cmdl.InscriptionConcours.query.filter_by(id=data['id'])
         inscription = query.one_or_none()
         if inscription is None:
-            flash('Numero de paiement inconnu', 'danger')
+            flash(_('Numero de paiement inconnu'), 'danger')
             return render_template('home-recover-password.jinja', form=form, next=next)
         
         if not _verification_infos(inscription, data):
-            flash('Informations incorrectes', 'danger')
+            flash(_('Informations incorrectes'), 'danger')
             return render_template('home-recover-password.jinja', form=form, next=next)
         user = get_user(db.session, inscription.id)
         user.set_password('X')
@@ -212,27 +212,5 @@ def change_password():
             current_user.set_password(new_pwd)
             db.session.commit()
             return redirect(next)
-        flash("Mot de passe non confirmé", 'danger')
+        flash(_("Mot de passe non confirmé"), 'danger')
     return render_template('home-change-password.jinja', form=form, next=next)
-
-
-@ui.route('/dashboard')
-@ui.login_required
-def dashboard():
-    welcome = _("Bienvenue dans cette espace")
-    return render_template('home-dashboard.jinja', welcome=welcome)
-
-@ui.route('/student')
-@ui.roles_accepted('student')
-def student_dashboard():
-    return redirect(url_for('home.dashboard'))
-
-@ui.route('/teacher')
-@ui.roles_accepted('teacher')
-def teacher_dashboard():
-    return redirect(url_for('home.dashboard'))
-
-@ui.route('/admin')
-@ui.roles_accepted('admin')
-def admin_dashboard():
-    return redirect(url_for('home.dashboard'))

@@ -23,36 +23,28 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             <li class="dropdown-header text-start">
-                                <h6>
-                                Filter
-                                </h6>
+                                <h6>{{ _('Filter') }}</h6>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
-                                Today
-                                </a>
+                                <a class="dropdown-item" href="#">{{ _('Today') }}</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
-                                This Month
-                                </a>
+                                <a class="dropdown-item" href="#">{{ _('This Month') }}</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">
-                                This Year
-                                </a>
+                                <a class="dropdown-item" href="#">{{ _('This Year') }}</a>
                             </li>
                         </ul>
                     </div>
                     <div class="card-body pb-0">
-                        <h5 class="card-title">{{ _('Rapport') }} <span> | Today</span></h5>
+                        <h5 class="card-title">{{ _('Rapport') }} <span> | {{ _('Today') }}</span></h5>
                         <div class="table-responsive">
                             <table class="table table-borderless table-sm">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Domaines</th>
-                                        <th scope="col">Descriptions</th>
-                                        <th scope="col">Statistiques</th>
+                                        <th scope="col">{{ _('Domaines') }}</th>
+                                        <th scope="col">{{ _('Descriptions') }}</th>
+                                        <th scope="col">{{ _('Statistiques') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,14 +70,14 @@
                             <i class="bi bi-three-dots"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <li class="dropdown-header text-start"><h6>Filter</h6></li>
-                            <li><a class="dropdown-item" href="#">Today</a></li>
-                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                            <li><a class="dropdown-item" href="#">This Year</a></li>
+                            <li class="dropdown-header text-start"><h6>{{ _('Filter') }}</h6></li>
+                            <li><a class="dropdown-item" href="#">{{ _('Today') }}</a></li>
+                            <li><a class="dropdown-item" href="#">{{ _('This Month') }}</a></li>
+                            <li><a class="dropdown-item" href="#">{{ _('This Year') }}</a></li>
                         </ul>
                     </div>
                     <div class="card-body pb-0">
-                        <h5 class="card-title">{{ _('Alertes') }} <span> | Today</span></h5>
+                        <h5 class="card-title">{{ _('Alertes') }} <span> | {{ _('Today') }}</span></h5>
                         <div class="news">
                         {% for alert in generate_alerts(current_user) %}
                             <div class="d-flex">

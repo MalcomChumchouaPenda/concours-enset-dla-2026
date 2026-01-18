@@ -18,9 +18,9 @@
         <!-- Actions initiales -->
         <div class="row mt-lg-3 mt-4 d-flex justify-content-center">
           <div class="col-lg-6 col-12 d-flex justify-content-end">
-            <a href="{{ url_for('home.logout') }}" class="btn btn-secondary btn-lg m-1">Fermer</a>
-            <a href="{{ url_for('inscriptions.edit') }}" class="btn btn-secondary btn-lg m-1">Modifier</a>
-            <a href="{{ url_for('inscriptions.print_') }}" class="btn btn-primary btn-lg m-1">Imprimer</a>
+            <a href="{{ url_for('home.logout') }}" class="btn btn-secondary btn-lg m-1">{{ _('Fermer') }}</a>
+            <a href="{{ url_for('inscriptions.edit') }}" class="btn btn-secondary btn-lg m-1">{{ _('Modifier') }}</a>
+            <a href="{{ url_for('inscriptions.print_') }}" class="btn btn-primary btn-lg m-1">{{ _('Imprimer') }}</a>
           </div>
         </div> <!-- End Actions initiales -->
 
@@ -28,45 +28,45 @@
       <form class="px-4 col-lg-10 col-12">
 
         <!-- Choix concours -->
-        {% call render_card(inscription, "1. Concours")%}
-            {{ render_card_field('num_dossier', 'Numero dossier', inscription.numero_dossier, 'col-lg-6 col-10') }} 
-            {{ render_card_field('num_paiement', 'Numero paiement', current_user.id, 'col-lg-3 col-8') }} 
+        {% call render_card(inscription, _("1. Concours"))%}
+            {{ render_card_field('num_dossier', _('Numero dossier'), inscription.numero_dossier, 'col-lg-6 col-10') }} 
+            {{ render_card_field('num_paiement', _('Numero paiement'), current_user.id, 'col-lg-3 col-8') }} 
             <div class="col-lg-3 col-2"></div>
-            {{ render_card_field('centre_id', 'Centre', inscription.centre.nom.upper(), 'col-lg-3 col-8') }} 
-            {{ render_card_field('niveau_id', 'Niveau', inscription.classe.niveau.upper(), 'col-lg-3 col-8') }} 
-            {{ render_card_field('diplome_id', 'Diplome', inscription.diplome.nom_fr.upper(), 'col-lg-6 col-12') }} 
-            {{ render_card_field('filiere_id', 'Filiere', inscription.classe.option.filiere.nom_fr.upper(), 'col-lg-6 col-12') }} 
-            {{ render_card_field('option_id', 'Option', inscription.classe.option.nom_fr.upper(), 'col-lg-6 col-12') }} 
+            {{ render_card_field('centre_id', _('Centre'), inscription.centre.nom.upper(), 'col-lg-3 col-8') }} 
+            {{ render_card_field('niveau_id', _('Niveau'), inscription.classe.niveau.upper(), 'col-lg-3 col-8') }} 
+            {{ render_card_field('diplome_id', _('Diplome'), inscription.diplome.nom_fr.upper(), 'col-lg-6 col-12') }} 
+            {{ render_card_field('filiere_id', _('Filiere'), inscription.classe.option.filiere.nom_fr.upper(), 'col-lg-6 col-12') }} 
+            {{ render_card_field('option_id', _('Option'), inscription.classe.option.nom_fr.upper(), 'col-lg-6 col-12') }} 
         {% endcall%} <!-- End choix concours-->
 
         <!-- Info generales -->
-        {% call render_card(inscription, '2. Informations personnelles')%}  
-            {{ render_card_field('nom', 'Noms', inscription.nom.upper(), 'col-lg-6 col-12') }}  
-            {{ render_card_field('prenom', 'Prenoms', inscription.prenom.upper(), 'col-lg-6 col-12') }}  
-            {{ render_card_field('date_naissance', 'Date naissance', inscription.date_naissance.strftime('%d/%m/%Y'), 'col-lg-4 col-12')}}  
-            {{ render_card_field('lieu_naissance', 'Lieu naissance', inscription.lieu_naissance.upper(), 'col-lg-8 col-12')}} 
-            {{ render_card_field('sexe_id', 'Sexe', inscription.sexe.upper(), 'col-lg-4 col-8') }}
-            {{ render_card_field('situation_id', 'Situation matrimoniale', inscription.situation_matrimoniale.upper(), 'col-lg-4 col-8') }}
+        {% call render_card(inscription, _('2. Informations personnelles'))%}  
+            {{ render_card_field('nom', _('Noms'), inscription.nom.upper(), 'col-lg-6 col-12') }}  
+            {{ render_card_field('prenom', _('Prenoms'), inscription.prenom.upper(), 'col-lg-6 col-12') }}  
+            {{ render_card_field('date_naissance', _('Date naissance'), inscription.date_naissance.strftime('%d/%m/%Y'), 'col-lg-4 col-12')}}  
+            {{ render_card_field('lieu_naissance', _('Lieu naissance'), inscription.lieu_naissance.upper(), 'col-lg-8 col-12')}} 
+            {{ render_card_field('sexe_id', _('Sexe'), inscription.sexe.upper(), 'col-lg-4 col-8') }}
+            {{ render_card_field('situation_id', _('Situation matrimoniale'), inscription.situation_matrimoniale.upper(), 'col-lg-4 col-8') }}
         {% endcall%}  <!-- End Info generales -->
 
         <!-- Origine géographique -->
-        {% call render_card(inscription, '3. Origine géographique')%}
-            {{ render_card_field('langue_id', 'Langue', inscription.langue.upper(), 'col-lg-6 col-8') }}
-            {{ render_card_field('nationalite_id', 'Nationalite', inscription.departement_origine.region.pays.nationalite.upper(), 'col-lg-6 col-12') }}
-            {{ render_card_field('region_id', "Region d'origine", inscription.departement_origine.region.nom.upper(), 'col-lg-6 col-12') }}
-            {{ render_card_field('departement_id', "Departement d'origine", inscription.departement_origine.nom.upper(), 'col-lg-6 col-12') }}
+        {% call render_card(inscription, _('3. Origine géographique'))%}
+            {{ render_card_field('langue_id', _('Langue'), inscription.langue.upper(), 'col-lg-6 col-8') }}
+            {{ render_card_field('nationalite_id', _('Nationalite'), inscription.departement_origine.region.pays.nationalite.upper(), 'col-lg-6 col-12') }}
+            {{ render_card_field('region_id', _("Region d'origine"), inscription.departement_origine.region.nom.upper(), 'col-lg-6 col-12') }}
+            {{ render_card_field('departement_id', _("Departement d'origine"), inscription.departement_origine.nom.upper(), 'col-lg-6 col-12') }}
         {% endcall%} <!-- End Origine géographique -->
 
         <!-- Cursus academique -->
-        {% call render_card(inscription, "4. Cursus academique")%}
+        {% call render_card(inscription, _("4. Cursus academique"))%}
             <div class="table-responsive-md">
               <table id="academic_table" class="table table-bordered">
                   <thead>
                           <tr>
-                          <th>Année</th>
-                          <th>Etablissement</th>
-                          <th>Diplôme</th>
-                          <th>Mention</th>
+                            <th>{{ _('Année') }}</th>
+                            <th>{{ _('Etablissement') }}</th>
+                            <th>{{ _('Diplôme') }}</th>
+                            <th>{{ _('Mention') }}</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -84,18 +84,18 @@
         {% endcall%} <!-- End cursus academique-->
 
         <!-- Coordonnées -->
-        {% call render_card(inscription, '5. Coordonnées')%}
-            {{ render_card_field('telephone', 'Telephone', inscription.telephone, 'col-lg-6 col-12') }} 
-            {{ render_card_field('email', 'Email', inscription.email, 'col-lg-6 col-12') }} 
+        {% call render_card(inscription, _('5. Coordonnées'))%}
+            {{ render_card_field('telephone', _('Telephone'), inscription.telephone, 'col-lg-6 col-12') }} 
+            {{ render_card_field('email', _('Email'), inscription.email, 'col-lg-6 col-12') }} 
         {% endcall%} <!-- End Coordonnées -->
 
             
         <!-- Actions finales -->
         <div class="row mt-3 d-flex justify-content-center">
           <div class="col-lg-6 col-12 d-flex justify-content-center">
-            <a href="{{ url_for('home.logout') }}" class="btn btn-secondary btn-lg m-1">Fermer</a>
-            <a href="{{ url_for('inscriptions.edit') }}" class="btn btn-secondary btn-lg m-1">Modifier</a>
-            <a href="{{ url_for('inscriptions.print_') }}" class="btn btn-primary btn-lg m-1">Imprimer</a>
+            <a href="{{ url_for('home.logout') }}" class="btn btn-secondary btn-lg m-1">{{ _('Fermer') }}</a>
+            <a href="{{ url_for('inscriptions.edit') }}" class="btn btn-secondary btn-lg m-1">{{ _('Modifier') }}</a>
+            <a href="{{ url_for('inscriptions.print_') }}" class="btn btn-primary btn-lg m-1">{{ _('Imprimer') }}</a>
           </div>
         </div> <!-- End Actions finales -->
 

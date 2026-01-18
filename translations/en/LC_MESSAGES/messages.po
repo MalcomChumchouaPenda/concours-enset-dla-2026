@@ -1,530 +1,693 @@
-# English translations for Pigal Core.
-# Copyright (C) 2025 ORGANIZATION
-# This file is distributed under the same license as the Pigal Core project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# English translations for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Pigal Core Dev\n"
+"Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-03 13:39+0100\n"
-"PO-Revision-Date: 2025-05-03 13:38+0100\n"
+"POT-Creation-Date: 2026-01-18 00:52+0100\n"
+"PO-Revision-Date: 2026-01-18 01:03+0100\n"
 "Last-Translator: \n"
-"Language: en\n"
 "Language-Team: en <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Generated-By: Babel 2.16.0\n"
+"X-Generator: Poedit 3.5\n"
 
-#: core/home/routes.py:19 plugins/pages/demo/routes.py:54
-#: plugins/pages/demo/templates/demo-datatables.jinja:18
-#: plugins/pages/demo/templates/demo-form-editors.jinja:18
-#: plugins/pages/demo/templates/demo-form-elements.jinja:18
-#: plugins/pages/demo/templates/demo-form-layouts.jinja:18
-#: plugins/pages/demo/templates/demo-search.jinja:17
-#: plugins/pages/demo/templates/demo-tables.jinja:18
+#: core/home/menus.py:6 core/home/templates/home-dashboard-profile.jinja:9
+#: core/home/templates/home-dashboard.jinja:6
+#: core/themes/dashboard/macros.jinja:102
 msgid "Accueil"
 msgstr "Home"
 
-#: core/home/routes.py:37 plugins/pages/demo/routes.py:166
-#, python-format
-msgid "Titre de l'evenement %(i)s"
-msgstr "Event %(i)s title"
+#: core/home/menus.py:7 core/home/templates/home-help.jinja:27
+msgid "Inscription"
+msgstr "Registration"
 
-#: core/home/routes.py:39 plugins/pages/demo/routes.py:168
-msgid "Paire"
-msgstr "Even"
+#: core/home/menus.py:8
+msgid "Communique"
+msgstr "Statement"
 
-#: core/home/routes.py:39 plugins/pages/demo/routes.py:168
-msgid "Impaire"
-msgstr "Odd"
+#: core/home/menus.py:9 core/home/templates/home-help.jinja:16
+msgid "Aide"
+msgstr "Help"
 
-#: core/home/routes.py:51
-msgid "identifiant"
-msgstr "identifier"
+#: core/home/routes.py:57
+msgid "Concours 2026"
+msgstr "Competitive Examination 2026"
 
-#: core/home/routes.py:52
+#: core/home/routes.py:58
+msgid "En maintenance"
+msgstr "Under maintenance"
+
+#: core/home/routes.py:59
+msgid "Cette plateforme est en maintenance. Elle sera disponible dans:"
+msgstr "This platform is undergoing maintenance. It will be available in:"
+
+#: core/home/routes.py:63 core/home/routes.py:103 core/home/routes.py:159
+#: pages/inscriptions/forms.py:90
+msgid "numero de paiement"
+msgstr "payment number"
+
+#: core/home/routes.py:64 core/home/routes.py:104
+#: core/home/templates/home-login.jinja:26
+#: core/home/templates/home-register.jinja:38
 msgid "mot de passe"
 msgstr "password"
 
-#: core/home/routes.py:68
+#: core/home/routes.py:65
+msgid "confirmer mot de passe"
+msgstr "confirm password"
+
+#: core/home/routes.py:78 core/home/routes.py:117
+msgid "Numero de paiement invalide"
+msgstr "Invalid payment number"
+
+#: core/home/routes.py:83
+msgid "Avertissement"
+msgstr "Warning"
+
+#: core/home/routes.py:84
+msgid "Ce numero de paiement a deja ete utilise pour une inscription"
+msgstr "This payment number has already been used for a registration"
+
+#: core/home/routes.py:85
+msgid "Voir l'inscription"
+msgstr "See the registration"
+
+#: core/home/routes.py:86 core/home/routes.py:147
+msgid "Revenir a l'accueil"
+msgstr "Return to home page"
+
+#: core/home/routes.py:90
+msgid "Mot de passe non confirme"
+msgstr "Password not confirmed"
+
+#: core/home/routes.py:98
+msgid "Vous devez payer vos frais de concours avant cette etape"
+msgstr "You must pay your competition fees before this stage"
+
+#: core/home/routes.py:121
+msgid "Aucune inscription en cours"
+msgstr "No registrations currently"
+
+#: core/home/routes.py:126
+msgid "Mot de passe incorrecte"
+msgstr "Incorrect password"
+
+#: core/home/routes.py:146
+msgid "Vous n'avez pas les autorisations nécessaires pour accéder à cette page."
+msgstr "You do not have the necessary permissions to access this page."
+
+#: core/home/routes.py:150
+msgid "Revenir a la page precedente"
+msgstr "Return to the previous page"
+
+#: core/home/routes.py:160
+msgid "Noms et prenoms"
+msgstr "First name and surname"
+
+#: core/home/routes.py:161 pages/inscriptions/forms.py:110
+msgid "Date de naissance"
+msgstr "Date of birth"
+
+#: core/home/routes.py:162 pages/inscriptions/forms.py:111
+msgid "Lieu de naissance"
+msgstr "Place of birth"
+
+#: core/home/routes.py:184
+msgid "Numero de paiement inconnu"
+msgstr "Unknown payment number"
+
+#: core/home/routes.py:188
 msgid "Informations incorrectes"
 msgstr "Incorrect information"
 
-#: core/home/routes.py:85
-msgid "Vous n'avez pas les autorisations nécessaires pour accéder à cette page."
-msgstr "You do not have the necessary authorisations to access this page."
+#: core/home/routes.py:199 core/home/templates/home-change-password.jinja:25
+msgid "Nouveau mot de passe"
+msgstr "New password"
 
-#: core/home/routes.py:86 plugins/pages/demo/routes.py:42
-msgid "Revenir a l'accueil"
-msgstr "Back to home page"
+#: core/home/routes.py:200 core/home/templates/home-change-password.jinja:32
+#: core/home/templates/home-register.jinja:39
+msgid "Confirmer mot de passe"
+msgstr "Confirm password"
 
-#: core/home/routes.py:89
-msgid "Revenir a la page precedente"
-msgstr "Return to previous page"
+#: core/home/routes.py:215
+msgid "Mot de passe non confirmé"
+msgstr "Password not confirmed"
+
+#: core/home/templates/home-change-password.jinja:14
+#: core/home/templates/home-dashboard-profile.jinja:37
+msgid "Changer mot de passe"
+msgstr "Change password"
+
+#: core/home/templates/home-change-password.jinja:38
+#: core/home/templates/home-login.jinja:33
+#: core/home/templates/home-recover-password.jinja:34
+#: core/home/templates/home-register.jinja:46
+msgid "Valider"
+msgstr "Validate"
+
+#: core/home/templates/home-dashboard-profile.jinja:6
+#: core/home/templates/home-dashboard-profile.jinja:10
+msgid "Profil"
+msgstr "Profile"
+
+#: core/home/templates/home-dashboard-profile.jinja:47
+msgid "Identifiant"
+msgstr "Identifier"
+
+#: core/home/templates/home-dashboard-profile.jinja:54
+#: pages/inscriptions/forms.py:109
+#: pages/inscriptions/templates/inscriptions/view.jinja:44
+msgid "Noms"
+msgstr "Name"
+
+#: core/home/templates/home-dashboard-profile.jinja:61
+#: pages/inscriptions/forms.py:108
+#: pages/inscriptions/templates/inscriptions/view.jinja:45
+msgid "Prenoms"
+msgstr "Surname"
+
+#: core/home/templates/home-dashboard-profile.jinja:68
+msgid "Mot de passe"
+msgstr "Password"
+
+#: core/home/templates/home-dashboard-profile.jinja:74
+msgid "Changer"
+msgstr "Change"
+
+#: core/home/templates/home-dashboard-profile.jinja:78
+msgid "Roles"
+msgstr "Roles"
+
+#: core/home/templates/home-dashboard.jinja:26
+#: core/home/templates/home-dashboard.jinja:73
+msgid "Filter"
+msgstr "Filter"
+
+#: core/home/templates/home-dashboard.jinja:29
+#: core/home/templates/home-dashboard.jinja:40
+#: core/home/templates/home-dashboard.jinja:74
+#: core/home/templates/home-dashboard.jinja:80
+msgid "Today"
+msgstr "Today"
+
+#: core/home/templates/home-dashboard.jinja:32
+#: core/home/templates/home-dashboard.jinja:75
+msgid "This Month"
+msgstr "This Month"
+
+#: core/home/templates/home-dashboard.jinja:35
+#: core/home/templates/home-dashboard.jinja:76
+msgid "This Year"
+msgstr "This Year"
+
+#: core/home/templates/home-dashboard.jinja:40
+msgid "Rapport"
+msgstr "Report"
+
+#: core/home/templates/home-dashboard.jinja:45
+msgid "Domaines"
+msgstr "Domains"
+
+#: core/home/templates/home-dashboard.jinja:46
+msgid "Descriptions"
+msgstr "Descriptions"
+
+#: core/home/templates/home-dashboard.jinja:47
+msgid "Statistiques"
+msgstr "Statistics"
+
+#: core/home/templates/home-dashboard.jinja:80
+msgid "Alertes"
+msgstr "Alerts"
+
+#: core/home/templates/home-help.jinja:27
+msgid "Faire son <b>inscription</b>"
+msgstr "New <b>registration</b>"
+
+#: core/home/templates/home-help.jinja:40
+msgid "Impression"
+msgstr "Printing"
+
+#: core/home/templates/home-help.jinja:40
+msgid "<b>Imprimer</b> son inscription"
+msgstr "<b>Print</b> your registration"
+
+#: core/home/templates/home-help.jinja:53
+msgid "Modification"
+msgstr "Modification"
+
+#: core/home/templates/home-help.jinja:53
+msgid "<b>Modifier</b> son inscription"
+msgstr "<b>Modify</b> your registration"
 
 #: core/home/templates/home-login.jinja:14
-msgid "Connecter-vous pour continuer"
-msgstr "Login to continue"
+msgid "Identifiez votre inscription pour continuer"
+msgstr "Identify your registration to continue"
 
-#: core/home/templates/home-login.jinja:29
-msgid "Saisissez votre identifiant"
-msgstr "Enter your username"
+#: core/home/templates/home-login.jinja:25
+#: core/home/templates/home-recover-password.jinja:24
+#: core/home/templates/home-register.jinja:37
+msgid "numéro du paiement"
+msgstr "payment number"
+
+#: core/home/templates/home-login.jinja:35
+#: core/home/templates/home-recover-password.jinja:36
+#: core/home/templates/home-register.jinja:48
+msgid "Besoin d'aide ?"
+msgstr "Need assistance?"
 
 #: core/home/templates/home-login.jinja:36
-msgid "Saisissez votre mot de passe"
-msgstr "Enter your password"
+msgid "Mot de passe oublie ?"
+msgstr "Forgotten your password?"
 
-#: core/home/templates/home-login.jinja:42
-#: core/themes/dashboard/macros.jinja:81 core/themes/landing/macros.jinja:61
-msgid "Connexion"
-msgstr "Login"
-
-#: core/home/templates/home-login.jinja:43
-msgid "Identifiant ou mot de passe oublié ?"
-msgstr "Forgot your username or password?"
-
-#: core/home/templates/home-login.jinja:44
+#: core/home/templates/home-login.jinja:37
+#: core/home/templates/home-recover-password.jinja:37
+#: core/home/templates/home-register.jinja:49
 msgid "Retour a l'accueil !"
-msgstr "Back to home page !"
+msgstr "Back to home page!"
 
-#: core/themes/dashboard/home.jinja:5
-#: plugins/pages/demo/templates/demo-charts.jinja:5
-#: plugins/pages/demo/templates/demo-datatables.jinja:5
-#: plugins/pages/demo/templates/demo-form-editors.jinja:5
-#: plugins/pages/demo/templates/demo-form-elements.jinja:5
-#: plugins/pages/demo/templates/demo-form-layouts.jinja:5
-#: plugins/pages/demo/templates/demo-tables.jinja:5
-msgid "| ENSET Douala"
-msgstr "| ENSET Douala"
+#: core/home/templates/home-recover-password.jinja:14
+msgid "Saisissez les informations suivantes"
+msgstr "Enter the following information"
 
-#: core/themes/dashboard/home.jinja:7
-#: plugins/pages/demo/templates/demo-charts.jinja:7
-#: plugins/pages/demo/templates/demo-datatables.jinja:7
-#: plugins/pages/demo/templates/demo-form-editors.jinja:7
-#: plugins/pages/demo/templates/demo-form-elements.jinja:7
-#: plugins/pages/demo/templates/demo-form-layouts.jinja:7
-#: plugins/pages/demo/templates/demo-tables.jinja:7
-msgid "Unknown | ENSET Douala"
-msgstr "Visitor | ENSET Douala"
+#: core/home/templates/home-recover-password.jinja:25
+msgid "noms et prenoms"
+msgstr "first name and surname"
 
-#: core/themes/dashboard/home.jinja:16
-msgid "Espace "
-msgstr "Space "
+#: core/home/templates/home-recover-password.jinja:26
+msgid "date de naissance"
+msgstr "date of birth"
 
-#: core/themes/dashboard/macros.jinja:16 core/themes/landing/macros.jinja:70
-msgid " <strong>(En construction)</strong>"
-msgstr " <strong>(Under construction)</strong>"
+#: core/home/templates/home-recover-password.jinja:27
+msgid "lieu de naissance"
+msgstr "place of birth"
 
-#: core/themes/dashboard/macros.jinja:20 core/themes/landing/macros.jinja:74
-msgid ""
-"Cette section est en cours de maintenance ou de developpement. Elle sera "
-"disponible dans:"
-msgstr ""
-"This section is currently being maintained or developed. It will be "
-"available in:"
+#: core/home/templates/home-register.jinja:13
+msgid "Creez une inscription ..."
+msgstr "Create a registration..."
 
-#: core/themes/dashboard/macros.jinja:24 core/themes/landing/macros.jinja:78
-msgid "jours,"
-msgstr "days,"
+#: core/home/templates/home.jinja:15
+msgid "Faire une inscription"
+msgstr "New registration"
 
-#: core/themes/dashboard/macros.jinja:25 core/themes/landing/macros.jinja:79
-msgid "heures,"
-msgstr "hours,"
+#: core/home/templates/home.jinja:16
+msgid "Imprimer une inscription"
+msgstr "Print registration"
 
-#: core/themes/dashboard/macros.jinja:26 core/themes/landing/macros.jinja:80
-msgid "minutes et"
-msgstr "minutes and"
-
-#: core/themes/dashboard/macros.jinja:27 core/themes/landing/macros.jinja:81
-msgid "secondes."
-msgstr "seconds."
-
-#: core/themes/dashboard/macros.jinja:74 core/themes/landing/macros.jinja:54
-msgid "Deconnexion"
-msgstr "Logout"
-
+#: core/themes/dashboard/coming-soon.jinja:9
 #: core/themes/landing/coming-soon.jinja:14
 msgid "En construction"
 msgstr "Under construction"
 
+#: core/themes/dashboard/coming-soon.jinja:10
 #: core/themes/landing/coming-soon.jinja:15
 msgid "Cette page est en construction. Elle sera disponible dans:"
 msgstr "This page is under construction. It will be available in:"
 
+#: core/themes/dashboard/coming-soon.jinja:16
 #: core/themes/landing/coming-soon.jinja:21
 msgid "Jours"
 msgstr "Days"
 
+#: core/themes/dashboard/coming-soon.jinja:20
 #: core/themes/landing/coming-soon.jinja:25
 msgid "Heures"
 msgstr "Hours"
 
+#: core/themes/dashboard/coming-soon.jinja:24
 #: core/themes/landing/coming-soon.jinja:29
 msgid "Minutes"
 msgstr "Minutes"
 
+#: core/themes/dashboard/coming-soon.jinja:28
 #: core/themes/landing/coming-soon.jinja:33
 msgid "Secondes"
 msgstr "Seconds"
 
-#: plugins/pages/demo/routes.py:19
-msgid "Pages"
-msgstr "Pages"
+#: core/themes/dashboard/layout.jinja:10
+msgid " | ENSET Douala"
+msgstr " | ENSET Douala"
 
-#: plugins/pages/demo/routes.py:20
-msgid "Sections"
-msgstr "Sections"
+#: core/themes/dashboard/layout.jinja:12
+msgid "Unknown | ENSET Douala"
+msgstr "Unknown | ENSET Douala"
 
-#: plugins/pages/demo/routes.py:21
-msgid "Dashboards"
-msgstr "Dashboards"
+#: core/themes/dashboard/macros.jinja:22 core/themes/landing/macros.jinja:70
+#: core/themes/login/macros.jinja:16
+msgid " <strong>(En construction)</strong>"
+msgstr " <strong>(Under construction)</strong>"
 
-#: plugins/pages/demo/routes.py:26
-msgid "Page vide"
-msgstr "Blank page"
-
-#: plugins/pages/demo/routes.py:27
-msgid "Page avec menu"
-msgstr "Page with menu"
-
-#: plugins/pages/demo/routes.py:28
-msgid "Page de message"
-msgstr "Page with message"
-
-#: plugins/pages/demo/routes.py:29
-msgid "Page Attente"
-msgstr "Coming soon page"
-
-#: plugins/pages/demo/routes.py:40
-msgid "Avertissement"
-msgstr "Warning"
-
-#: plugins/pages/demo/routes.py:41
-msgid "Ceci est un message test"
-msgstr "This is a test message"
-
-#: plugins/pages/demo/routes.py:55 plugins/pages/demo/routes.py:60
-#: plugins/pages/demo/routes.py:62
-msgid "Page 1"
-msgstr "Page 1"
-
-#: plugins/pages/demo/routes.py:56 plugins/pages/demo/routes.py:61
-#: plugins/pages/demo/routes.py:63
-msgid "Page 2"
-msgstr "Page 2"
-
-#: plugins/pages/demo/routes.py:57
-msgid "Menus"
-msgstr "Menus"
-
-#: plugins/pages/demo/routes.py:58
-msgid "Menu (ordonnee)"
-msgstr "Menu (ordered)"
-
-#: plugins/pages/demo/routes.py:59
-msgid "Menu (reordonne)"
-msgstr "Menu (reordered)"
-
-#: plugins/pages/demo/routes.py:72
-msgid "Page avec hero"
-msgstr "Page with hero"
-
-#: plugins/pages/demo/routes.py:73
-msgid "Hero large"
-msgstr "Large Hero"
-
-#: plugins/pages/demo/routes.py:74
-msgid "Hero moyen"
-msgstr "Medium Hero"
-
-#: plugins/pages/demo/routes.py:75
-msgid "Hero reduit"
-msgstr "Small Hero"
-
-#: plugins/pages/demo/routes.py:76
-msgid "Hero carousel"
-msgstr "Hero with carousel"
-
-#: plugins/pages/demo/routes.py:84
-#, python-format
-msgid "This is demo %(i)s"
-msgstr "This is demo %(i)s"
-
-#: plugins/pages/demo/routes.py:92
-msgid "Page avec footer"
-msgstr "Page with footer"
-
-#: plugins/pages/demo/routes.py:93
-msgid "Footer large"
-msgstr "Large footer"
-
-#: plugins/pages/demo/routes.py:94
-msgid "Footer moyen"
-msgstr "Medium footer"
-
-#: plugins/pages/demo/routes.py:95
-msgid "Footer reduit"
-msgstr "Small footer"
-
-#: plugins/pages/demo/routes.py:96
-msgid "Footer avec auteurs"
-msgstr "Footer with authors"
-
-#: plugins/pages/demo/routes.py:109
-msgid "Services"
-msgstr "Services"
-
-#: plugins/pages/demo/routes.py:110
-msgid "About"
-msgstr "About"
-
-#: plugins/pages/demo/routes.py:111
-msgid "Recherche"
-msgstr "Search"
-
-#: plugins/pages/demo/routes.py:112
-msgid "Evenements"
-msgstr "Events"
-
-#: plugins/pages/demo/routes.py:113
-msgid "Attente"
-msgstr "Coming soon"
-
-#: plugins/pages/demo/routes.py:129
-msgid "<strong>Enseignants</strong> formees par an"
-msgstr "<strong>Teachers</strong> trained per year"
-
-#: plugins/pages/demo/routes.py:130
-msgid "<strong>Ingenieurs</strong> formees par an"
-msgstr "<strong>Engineers</strong> trained per year"
-
-#: plugins/pages/demo/routes.py:131
-msgid "<strong>Programmes</strong> disponibles"
-msgstr "Available <strong>programs</strong>"
-
-#: plugins/pages/demo/routes.py:150
-#, python-format
-msgid "Description de l'item %(i)s pour test"
-msgstr "Item %(i)s description for test"
-
-#: plugins/pages/demo/routes.py:181
-msgid "Dashboard (avec composants)"
-msgstr "Dashboard (with components)"
-
-#: plugins/pages/demo/routes.py:182
-msgid "Dashboard (protege)"
-msgstr "Dashboard (protected)"
-
-#: plugins/pages/demo/routes.py:183
-msgid "Dashboard (etudiants)"
-msgstr "Dashboard (students)"
-
-#: plugins/pages/demo/routes.py:185
-msgid "Form Components"
-msgstr "Form Components"
-
-#: plugins/pages/demo/routes.py:186
-msgid "Form editors"
-msgstr "Form editors"
-
-#: plugins/pages/demo/routes.py:187
-msgid "Form elements"
-msgstr "Form elements"
-
-#: plugins/pages/demo/routes.py:188
-msgid "Form layouts"
-msgstr "Form layouts"
-
-#: plugins/pages/demo/routes.py:189
-msgid "Form validation"
-msgstr "Form validation"
-
-#: plugins/pages/demo/routes.py:191
-msgid "Data Components"
-msgstr "Data Components"
-
-#: plugins/pages/demo/routes.py:192
-msgid "General tables"
-msgstr "General tables"
-
-#: plugins/pages/demo/routes.py:193
-msgid "Data tables"
-msgstr "Data tables"
-
-#: plugins/pages/demo/routes.py:194
-msgid "Data charts"
-msgstr "Data charts"
-
-#: plugins/pages/demo/routes.py:199
-msgid "Cette espace presente des composants demo"
-msgstr "This area presents demo components"
-
-#: plugins/pages/demo/routes.py:254
-msgid "Welcome in a protected space"
-msgstr "Welcome in a protected space"
-
-#: plugins/pages/demo/routes.py:260
-msgid "Welcome in student space"
-msgstr "Welcome in student space"
-
-#: plugins/pages/demo/templates/demo-about.jinja:12
-msgid "Directeur de l'ENSET de Douala"
-msgstr "Director of ENSET de Douala"
-
-#: plugins/pages/demo/templates/demo-about.jinja:25
-msgid "Quelques <b>Statistiques</b>"
-msgstr "Some <b>statistics</b>"
-
-#: plugins/pages/demo/templates/demo-about.jinja:49
-msgid "Nous"
-msgstr "Us"
-
-#: plugins/pages/demo/templates/demo-about.jinja:49
-msgid "A Propos de <b>Nous</b>"
-msgstr "About <b>Us</b>"
-
-#: plugins/pages/demo/templates/demo-blank.jinja:5
-msgid "Page Vide"
-msgstr "Blank page"
-
-#: plugins/pages/demo/templates/demo-buttons.jinja:6
-msgid "Classic bootstrap buttons"
-msgstr "Classic bootstrap buttons"
-
-#: plugins/pages/demo/templates/demo-charts.jinja:15
-msgid "Demo Graphique avec Chart.js"
-msgstr "Charting demo with Chart.js"
-
-#: plugins/pages/demo/templates/demo-charts.jinja:16
+#: core/themes/dashboard/macros.jinja:26 core/themes/landing/macros.jinja:74
+#: core/themes/login/macros.jinja:20
 msgid ""
-"Chart.JS Examples. You can check the <a "
-"href=\"https://www.chartjs.org/docs/latest/samples/\" "
-"target=\"_blank\">official website</a> for more examples."
+"Cette section est en cours de maintenance ou de developpement. Elle sera "
+"disponible dans:"
 msgstr ""
-"Chart.JS Examples. You can check the <a "
-"href=\"https://www.chartjs.org/docs/latest/samples/\" "
-"target=\"_blank\">official website</a> for more examples."
+"This section is currently undergoing maintenance or development. It will be "
+"available in:"
 
-#: plugins/pages/demo/templates/demo-datatables.jinja:15
-msgid "Datatables"
-msgstr "Data tables"
+#: core/themes/dashboard/macros.jinja:30 core/themes/landing/macros.jinja:78
+#: core/themes/login/macros.jinja:24
+msgid "jours,"
+msgstr "days,"
 
-#: plugins/pages/demo/templates/demo-datatables.jinja:19
-#: plugins/pages/demo/templates/demo-form-editors.jinja:19
-#: plugins/pages/demo/templates/demo-form-elements.jinja:19
-#: plugins/pages/demo/templates/demo-form-layouts.jinja:19
-#: plugins/pages/demo/templates/demo-tables.jinja:19
-msgid "Dashboard"
-msgstr "Dashboard"
+#: core/themes/dashboard/macros.jinja:31 core/themes/landing/macros.jinja:79
+#: core/themes/login/macros.jinja:25
+msgid "heures,"
+msgstr "hours,"
 
-#: plugins/pages/demo/templates/demo-datatables.jinja:20
-msgid "Tables"
-msgstr "Tables"
+#: core/themes/dashboard/macros.jinja:32 core/themes/landing/macros.jinja:80
+#: core/themes/login/macros.jinja:26
+msgid "minutes et"
+msgstr "minutes and"
 
-#: plugins/pages/demo/templates/demo-datatables.jinja:23
+#: core/themes/dashboard/macros.jinja:33 core/themes/landing/macros.jinja:81
+#: core/themes/login/macros.jinja:27
+msgid "secondes."
+msgstr "seconds."
+
+#: core/themes/dashboard/macros.jinja:104 core/themes/landing/macros.jinja:54
+msgid "Deconnexion"
+msgstr "Logout"
+
+#: core/themes/dashboard/macros.jinja:106 core/themes/landing/macros.jinja:61
+msgid "Connexion"
+msgstr "Login"
+
+#: pages/inscriptions/forms.py:24
+msgid "Choisir..."
+msgstr "Choose..."
+
+#: pages/inscriptions/forms.py:31 pages/inscriptions/forms.py:44
+#: pages/inscriptions/forms.py:50 pages/inscriptions/forms.py:56
+#: pages/inscriptions/forms.py:63 pages/inscriptions/forms.py:70
+#: pages/inscriptions/forms.py:77 pages/inscriptions/forms.py:85
+msgid "Choisir"
+msgstr "Choose"
+
+#: pages/inscriptions/forms.py:96
+#: pages/inscriptions/templates/inscriptions/edit.jinja:77
+#: pages/inscriptions/templates/inscriptions/new.jinja:95
+#: pages/inscriptions/templates/inscriptions/view.jinja:66
+msgid "Année"
+msgstr "Year"
+
+#: pages/inscriptions/forms.py:97
+#: pages/inscriptions/templates/inscriptions/edit.jinja:79
+#: pages/inscriptions/templates/inscriptions/new.jinja:97
+#: pages/inscriptions/templates/inscriptions/view.jinja:68
+msgid "Diplôme"
+msgstr "Degree"
+
+#: pages/inscriptions/forms.py:98
+#: pages/inscriptions/templates/inscriptions/edit.jinja:78
+#: pages/inscriptions/templates/inscriptions/new.jinja:96
+#: pages/inscriptions/templates/inscriptions/view.jinja:67
+msgid "Etablissement"
+msgstr "Institution"
+
+#: pages/inscriptions/forms.py:99
+#: pages/inscriptions/templates/inscriptions/edit.jinja:80
+#: pages/inscriptions/templates/inscriptions/new.jinja:98
+#: pages/inscriptions/templates/inscriptions/view.jinja:69
+msgid "Mention"
+msgstr "Distinction"
+
+#: pages/inscriptions/forms.py:112
+#: pages/inscriptions/templates/inscriptions/view.jinja:48
+msgid "Sexe"
+msgstr "Gender"
+
+#: pages/inscriptions/forms.py:113
+msgid "Situation Matrimoniale"
+msgstr "Marital Status"
+
+#: pages/inscriptions/forms.py:118
+msgid "Nationalité"
+msgstr "Nationality"
+
+#: pages/inscriptions/forms.py:119
+#: pages/inscriptions/templates/inscriptions/view.jinja:56
+msgid "Region d'origine"
+msgstr "Region of origin"
+
+#: pages/inscriptions/forms.py:120
+#: pages/inscriptions/templates/inscriptions/view.jinja:57
+msgid "Departement d'origine"
+msgstr "Department of origin"
+
+#: pages/inscriptions/forms.py:121
+#: pages/inscriptions/templates/inscriptions/view.jinja:54
+msgid "Langue"
+msgstr "Language"
+
+#: pages/inscriptions/forms.py:124
+msgid "Téléphone"
+msgstr "Telephone"
+
+#: pages/inscriptions/forms.py:125
+#: pages/inscriptions/templates/inscriptions/view.jinja:89
+msgid "Email"
+msgstr "Email"
+
+#: pages/inscriptions/forms.py:134 pages/inscriptions/forms.py:144
+msgid "Niveau examen"
+msgstr "Examination level"
+
+#: pages/inscriptions/forms.py:135 pages/inscriptions/forms.py:145
+msgid "Filière sollicitée"
+msgstr "Requested Field of study"
+
+#: pages/inscriptions/forms.py:136 pages/inscriptions/forms.py:146
+msgid "Option sollicitée"
+msgstr "Requested option"
+
+#: pages/inscriptions/forms.py:137 pages/inscriptions/forms.py:147
+msgid "Centre examen"
+msgstr "Examination centre"
+
+#: pages/inscriptions/forms.py:138 pages/inscriptions/forms.py:148
+msgid "Diplôme du candidat"
+msgstr "Candidate's degree"
+
+#: pages/inscriptions/routes.py:130
+msgid "Inscription enregistree avec success"
+msgstr "Registration successfully completed"
+
+#: pages/inscriptions/routes.py:201
+msgid "Ce compte est reserve au candidat "
+msgstr "This account is reserved for the candidate "
+
+#: pages/inscriptions/routes.py:203
+msgid "(Vous n'etes pas dans votre inscription)"
+msgstr "(You are not logged in your registration)"
+
+#: pages/inscriptions/routes.py:235
+msgid "Inscription modifiee avec success"
+msgstr "Registration successfully modified"
+
+#: pages/inscriptions/templates/inscriptions/edit.jinja:14
+msgid "Modification Inscription"
+msgstr "Modification Registration"
+
+#: pages/inscriptions/templates/inscriptions/edit.jinja:27
+msgid "Voulez-vous vraiment modifier cette fiche?"
+msgstr "Are you sure you want to modify this form?"
+
+#: pages/inscriptions/templates/inscriptions/edit.jinja:37
+#: pages/inscriptions/templates/inscriptions/edit.jinja:113
+msgid "Annuler les modifications"
+msgstr "Cancel changes"
+
+#: pages/inscriptions/templates/inscriptions/edit.jinja:45
+#: pages/inscriptions/templates/inscriptions/new.jinja:51
+#: pages/inscriptions/templates/inscriptions/view.jinja:31
+msgid "1. Concours"
+msgstr "1. Examination"
+
+#: pages/inscriptions/templates/inscriptions/edit.jinja:54
+#: pages/inscriptions/templates/inscriptions/new.jinja:60
+#: pages/inscriptions/templates/inscriptions/view.jinja:43
+msgid "2. Informations personnelles"
+msgstr "2. Personal information"
+
+#: pages/inscriptions/templates/inscriptions/edit.jinja:64
+#: pages/inscriptions/templates/inscriptions/new.jinja:70
+#: pages/inscriptions/templates/inscriptions/view.jinja:53
+msgid "3. Origine géographique"
+msgstr "3. Geographical origin"
+
+#: pages/inscriptions/templates/inscriptions/edit.jinja:72
+#: pages/inscriptions/templates/inscriptions/new.jinja:78
+#: pages/inscriptions/templates/inscriptions/view.jinja:61
+msgid "4. Cursus academique"
+msgstr "4. Academic course"
+
+#: pages/inscriptions/templates/inscriptions/edit.jinja:93
+#: pages/inscriptions/templates/inscriptions/new.jinja:109
+msgid "Supprimer"
+msgstr "Delete"
+
+#: pages/inscriptions/templates/inscriptions/edit.jinja:100
+#: pages/inscriptions/templates/inscriptions/new.jinja:115
+msgid "Ajouter un diplôme"
+msgstr "Add a qualification"
+
+#: pages/inscriptions/templates/inscriptions/edit.jinja:104
+#: pages/inscriptions/templates/inscriptions/new.jinja:119
+#: pages/inscriptions/templates/inscriptions/view.jinja:87
+msgid "5. Coordonnées"
+msgstr "5. Contact details"
+
+#: pages/inscriptions/templates/inscriptions/edit.jinja:114
+msgid "Valider les modifications"
+msgstr "Confirm changes"
+
+#: pages/inscriptions/templates/inscriptions/macros.jinja:18
+msgid "sur"
+msgstr "on"
+
+#: pages/inscriptions/templates/inscriptions/macros.jinja:158
+msgid "Confirmation"
+msgstr "Confirmation"
+
+#: pages/inscriptions/templates/inscriptions/macros.jinja:165
+msgid "Non"
+msgstr "No"
+
+#: pages/inscriptions/templates/inscriptions/macros.jinja:166
+msgid "Oui"
+msgstr "Yes"
+
+#: pages/inscriptions/templates/inscriptions/new.jinja:15
+msgid "Nouvelle Inscription"
+msgstr "New Registration"
+
+#: pages/inscriptions/templates/inscriptions/new.jinja:28
 msgid ""
-"Add lightweight datatables to your project with using the <a "
-"href=\"https://github.com/fiduswriter/Simple-DataTables\" "
-"target=\"_blank\">Simple DataTables</a> library. Just add "
-"<code>.datatable</code> class name to any table you wish to conver to a "
-"datatable. Check for <a href=\"https://fiduswriter.github.io/simple-"
-"datatables/demos/\" target=\"_blank\">more examples</a>."
+"Vérifiez les informations ci-dessous qui sont non-modifiables après validation:"
 msgstr ""
-"Add lightweight datatables to your project with using the <a "
-"href=\"https://github.com/fiduswriter/Simple-DataTables\" "
-"target=\"_blank\">Simple DataTables</a> library. Just add "
-"<code>.datatable</code> class name to any table you wish to conver to a "
-"datatable. Check for <a href=\"https://fiduswriter.github.io/simple-"
-"datatables/demos/\" target=\"_blank\">more examples</a>."
+"Please check the information below, which cannot be changed after validation:"
 
-#: plugins/pages/demo/templates/demo-footer-lg.jinja:6
-msgid "Page avec un pied de page <b>lg</b>"
-msgstr "Page with footer <b>lg</b>"
+#: pages/inscriptions/templates/inscriptions/new.jinja:30
+msgid "Option choisie :"
+msgstr "Requested option :"
 
-#: plugins/pages/demo/templates/demo-footer-md.jinja:6
-msgid "Page avec un pied de page <b>md</b>"
-msgstr "Page with a footer <b>md</b>"
+#: pages/inscriptions/templates/inscriptions/new.jinja:31
+msgid "centre examen :"
+msgstr "examination centre :"
 
-#: plugins/pages/demo/templates/demo-footer-sm.jinja:6
-msgid "Page avec un pied de page <b>sm</b>"
-msgstr "Page with a footer <b>sm</b>"
+#: pages/inscriptions/templates/inscriptions/new.jinja:32
+msgid "diplôme du candidat :"
+msgstr "candidate's degree :"
 
-#: plugins/pages/demo/templates/demo-form-editors.jinja:15
-msgid "Form Editors"
-msgstr "Form editors"
+#: pages/inscriptions/templates/inscriptions/new.jinja:34
+msgid "Validez-vous vraiment cette inscription?"
+msgstr "Are you sure you want to confirm this registration?"
 
-#: plugins/pages/demo/templates/demo-form-editors.jinja:20
-msgid "Editors"
-msgstr "Editors"
+#: pages/inscriptions/templates/inscriptions/new.jinja:43
+#: pages/inscriptions/templates/inscriptions/new.jinja:128
+msgid "Annuler l'inscription"
+msgstr "Cancel registration"
 
-#: plugins/pages/demo/templates/demo-form-elements.jinja:15
-msgid "Form Elements"
-msgstr "Form elements"
+#: pages/inscriptions/templates/inscriptions/new.jinja:81
+msgid "Precisez pour chaque diplôme:"
+msgstr "Specify for each qualification:"
 
-#: plugins/pages/demo/templates/demo-form-elements.jinja:20
-msgid "Elements"
-msgstr "Elements"
+#: pages/inscriptions/templates/inscriptions/new.jinja:83
+msgid "L'annee d'obtention"
+msgstr "The year of graduation"
 
-#: plugins/pages/demo/templates/demo-form-layouts.jinja:15
-msgid "Form Layouts"
-msgstr "Form layouts"
+#: pages/inscriptions/templates/inscriptions/new.jinja:84
+msgid "L'etablissement frequente"
+msgstr "The Institution"
 
-#: plugins/pages/demo/templates/demo-form-layouts.jinja:20
-msgid "Layouts"
-msgstr "Layouts"
+#: pages/inscriptions/templates/inscriptions/new.jinja:85
+msgid "Le nom du diplôme"
+msgstr "The name of the qualification"
 
-#: plugins/pages/demo/templates/demo-hero-carousel.jinja:17
-#: plugins/pages/demo/templates/demo-hero-lg.jinja:12
-msgid "Read More"
-msgstr "Read More"
+#: pages/inscriptions/templates/inscriptions/new.jinja:86
+msgid "La mention obtenue"
+msgstr "The distinction obtained"
 
-#: plugins/pages/demo/templates/demo-hero-lg.jinja:6
-msgid "Demo avec un large hero"
-msgstr "Demo with a large hero"
+#: pages/inscriptions/templates/inscriptions/new.jinja:129
+msgid "Valider l'inscription"
+msgstr "Confirm registration"
 
-#: plugins/pages/demo/templates/demo-hero-md.jinja:6
-msgid "Demo avec un moyen hero"
-msgstr "Demo with a medium hero"
+#: pages/inscriptions/templates/inscriptions/view.jinja:7
+msgid "Fiche Inscription"
+msgstr "Registration Form"
 
-#: plugins/pages/demo/templates/demo-hero-sm.jinja:6
-msgid "Demo avec un petit hero"
-msgstr "Demo with a small hero"
+#: pages/inscriptions/templates/inscriptions/view.jinja:21
+#: pages/inscriptions/templates/inscriptions/view.jinja:96
+msgid "Fermer"
+msgstr "Close"
 
-#: plugins/pages/demo/templates/demo-hero-sm.jinja:9
-msgid "Home"
-msgstr "Home"
+#: pages/inscriptions/templates/inscriptions/view.jinja:22
+#: pages/inscriptions/templates/inscriptions/view.jinja:97
+msgid "Modifier"
+msgstr "Edit"
 
-#: plugins/pages/demo/templates/demo-hero-sm.jinja:10
-msgid "Hero"
-msgstr "Hero"
+#: pages/inscriptions/templates/inscriptions/view.jinja:23
+#: pages/inscriptions/templates/inscriptions/view.jinja:98
+msgid "Imprimer"
+msgstr "Print"
 
-#: plugins/pages/demo/templates/demo-search.jinja:11
-msgid "Liste pour "
-msgstr "List for "
+#: pages/inscriptions/templates/inscriptions/view.jinja:32
+msgid "Numero dossier"
+msgstr "File number"
 
-#: plugins/pages/demo/templates/demo-search.jinja:13
-msgid "Liste complete"
-msgstr "Complete list"
+#: pages/inscriptions/templates/inscriptions/view.jinja:33
+msgid "Numero paiement"
+msgstr "Payment number"
 
-#: plugins/pages/demo/templates/demo-search.jinja:18
-msgid "Liste"
-msgstr "List"
+#: pages/inscriptions/templates/inscriptions/view.jinja:35
+msgid "Centre"
+msgstr "Centre"
 
-#: plugins/pages/demo/templates/demo-search.jinja:59
-msgid "Aucun resultat pour les mots cles:"
-msgstr "No results for the keywords:"
+#: pages/inscriptions/templates/inscriptions/view.jinja:36
+msgid "Niveau"
+msgstr "Level"
 
-#: plugins/pages/demo/templates/demo-tables.jinja:15
-msgid "General Tables"
-msgstr "General tables"
+#: pages/inscriptions/templates/inscriptions/view.jinja:37
+msgid "Diplome"
+msgstr "Degree"
 
-#: plugins/pages/demo/templates/demo-tables.jinja:20
-msgid "General"
-msgstr "General"
+#: pages/inscriptions/templates/inscriptions/view.jinja:38
+msgid "Filiere"
+msgstr "Field of study"
 
-#~ msgid " | ENSET Douala"
-#~ msgstr " | ENSET Douala"
+#: pages/inscriptions/templates/inscriptions/view.jinja:39
+msgid "Option"
+msgstr "Option"
 
+#: pages/inscriptions/templates/inscriptions/view.jinja:46
+msgid "Date naissance"
+msgstr "Date of birth"
+
+#: pages/inscriptions/templates/inscriptions/view.jinja:47
+msgid "Lieu naissance"
+msgstr "Place of birth"
+
+#: pages/inscriptions/templates/inscriptions/view.jinja:49
+msgid "Situation matrimoniale"
+msgstr "Marital status"
+
+#: pages/inscriptions/templates/inscriptions/view.jinja:55
+msgid "Nationalite"
+msgstr "Nationality"
+
+#: pages/inscriptions/templates/inscriptions/view.jinja:88
+msgid "Telephone"
+msgstr "Telephone"
+
+#~ msgid "Diplôme donnant droit au concours"
+#~ msgstr "Qualification entitling the holder to sit the competitive examination"
