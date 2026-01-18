@@ -8,14 +8,21 @@ class Pays(db.Model):
     id = db.Column(db.String(5), primary_key=True)
     code_enset = db.Column(db.String(10))
     code_udo = db.Column(db.String(10))
-    nom = db.Column(db.String(100), nullable=False)
-    nationalite = db.Column(db.String(100))
+    nom_fr = db.Column(db.String(100), nullable=False)
+    nom_en = db.Column(db.String(100), nullable=False)
+    nationalite_fr = db.Column(db.String(100))
+    nationalite_en = db.Column(db.String(100))
     regions = db.relationship('Region', back_populates='pays')
 
-    @property
-    def full_id(self):
-        return self.id
-
+    def nom(self, locale='fr'):
+        if locale == 'fr':
+            return self.nom_fr
+        return self.nom_en
+    
+    def nationalite(self, locale='fr'):
+        if locale == 'fr':
+            return self.nationalite_fr
+        return self.nationalite_en
 
 
 class Region(db.Model):
@@ -26,13 +33,15 @@ class Region(db.Model):
     code_udo = db.Column(db.String(10))
     pays_id = db.Column(db.String(5), db.ForeignKey('pays.id'))
     pays = db.relationship('Pays', back_populates='regions')
-    nom = db.Column(db.String(100), nullable=False)
+    nom_fr = db.Column(db.String(100), nullable=False)
+    nom_en = db.Column(db.String(100), nullable=False)
     etranger = db.Column(db.Boolean, default=False)
     departements = db.relationship('Departement', back_populates='region')
 
-    @property
-    def full_id(self):
-        return self.pays.full_id + '-' + self.id
+    def nom(self, locale='fr'):
+        if locale == 'fr':
+            return self.nom_fr
+        return self.nom_en
     
 
 class Departement(db.Model):
@@ -42,10 +51,11 @@ class Departement(db.Model):
     code_udo = db.Column(db.String(100))
     region_id = db.Column(db.String(5), db.ForeignKey('regions.id'))
     region = db.relationship('Region', back_populates='departements')
-    nom = db.Column(db.String(100), nullable=False)
+    nom_fr = db.Column(db.String(100), nullable=False)
+    nom_en = db.Column(db.String(100), nullable=False)
     etranger = db.Column(db.Boolean, default=False)
 
-    @property
-    def full_id(self):
-        return self.region.full_id + '-' + self.id
-
+    def nom(self, locale='fr'):
+        if locale == 'fr':
+            return self.nom_fr
+        return self.nom_en

@@ -2,7 +2,7 @@
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
 from services.concours_v0_0 import models as con_mdl
-from services.regions_v0_0 import models as rmdl
+from services.regions_v0_1 import models as rmdl
 
 
 def _local_text(obj, field, locale):
@@ -53,30 +53,30 @@ def centres():
     return items
 
 
-def nationalites():
+def nationalites(locale):
     items = [('', _('Choisir'))]
     for pays in rmdl.Pays.query.all():
         value = pays.id
-        text = pays.nationalite.upper()
+        text = pays.nationalite(locale).upper()
         item = value, text
         items.append(item)
     return items
 
-def regions():
+def regions(locale):
     items = [('', _('Choisir'), {})]
     for region in rmdl.Region.query.all():
         value = region.id
-        text = region.nom.upper()
+        text = region.nom(locale).upper()
         chain = region.pays_id
         item = value, text, {'data-chained':chain}
         items.append(item)
     return items
 
-def departements():
+def departements(locale):
     items = [('', _('Choisir'), {})]
     for dep in rmdl.Departement.query.all():
         value = dep.id
-        text = dep.nom.upper()
+        text = dep.nom(locale).upper()
         chain = dep.region_id
         item = value, text, {'data-chained':chain}
         items.append(item)

@@ -53,9 +53,9 @@
         <!-- Origine géographique -->
         {% call render_card(inscription, _('3. Origine géographique'))%}
             {{ render_card_field('langue_id', _('Langue'), inscription.langue(locale).upper(), 'col-lg-6 col-8') }}
-            {{ render_card_field('nationalite_id', _('Nationalite'), inscription.departement_origine.region.pays.nationalite.upper(), 'col-lg-6 col-12') }}
-            {{ render_card_field('region_id', _("Region d'origine"), inscription.departement_origine.region.nom.upper(), 'col-lg-6 col-12') }}
-            {{ render_card_field('departement_id', _("Departement d'origine"), inscription.departement_origine.nom.upper(), 'col-lg-6 col-12') }}
+            {{ render_card_field('nationalite_id', _('Nationalite'), inscription.departement_origine.region.pays.nationalite(locale).upper(), 'col-lg-6 col-12') }}
+            {{ render_card_field('region_id', _("Region d'origine"), inscription.departement_origine.region.nom(locale).upper(), 'col-lg-6 col-12') }}
+            {{ render_card_field('departement_id', _("Departement d'origine"), inscription.departement_origine.nom(locale).upper(), 'col-lg-6 col-12') }}
         {% endcall%} <!-- End Origine géographique -->
 
         <!-- Cursus academique -->

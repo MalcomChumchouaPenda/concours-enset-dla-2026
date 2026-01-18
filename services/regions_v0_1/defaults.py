@@ -29,8 +29,10 @@ def init_data():
             id = id,
             code_enset = row['code_enset'],
             code_udo = row['code_udo'],
-            nationalite = row['nationalite'],
-            nom = row['pays'],
+            nationalite_fr = row['nationalite_fr'],
+            nationalite_en = row['nationalite_en'],
+            nom_fr = row['pays_fr'],
+            nom_en = row['pays_en'],
         )
         db.session.merge(pays)
     db.session.commit()
@@ -43,7 +45,8 @@ def init_data():
             pays_id = code_national,
             code_enset = row['code_enset'],
             code_udo = row['code_udo'],
-            nom = row['nom'],
+            nom_fr = row['nom_fr'],
+            nom_en = row['nom_en'],
         )
         db.session.merge(region)
     db.session.commit()
@@ -56,7 +59,8 @@ def init_data():
             code_enset = 'PB',
             code_udo = 'x',
             etranger = True,
-            nom = 'autres'
+            nom_fr = 'autres',
+            nom_en = 'others'
         )
         db.session.merge(region)
     db.session.commit()
@@ -67,7 +71,8 @@ def init_data():
         departement = Departement(
             id = row['numero'],
             code_udo = row['code'],
-            nom = row['departement'],
+            nom_fr = row['departement_fr'],
+            nom_en = row['departement_en'],
             region_id = row['region']
         )
         db.session.merge(departement)
@@ -80,7 +85,8 @@ def init_data():
             region_id = code_etranger,
             code_udo = 'AUTRES',
             etranger = True,
-            nom = 'autres'
+            nom_fr = 'autres',
+            nom_en = 'others'
         )
         db.session.merge(departement)
     db.session.commit()

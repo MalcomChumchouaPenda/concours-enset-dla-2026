@@ -70,9 +70,9 @@ def new():
     form.sexe_id.choices = choices.sexes(locale)
     form.langue_id.choices = choices.langues(locale)
     form.statut_matrimonial_id.choices = choices.situations(locale)
-    form.nationalite_id.choices = choices.nationalites()
-    form.region_origine_id.choices = choices.regions()
-    form.departement_origine_id.choices = choices.departements()
+    form.nationalite_id.choices = choices.nationalites(locale)
+    form.region_origine_id.choices = choices.regions(locale)
+    form.departement_origine_id.choices = choices.departements(locale)
     form.niveau_id.choices = choices.niveaux(locale)
     form.filiere_id.choices = choices.filieres(locale)
     form.option_id.choices = choices.options(locale)
@@ -189,9 +189,9 @@ def edit():
     form.sexe_id.choices = choices.sexes(locale)
     form.langue_id.choices = choices.langues(locale)
     form.statut_matrimonial_id.choices = choices.situations(locale)
-    form.nationalite_id.choices = choices.nationalites()
-    form.region_origine_id.choices = choices.regions()
-    form.departement_origine_id.choices = choices.departements()
+    form.nationalite_id.choices = choices.nationalites(locale)
+    form.region_origine_id.choices = choices.regions(locale)
+    form.departement_origine_id.choices = choices.departements(locale)
 
     # traitement et enregistrement des donnees
     if form.validate_on_submit():

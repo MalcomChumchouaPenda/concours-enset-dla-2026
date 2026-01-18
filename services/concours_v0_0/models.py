@@ -2,7 +2,7 @@
 from collections import namedtuple, OrderedDict
 from datetime import datetime
 from core.config import db
-from services.regions_v0_0.models import Departement
+from services.regions_v0_1.models import Departement
 
 
 _Sexe = namedtuple('Sexe', ['id', 'nom_fr', 'nom_en'])
