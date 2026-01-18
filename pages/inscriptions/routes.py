@@ -10,13 +10,10 @@ from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
 
 from core.config import db
-from core.utils import UiBlueprint, read_markdown, get_locale
-from core.auth import models as amdl
+from core.utils import UiBlueprint, get_locale
 from core.auth import tasks as auth_tsk
-from services.regions_v0_0 import tasks as rtsk
-from services.formations_v0_1 import tasks as ftsk
 from services.concours_v0_0 import tasks as con_tsk
-from services.concours_v0_0 import models as cmdl
+from services.concours_v0_0 import models as con_mdl
 from . import forms
 from . import choices
 
@@ -109,11 +106,11 @@ def new():
         for row in cursus:  
             row['inscription_id'] = uid
             row = _upper_data_values(row)
-            etape = cmdl.EtapeCursus(**row)
+            etape = con_mdl.EtapeCursus(**row)
             db.session.add(etape)
 
         # creation de l'inscription
-        inscr = cmdl.InscriptionConcours(**data)
+        inscr = con_mdl.InscriptionConcours(**data)
         db.session.add(inscr)    
         user.last_name = inscr.nom
         user.first_name = inscr.prenom
@@ -136,7 +133,7 @@ def new():
 @ui.roles_accepted('inscrit_concours')
 def view():
     user_id = current_user.id
-    inscr = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
+    inscr = con_mdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if inscr is None:
         return redirect(url_for('inscriptions.new'))
     return render_template('inscriptions/view.jinja', inscription=inscr)
@@ -152,7 +149,7 @@ def view():
 @ui.roles_accepted('inscrit_concours')
 def print_():
     user_id = current_user.id
-    inscr = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
+    inscr = con_mdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if inscr is None:
         return redirect(url_for('inscriptions.new'))
     nom_fichier_pdf = f"fiche_inscription_{user_id.lower()}.pdf"
@@ -173,7 +170,7 @@ def _verification_noms(inscr, data):
 @ui.roles_accepted('inscrit_concours')
 def edit():
     user_id = current_user.id
-    inscr = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
+    inscr = con_mdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if request.method == 'POST':
         form = forms.EditInscrForm()
     else:
@@ -231,7 +228,7 @@ def edit():
         for row in cursus:
             row['inscription_id'] = user_id
             row = _upper_data_values(row)
-            etape = cmdl.EtapeCursus(**row)
+            etape = con_mdl.EtapeCursus(**row)
             db.session.add(etape)
 
         db.session.commit()

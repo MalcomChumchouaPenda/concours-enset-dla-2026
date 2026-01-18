@@ -15,7 +15,7 @@ from wtforms.validators import DataRequired
 from core.config import login_manager, db
 from core.utils import UiBlueprint, read_json, get_locale, default_deadline, read_markdown
 from core.auth import tasks as auth_tsk
-from services.concours_v0_0 import models as cmdl
+from services.concours_v0_0 import models as con_mdl
 
 
 ui = UiBlueprint(__name__)
@@ -187,7 +187,7 @@ def recover_password():
     form = RecoverPasswordForm()
     if form.validate_on_submit():
         data = form.data
-        query = cmdl.InscriptionConcours.query.filter_by(id=data['id'])
+        query = con_mdl.InscriptionConcours.query.filter_by(id=data['id'])
         inscription = query.one_or_none()
         if inscription is None:
             flash(_('Numero de paiement inconnu'), 'danger')

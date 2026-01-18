@@ -1,7 +1,7 @@
 
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
-from services.concours_v0_0 import models as cmdl
+from services.concours_v0_0 import models as con_mdl
 from services.regions_v0_0 import models as rmdl
 
 
@@ -13,7 +13,7 @@ def _local_text(obj, field, locale):
 
 def niveaux(locale):
     items = [('', _('Choisir'))]
-    for id_, niveau in cmdl.NIVEAUX.items():
+    for id_, niveau in con_mdl.NIVEAUX.items():
         text = _local_text(niveau, 'nom', locale)
         item = (f'N{id_}', text)
         items.append(item)
@@ -21,7 +21,7 @@ def niveaux(locale):
 
 def filieres(locale):
     items = []
-    for classe in cmdl.ClasseConcours.query.all():
+    for classe in con_mdl.ClasseConcours.query.all():
         filiere = classe.option.filiere
         chain = f'N{classe.niveau_id}'
         value = filiere.id
@@ -35,7 +35,7 @@ def filieres(locale):
 
 def options(locale):
     items = [('', _('Choisir'), {})]
-    for option in cmdl.OptionConcours.query.all():
+    for option in con_mdl.OptionConcours.query.all():
         chain = option.filiere_id
         value = option.id
         text = _local_text(option, 'nom', locale)
@@ -45,7 +45,7 @@ def options(locale):
 
 def centres():
     items = [('', _('Choisir'))]
-    for centre in cmdl.CentreConcours.query.all():
+    for centre in con_mdl.CentreConcours.query.all():
         value = centre.id
         text = centre.nom.upper()
         item = value, text
@@ -85,7 +85,7 @@ def departements():
 
 def diplomes(locale):
     items = [('', _('Choisir'), {})]
-    for diplome in cmdl.DiplomeConcours.query.all():
+    for diplome in con_mdl.DiplomeConcours.query.all():
         if diplome.ouvert:
             value = diplome.id
             text = _local_text(diplome, 'nom', locale)
@@ -97,7 +97,7 @@ def diplomes(locale):
 
 def sexes(locale):
     items = [('', _('Choisir'))]
-    for id_, sexe in cmdl.SEXES.items():
+    for id_, sexe in con_mdl.SEXES.items():
         text = _local_text(sexe, 'nom', locale)
         item = (id_, text)
         items.append(item)
@@ -105,7 +105,7 @@ def sexes(locale):
 
 def langues(locale):
     items = [('', _('Choisir'))]
-    for id_, langue in cmdl.LANGUES.items():
+    for id_, langue in con_mdl.LANGUES.items():
         text = _local_text(langue, 'nom', locale)
         item = (id_, text)
         items.append(item)
@@ -113,7 +113,7 @@ def langues(locale):
 
 def situations(locale):
     items = [('', _('Choisir'))]
-    for id_, situation in cmdl.SITUATIONS.items():
+    for id_, situation in con_mdl.SITUATIONS.items():
         text = _local_text(situation, 'nom', locale)
         item = (id_, text)
         items.append(item)
