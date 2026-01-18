@@ -1,4 +1,5 @@
-1. **Accédez à la page de connexion** en cliquant sur le lien **"connexion"**
-2. **Connectez-vous** avec votre numéro de paiement et votre mot de passe.
-3. **Modifiez les informations autorisées** (excepté le lieu du concours et la filière choisie).
-4. **Validez** les modifications.
+1. **Cliquez sur "Connexion"** pour accéder à la page de connexion.
+2. **Connectez-vous** avec votre numéro de paiement et mot de passe, pour accéder à votre inscription.
+3. **Modifiez les informations autorisées** (sauf le lieu du concours et l'option choisie)
+4. **Validez les modifications** pour enregistrer les changements effectués.
+

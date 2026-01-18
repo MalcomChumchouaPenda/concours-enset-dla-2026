@@ -1,4 +1,4 @@
-**Bienvenue sur cette page d’aide**. Ce guide vous aide à vous inscrire, modifier votre fiche et l’imprimer facilement. Suivez les étapes indiquées et assurez-vous de finaliser votre inscription avant le concours:
+**Bienvenue sur cette page d'aide**. Ce guide vous aidera à effectuer, modifier et imprimer votre inscription. Suivez les étapes ci-dessous et complétez votre inscription avant la compétition :
 
 1. [Faire son inscription <i class="bi bi-arrow-right"></i>](#new-help)
 2. [Imprimer son inscription <i class="bi bi-arrow-right"></i>](#print-help)
