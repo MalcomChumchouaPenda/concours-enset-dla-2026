@@ -4,7 +4,7 @@ import csv
 from flask import current_app
 from datetime import datetime
 from core.config import db
-from core.auth.tasks import add_role, add_user, add_roles_to_user
+from core.auth import tasks as auth_tsk
 from . import models as mdl
 
 
@@ -17,8 +17,9 @@ def _read_csv(filename, sep=','):
         records = list(reader)
     return records
 
-def _init_concours(session):
-    add_role(session, 'candidat', 'Candidat')
+def _init_concours():
+    auth_tsk.add_role('candidat_concours', 'Candidat')
+    auth_tsk.add_role('inscrit_concours', 'Candidat inscrit')
 
     data = _read_csv('diplomes.csv', sep=';')
     for row in data:
@@ -69,11 +70,9 @@ def _init_concours(session):
     db.session.commit()
 
 
-def _init_candidates(session):
+def _init_candidates():
     uid = '0000'
     pwd = '0000'
-    add_user(session, uid, uid, pwd)
-    add_roles_to_user(session, uid, 'candidat')
 
     candidat = {
         'id': uid,
@@ -93,24 +92,37 @@ def _init_candidates(session):
         'numero_dossier':'26BAF-BACCDE-0001'
     }
     
-    cursus = {
-        'annee': '2004', 
-        'diplome': 'BAC C', 
-        'etablissement': 'LYCEE DE NEW-BELL',
-        'mention': 'ASSEZ BIEN',
-        'inscription_id':uid,
-    }
+    cursus = [
+        {
+            'annee': '2004', 
+            'diplome': 'BAC C', 
+            'etablissement': 'LYCEE DE NEW-BELL',
+            'mention': 'ASSEZ BIEN',
+            'inscription_id':uid,
+        },
+        {
+            'annee': '2003', 
+            'diplome': 'PROBATOIRE C', 
+            'etablissement': 'LYCEE DE NEW-BELL',
+            'mention': 'BIEN',
+            'inscription_id':uid,
+        }
+    ]
+    
+    role = auth_tsk.get_role('inscrit_concours')
+    user = auth_tsk.add_user(uid, candidat['id'], pwd)
+    auth_tsk.add_role_to_user(user, role)
+
     db.session.add(mdl.InscriptionConcours(**candidat))
-    db.session.add(mdl.EtapeCursus(**cursus))
+    for row in cursus:
+        db.session.add(mdl.EtapeCursus(**row))
     db.session.commit()
 
 def init_data():
-    session = db.session
-    _init_concours(session)
-    
+    _init_concours()    
     config = current_app.config
     if config['DEBUG']:
-        _init_candidates(session)
+        _init_candidates()
     
 
 

@@ -8,12 +8,12 @@ from core.auth.tasks import (
     add_role, 
     remove_role, 
     add_roles_to_user, 
-    remove_roles_to_user
+    remove_roles_from_user
 )
 
 
 def test_add_user(app):
-    add_user(db.session, '1', 'test', 'testpass', first_name='pretest')
+    add_user('1', 'test', 'testpass', first_name='pretest')
     user = User.query.get('1')
     assert user is not None
     assert user.id == '1'
@@ -23,8 +23,8 @@ def test_add_user(app):
 
 
 def test_remove_user(app):
-    add_user(db.session, '1', 'test', "testpass")
-    remove_user(db.session, '1')
+    user = add_user('1', 'test', "testpass")
+    remove_user(user)
     user = User.query.get('1')
     assert user is None
 
@@ -45,26 +45,26 @@ def roles():
     return [role1, role2]
 
 def test_add_role(app):
-    add_role(db.session, '3', "moderator")
+    add_role('3', "moderator")
     role = Role.query.get('3')
     assert role is not None
     assert role.name == "moderator"
 
 def test_remove_role(app):
-    add_role(db.session, '4', "temp")
+    add_role('4', "temp")
     remove_role(db.session, '4')
     role = Role.query.get('4')
     assert role is None
 
 def test_add_roles_to_user(app, user, roles):
-    add_roles_to_user(db.session, user.id, '1', '2')
+    add_roles_to_user(user.id, '1', '2')
     user = User.query.get(user.id)
     role_ids = [role.id for role in user.roles]
     assert set(role_ids) == {'1', '2'}
 
-def test_remove_roles_to_user(app, user, roles):
+def test_remove_roles_from_user(app, user, roles):
     add_roles_to_user(db.session, user.id, '1', '2')
-    remove_roles_to_user(db.session, user.id, '1')
+    remove_roles_from_user(db.session, user.id, '1')
     user = User.query.get(user.id)
     remaining_ids = [role.id for role in user.roles]
     assert remaining_ids == ['2']

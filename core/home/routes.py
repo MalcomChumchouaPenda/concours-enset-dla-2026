@@ -14,7 +14,7 @@ from wtforms.validators import DataRequired
 
 from core.config import login_manager, db
 from core.utils import UiBlueprint, read_json, get_locale, default_deadline, read_markdown
-from core.auth.tasks import connect_user, disconnect_user, get_user, add_roles_to_user, add_user
+from core.auth import tasks as auth_tsk
 from services.concours_v0_0 import models as cmdl
 
 
@@ -27,7 +27,6 @@ def index():
     locale = get_locale() 
     msg = os.path.join(static_dir, f'md/hero-msg-{locale}.md')
     hero = dict(msg=msg, img=f'img/hero-bg.jpg')
-    disconnect_user()
     return render_template('home.jinja', hero=hero)
 
 
@@ -77,7 +76,7 @@ def register():
             flash(_('Numero de paiement invalide'), 'danger')
             return render_template('home-register.jinja', form=form)
         
-        if get_user(db.session, uid):
+        if auth_tsk.get_user(uid):
             return render_template('landing/message.jinja',
                                     title=_("Avertissement"),
                                     message=_("Ce numero de paiement a deja ete utilise pour une inscription"),
@@ -89,9 +88,11 @@ def register():
             flash(_('Mot de passe non confirme'), 'danger')
             return render_template('home-register.jinja', form=form)
         
-        session['candidat_id'] = uid
-        session['candidat_pwd'] = pwd
-        session['step'] = 'registered'
+        role = auth_tsk.get_role('candidat_concours')
+        user = auth_tsk.add_user(uid, f'Candidat {uid}', pwd, commit=False)
+        auth_tsk.add_role_to_user(user, role, commit=True)
+        auth_tsk.connect_user(uid, pwd)
+        print('\n\tconnect user', current_user, current_user.is_authenticated)
         return redirect(url_for('inscriptions.new'))
 
     flash(_('Vous devez payer vos frais de concours avant cette etape'), 'warning')  
@@ -110,18 +111,21 @@ def login():
     if not next:
         next = url_for('inscriptions.view')
 
+    if 'inscriptions/new' in next:
+        return redirect(url_for('home.register'))
+
     if form.validate_on_submit():
         uid = form.id.data
         if not _check_id(uid):
             flash(_('Numero de paiement invalide'), 'danger')
             return render_template('home-login.jinja', form=form, next=next)
         
-        if not get_user(db.session, uid):
+        if not auth_tsk.get_user(uid):
             flash(_("Aucune inscription en cours"), 'danger')
             return render_template('home-login.jinja', form=form, next=next)
 
         pwd = form.pwd.data
-        if not connect_user(uid, pwd):
+        if not auth_tsk.connect_user(uid, pwd):
             flash(_('Mot de passe incorrecte'), 'danger')
             return render_template('home-login.jinja', form=form, next=next)
         
@@ -131,8 +135,13 @@ def login():
 
 @ui.route('/logout')
 def logout():
-    if current_user.is_authenticated:
-        disconnect_user()
+    user = current_user
+    print('\nstep1=>', user, user.roles)
+    if user.is_authenticated:
+        if user.has_role('candidat_concours'):
+            auth_tsk.remove_user(user)
+        print('\nstep2=>', user, user.roles)
+        auth_tsk.disconnect_user()
     return redirect(url_for('home.index'))
 
 @login_manager.unauthorized_handler
@@ -142,6 +151,7 @@ def unauthorized_callback():
 
 @ui.route('/denied')
 def access_denied():
+    print('\n\tdenied=>', current_user, current_user.roles)
     msg = _("Vous n'avez pas les autorisations nécessaires pour accéder à cette page.")
     actions = [{'text':_("Revenir a l'accueil"), 'url':'/'}]
     prev = request.referrer
@@ -186,10 +196,10 @@ def recover_password():
         if not _verification_infos(inscription, data):
             flash(_('Informations incorrectes'), 'danger')
             return render_template('home-recover-password.jinja', form=form, next=next)
-        user = get_user(db.session, inscription.id)
+        user = auth_tsk.get_user(inscription.id)
         user.set_password('X')
         db.session.commit()
-        connect_user(user.id, 'X')
+        auth_tsk.connect_user(user.id, 'X')
         return redirect(url_for('home.change_password', next=next))
     return render_template('home-recover-password.jinja', form=form, next=next)
 

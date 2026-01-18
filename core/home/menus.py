@@ -4,7 +4,6 @@ from core.utils import navbar, sidebar
 
 
 navbar.add('home_pg', _l('Accueil'), endpoint='home.index', rank=0)
-navbar.add('register_pg', _l('Inscription'), endpoint='home.register', rank=1)
 navbar.add('communique_pdf', _l('Communique'), endpoint='home.communique', rank=2)
 navbar.add('concours_help_pg', _l('Aide'), endpoint='home.help', rank=3)
 
@@ -14,6 +13,6 @@ navbar.add('concours_help_pg', _l('Aide'), endpoint='home.help', rank=3)
 # workspacemenu.add('teacher_dash', _l('Enseignants'), endpoint='home.teacher_dashboard')
 # workspacemenu.add('admin_dash', _l('Administration'), endpoint='home.admin_dashboard')
 
-# sidebar.add('home_dash', _l('Accueil'), endpoint='home.dashboard', rank=-1)
-# sidebar.add('profile_dash', _l('Profil'), endpoint='home.profile', rank=-1)
+sidebar.add('home_pg', _l('Accueil'), endpoint='home.index', rank=0)
+sidebar.add('profile_dash', _l('Profil'), endpoint='home.profile', rank=1)
 

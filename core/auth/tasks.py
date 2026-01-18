@@ -27,49 +27,62 @@ def disconnect_user():
     return True
 
 
-def get_user(session, id):
-    return session.query(User).filter_by(id=id).one_or_none()
+def get_user(uid):
+    return User.query.filter_by(id=uid).one_or_none()
 
-def add_user(session, id, last_name, password, first_name=None):
-    user = User(id=id, last_name=last_name, first_name=first_name)
+def add_user(uid, last_name, password, first_name=None, commit=True):
+    user = User(id=uid, last_name=last_name, first_name=first_name)
     user.set_password(password)
-    session.add(user)
-    session.commit()
+    db.session.add(user)
+    if commit:
+        db.session.commit()
+    return user
 
-def remove_user(session, id):
-    user = User.query.get(id)
-    if user:
-        session.delete(user)
-        session.commit()
+def remove_user(user, commit=True):
+    db.session.delete(user)
+    if commit:
+        db.session.commit()
 
 
-def add_role(session, id, name):
-    if not Role.query.get(id):
-        role = Role(id=id, name=name)
-        session.add(role)
-        session.commit()
+def get_role(uid):
+    return Role.query.filter_by(id=uid).one_or_none()
 
-def remove_role(session, id):
-    role = Role.query.get(id)
-    if role:
-        session.delete(role)
-        session.commit()
+def add_role(uid, name, commit=True):
+    role = Role(id=uid, name=name)
+    db.session.add(role)
+    if commit:
+        db.session.commit()
+    return role
 
-def add_roles_to_user(session, userid, *role_ids):
-    user = User.query.get(userid)
-    if user:
-        for role_id in role_ids:
-            role = Role.query.get(role_id)
-            if role and role not in user.roles:
-                user.roles.append(role)
-        session.commit()
+def remove_role(role, commit=True):
+    db.session.delete(role)
+    if commit:
+        db.session.commit()
 
-def remove_roles_to_user(session, userid, *role_ids):
-    user = User.query.get(userid)
-    if user:
-        for role_id in role_ids:
-            role = Role.query.get(role_id)
-            if role and role in user.roles:
-                user.roles.remove(role)
-        session.commit()
+
+def add_role_to_user(user, role, commit=True):
+    if role not in user.roles:
+        user.roles.append(role)
+    if commit:
+        db.session.commit()
+
+def remove_role_from_user(user, role, commit=True):
+    if role and role in user.roles:
+        user.roles.remove(role)
+    if commit:
+        db.session.commit()
+
+def add_roles_to_user(user, roles, commit=True):
+    for role in roles:
+        if role not in user.roles:
+            user.roles.append(role)
+    if commit:
+        db.session.commit()
+
+def remove_roles_from_user(user, roles, commit=True):
+    for role in roles:
+        if role and role in user.roles:
+            user.roles.remove(role)
+    if commit:
+        db.session.commit()
 

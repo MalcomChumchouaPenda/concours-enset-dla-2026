@@ -124,10 +124,7 @@ def create_app():
                 static_folder=THEMES_DIR, 
                 template_folder=THEMES_DIR)
     
-    env_name = choose_config_name(app)
-    print('\tdebug=>', app.debug)
-    print('\ttesting=>', app.testing)
-    
+    env_name = choose_config_name(app)    
     config = prepare_db_config(env_name)
     app.config.from_object(config)
     with open(CORE_MANIFEST_PATH) as f:

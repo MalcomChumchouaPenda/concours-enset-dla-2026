@@ -12,10 +12,10 @@ from flask_babel import lazy_gettext as _l
 from core.config import db
 from core.utils import UiBlueprint, read_markdown, get_locale
 from core.auth import models as amdl
-from core.auth.tasks import get_user, add_user, add_roles_to_user, connect_user
+from core.auth import tasks as auth_tsk
 from services.regions_v0_0 import tasks as rtsk
 from services.formations_v0_1 import tasks as ftsk
-from services.concours_v0_0 import tasks as ctsk
+from services.concours_v0_0 import tasks as con_tsk
 from services.concours_v0_0 import models as cmdl
 from . import forms
 from . import choices
@@ -61,15 +61,10 @@ def _upper_data_values(data):
 
 
 @ui.route('/new', methods=['GET', 'POST'])
-def new():
-    # verification des etapes
-    current_step = session.get('step', 'undefined')
-    print('\ncurrentstep=>', current_step)
-    if not current_step in ['registered']:
-        session['step'] = 'undefined'
-        for key in ['candidat_id', 'candidat_pwd']:
-            if key in session:
-                session.pop(key)
+@ui.roles_accepted('candidat_concours', 'inscrit_concours')
+def new():    
+    if current_user.has_role('inscrit_concours'):
+        auth_tsk.disconnect_user()
         return redirect(url_for('home.register'))
     
     # creation du formulaire
@@ -90,9 +85,10 @@ def new():
     # traitement et enregistrement des donnees
     if form.validate_on_submit():
         data = form.data
+        user = current_user
 
         # pretraitement des donnees
-        uid = session['candidat_id']
+        uid = user.id
         classe_id = data['option_id'] + data['niveau_id'][-1]
         date_naiss = datetime.strptime(data['date_naissance'], r'%d/%m/%Y')
         date_naiss = date_naiss.date()
@@ -109,29 +105,26 @@ def new():
             data.pop(col)
 
         # traitement du cursus
-        cursus = data.pop('cursus')
-        inscription = cmdl.InscriptionConcours(**data)
-        ctsk.creer_numero(db.session, inscription)
-        db.session.add(inscription)     
+        cursus = data.pop('cursus') 
         for row in cursus:  
             row['inscription_id'] = uid
             row = _upper_data_values(row)
             etape = cmdl.EtapeCursus(**row)
             db.session.add(etape)
 
-        # creation du compte utilisateur
-        uid = session.pop('candidat_id')
-        pwd = session.pop('candidat_pwd')
-        role = amdl.Role.query.get('candidat')
-        user = amdl.User(id=uid, last_name=uid)
-        user.set_password(pwd)
-        user.roles.append(role)
-        db.session.add(user)
-        
+        # creation de l'inscription
+        inscr = cmdl.InscriptionConcours(**data)
+        db.session.add(inscr)    
+        user.last_name = inscr.nom
+        user.first_name = inscr.prenom
+        old_role = auth_tsk.get_role('candidat_concours')
+        new_role = auth_tsk.get_role('inscrit_concours')
+        auth_tsk.remove_role_from_user(user, old_role, commit=False)
+        auth_tsk.add_role_to_user(user, new_role, commit=False)
+        con_tsk.creer_numero(inscr)
+
         # finalisation
         db.session.commit()
-        connect_user(uid, pwd)
-        session['step'] = 'submitted'
         flash(_('Inscription enregistree avec success'), 'success')
         return redirect(url_for('inscriptions.view'))
 
@@ -140,13 +133,13 @@ def new():
 
 
 @ui.route('/view')
-@ui.login_required
+@ui.roles_accepted('inscrit_concours')
 def view():
     user_id = current_user.id
-    inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
-    if inscription is None:
+    inscr = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
+    if inscr is None:
         return redirect(url_for('inscriptions.new'))
-    return render_template('inscriptions/view.jinja', inscription=inscription)
+    return render_template('inscriptions/view.jinja', inscription=inscr)
 
 
 
@@ -156,45 +149,46 @@ def view():
 
 
 @ui.route('/print')
+@ui.roles_accepted('inscrit_concours')
 def print_():
     user_id = current_user.id
-    inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
-    if inscription is None:
+    inscr = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
+    if inscr is None:
         return redirect(url_for('inscriptions.new'))
     nom_fichier_pdf = f"fiche_inscription_{user_id.lower()}.pdf"
     nom_fichier_pdf = nom_fichier_pdf.replace('-', '_')
     chemin_pdf_final = os.path.join(temp_dir, nom_fichier_pdf)
-    fichier_pdf = ctsk.generer_fiche_inscription(inscription, chemin_pdf_final)
+    fichier_pdf = con_tsk.generer_fiche_inscription(inscr, chemin_pdf_final)
     return send_file(fichier_pdf, as_attachment=False, download_name=nom_fichier_pdf)
 
 
-def _verification_noms(inscription, data):
+def _verification_noms(inscr, data):
     nom_complet = ' '.join([data['nom'], data['prenom']])
-    ratio = lv.ratio(nom_complet.upper(), inscription.nom_complet.upper())
-    print('\n\ttest =>', nom_complet.upper(), inscription.nom_complet.upper(), ratio)
+    ratio = lv.ratio(nom_complet.upper(), inscr.nom_complet.upper())
+    print('\n\ttest =>', nom_complet.upper(), inscr.nom_complet.upper(), ratio)
     return ratio >= 0.75
 
 
 @ui.route('/edit', methods=['GET', 'POST'])
-@ui.login_required
+@ui.roles_accepted('inscrit_concours')
 def edit():
     user_id = current_user.id
-    inscription = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
+    inscr = cmdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if request.method == 'POST':
         form = forms.EditInscrForm()
     else:
-        form = forms.EditInscrForm(obj=inscription)
-        form.date_naissance.data = inscription.date_naissance.strftime(r'%d/%m/%Y')
-        form.nationalite_id.data = inscription.departement_origine.region.pays_id
-        form.region_origine_id.data = inscription.departement_origine.region_id
-        form.departement_origine_id.data = inscription.departement_origine_id
+        form = forms.EditInscrForm(obj=inscr)
+        form.date_naissance.data = inscr.date_naissance.strftime(r'%d/%m/%Y')
+        form.nationalite_id.data = inscr.departement_origine.region.pays_id
+        form.region_origine_id.data = inscr.departement_origine.region_id
+        form.departement_origine_id.data = inscr.departement_origine_id
 
     locale = get_locale()
-    form.filiere.data = inscription.classe.option.filiere.nom(locale).upper()
-    form.option.data = inscription.classe.option.nom(locale).upper()
-    form.diplome.data = inscription.diplome.nom(locale).upper()
-    form.niveau.data = inscription.classe.niveau(locale).upper()
-    form.centre.data = inscription.centre.nom.upper()    
+    form.filiere.data = inscr.classe.option.filiere.nom(locale).upper()
+    form.option.data = inscr.classe.option.nom(locale).upper()
+    form.diplome.data = inscr.diplome.nom(locale).upper()
+    form.niveau.data = inscr.classe.niveau(locale).upper()
+    form.centre.data = inscr.centre.nom.upper()    
     form.sexe_id.choices = choices.sexes(locale)
     form.langue_id.choices = choices.langues(locale)
     form.statut_matrimonial_id.choices = choices.situations(locale)
@@ -207,9 +201,9 @@ def edit():
         data = form.data
 
         # verification du noms
-        if not _verification_noms(inscription, data):
+        if not _verification_noms(inscr, data):
             msg = _("Ce compte est reserve au candidat ")
-            msg += f"<b>{inscription.nom_complet}</b> "
+            msg += f"<b>{inscr.nom_complet}</b> "
             msg += _("(Vous n'etes pas dans votre inscription)")
             flash(msg, 'danger')
             return redirect(url_for('inscriptions.view'))
@@ -217,7 +211,7 @@ def edit():
         # pretraitement des donnees
         date_naiss = datetime.strptime(data['date_naissance'], r'%d/%m/%Y')
         date_naiss = date_naiss.date()
-        inscription.date_naissance = date_naiss
+        inscr.date_naissance = date_naiss
         data = _upper_data_values(data)
 
         # modification simple
@@ -226,11 +220,11 @@ def edit():
                          'departement_origine_id', 'langue_id', 
                          'telephone', 'email']
         for field in simple_fields:
-            setattr(inscription, field, data[field])
+            setattr(inscr, field, data[field])
 
         # clear previous cursus
         cursus = data.pop('cursus')
-        for etape in inscription.cursus:
+        for etape in inscr.cursus:
             db.session.delete(etape)
 
         # add new cursus

@@ -85,5 +85,6 @@ class AnonymousUser(AnonymousUserMixin, AbstractUser):
     def __init__(self):
         super().__init__()
         self.id = '#'
+        self.roles = []
 
 login_manager.anonymous_user = AnonymousUser

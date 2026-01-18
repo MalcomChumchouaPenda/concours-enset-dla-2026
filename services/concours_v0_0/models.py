@@ -112,7 +112,7 @@ class InscriptionConcours(db.Model):
 
     # Métadonnées
     id = db.Column(db.String(20), primary_key=True)  # numero paiement
-    numero_dossier = db.Column(db.String(20), primary_key=True)  # numero paiement
+    numero_dossier = db.Column(db.String(20), unique=True)  # numero paiement
     date_inscription = db.Column(db.DateTime, default=datetime.now)
     annee_concours = '2025/2026'
 

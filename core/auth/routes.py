@@ -5,14 +5,7 @@ from flask_restx import Resource, fields
 from core.config import db, login_manager
 from core.utils import ApiNamespace
 from .models import User, Role
-from .tasks import (
-    connect_user, 
-    disconnect_user,
-    add_role,
-    remove_role,
-    add_roles_to_user,
-    remove_roles_to_user
-)
+from . import tasks as tsk
 
 
 ns = ApiNamespace('auth', description="Systeme d'authentification")
@@ -33,7 +26,7 @@ class LoginApi(Resource):
     @ns.expect(credential_model)
     def post(self):
         data = request.json
-        if connect_user(data['id'], data['password']):
+        if tsk.connect_user(data['id'], data['password']):
             return {'message': 'Logged in successfully'}, 200
         return {'message': 'Invalid credentials'}, 401
 
@@ -41,7 +34,7 @@ class LoginApi(Resource):
 class LogoutApi(Resource):
     def post(self):
         if current_user.is_authenticated:
-            disconnect_user()
+            tsk.disconnect_user()
             return {'message': 'Logged out successfully'}, 200
         return {'message': 'User not logged in'}, 401
 
@@ -131,7 +124,7 @@ class RolesApi(Resource):
     @ns.roles_accepted('developper')
     def post(self):
         data = ns.payload
-        add_role(db.session, data["id"], data["name"])
+        tsk.add_role(data["id"], data["name"])
         return {"message": "Role added"}, 201
 
 
@@ -140,7 +133,8 @@ class RoleApi(Resource):
 
     @ns.roles_accepted('developper')
     def delete(self, id):
-        remove_role(db.session, id)
+        role = tsk.get_role(id)
+        tsk.remove_role(role)
         return {"message": "Role deleted"}
 
 
@@ -149,12 +143,19 @@ class UserRolesApi(Resource):
 
     @ns.roles_accepted('developper')
     def post(self, user_id):
+        user = tsk.get_user(user_id)
         role_ids = ns.payload.get("role_ids", [])
-        add_roles_to_user(db.session, user_id, *role_ids)
+        for role_id in role_ids:
+            role = tsk.get_role(role_id)
+            tsk.add_role_to_user(user, role)
         return {"message": "Roles added to user"}
 
     @ns.roles_accepted('developper')
     def delete(self, user_id):
+        user = tsk.get_user(user_id)
         role_ids = ns.payload.get("role_ids", [])
-        remove_roles_to_user(db.session, user_id, *role_ids)
+        for role_id in role_ids:
+            role = tsk.get_role(role_id)
+            tsk.remove_role_from_user(user, role)
         return {"message": "Roles removed from user"}
+    
