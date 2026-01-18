@@ -203,12 +203,12 @@ def generer_fiche_inscription(inscription, nom_fichier):
     c.setFont(font_name, 9)
     c.drawString(x_b1, y_a, "SEXE (F/M) :")
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 20*mm, y_a, inscription.sexe.upper())
+    c.drawString(x_b1 + 20*mm, y_a, inscription.sexe('fr').upper())
 
     c.setFont(font_name, 9)
     c.drawString(x_b2, y_a, "SITUATION MATRIMONIALE (M/C/D) :")
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 58*mm, y_a, inscription.situation_matrimoniale.upper())
+    c.drawString(x_b2 + 58*mm, y_a, inscription.statut_matrimonial('fr').upper())
     y_a -= dy_b
 
 
@@ -217,7 +217,7 @@ def generer_fiche_inscription(inscription, nom_fichier):
     c.setFont(font_name, 9)
     c.drawString(x_b1, y_a, "LANGUE (F/A) :")
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 25*mm, y_a, inscription.langue.upper())
+    c.drawString(x_b1 + 25*mm, y_a, inscription.langue('fr').upper())
 
     departement_origine = inscription.departement_origine
     region = departement_origine.region
@@ -260,7 +260,7 @@ def generer_fiche_inscription(inscription, nom_fichier):
     c.setFont(font_name, 9)
     c.drawString(x_b1, y_a, "NIVEAU EXAMEN :")
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 30*mm, y_a, classe.niveau.upper())
+    c.drawString(x_b1 + 30*mm, y_a, classe.niveau('fr').upper())
     
     c.setFont(font_name, 9)
     c.drawString(x_b2, y_a, "DIPLOME CANDIDAT :")
@@ -333,7 +333,7 @@ def generer_fiche_inscription(inscription, nom_fichier):
     c.setFont(font_name, 9)
     c.drawString(x_b2, y_a, "NIVEAU :")
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 15*mm, y_a, classe.niveau.upper())
+    c.drawString(x_b2 + 15*mm, y_a, classe.niveau('fr').upper())
     
     c.setFont(font_name, 9)
     c.drawString(x_b3 + 2*mm, y_a, "CENTRE:")

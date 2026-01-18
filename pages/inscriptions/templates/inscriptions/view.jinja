@@ -1,5 +1,6 @@
 {% extends 'dashboard/layout.jinja' %}
 {% set page_id = 'concours_ins_pg' %}
+{% set locale = get_locale() %}
 {% from 'inscriptions/macros.jinja' import render_card, render_card_field, render_messages %}
 
 {% block page_header %}
@@ -33,10 +34,10 @@
             {{ render_card_field('num_paiement', _('Numero paiement'), current_user.id, 'col-lg-3 col-8') }} 
             <div class="col-lg-3 col-2"></div>
             {{ render_card_field('centre_id', _('Centre'), inscription.centre.nom.upper(), 'col-lg-3 col-8') }} 
-            {{ render_card_field('niveau_id', _('Niveau'), inscription.classe.niveau.upper(), 'col-lg-3 col-8') }} 
-            {{ render_card_field('diplome_id', _('Diplome'), inscription.diplome.nom_fr.upper(), 'col-lg-6 col-12') }} 
-            {{ render_card_field('filiere_id', _('Filiere'), inscription.classe.option.filiere.nom_fr.upper(), 'col-lg-6 col-12') }} 
-            {{ render_card_field('option_id', _('Option'), inscription.classe.option.nom_fr.upper(), 'col-lg-6 col-12') }} 
+            {{ render_card_field('niveau_id', _('Niveau'), inscription.classe.niveau(locale).upper(), 'col-lg-3 col-8') }} 
+            {{ render_card_field('diplome_id', _('Diplome'), inscription.diplome.nom(locale).upper(), 'col-lg-6 col-12') }} 
+            {{ render_card_field('filiere_id', _('Filiere'), inscription.classe.option.filiere.nom(locale).upper(), 'col-lg-6 col-12') }} 
+            {{ render_card_field('option_id', _('Option'), inscription.classe.option.nom(locale).upper(), 'col-lg-6 col-12') }} 
         {% endcall%} <!-- End choix concours-->
 
         <!-- Info generales -->
@@ -45,13 +46,13 @@
             {{ render_card_field('prenom', _('Prenoms'), inscription.prenom.upper(), 'col-lg-6 col-12') }}  
             {{ render_card_field('date_naissance', _('Date naissance'), inscription.date_naissance.strftime('%d/%m/%Y'), 'col-lg-4 col-12')}}  
             {{ render_card_field('lieu_naissance', _('Lieu naissance'), inscription.lieu_naissance.upper(), 'col-lg-8 col-12')}} 
-            {{ render_card_field('sexe_id', _('Sexe'), inscription.sexe.upper(), 'col-lg-4 col-8') }}
-            {{ render_card_field('situation_id', _('Situation matrimoniale'), inscription.situation_matrimoniale.upper(), 'col-lg-4 col-8') }}
+            {{ render_card_field('sexe_id', _('Sexe'), inscription.sexe(locale).upper(), 'col-lg-4 col-8') }}
+            {{ render_card_field('situation_id', _('Situation matrimoniale'), inscription.statut_matrimonial(locale).upper(), 'col-lg-4 col-8') }}
         {% endcall%}  <!-- End Info generales -->
 
         <!-- Origine géographique -->
         {% call render_card(inscription, _('3. Origine géographique'))%}
-            {{ render_card_field('langue_id', _('Langue'), inscription.langue.upper(), 'col-lg-6 col-8') }}
+            {{ render_card_field('langue_id', _('Langue'), inscription.langue(locale).upper(), 'col-lg-6 col-8') }}
             {{ render_card_field('nationalite_id', _('Nationalite'), inscription.departement_origine.region.pays.nationalite.upper(), 'col-lg-6 col-12') }}
             {{ render_card_field('region_id', _("Region d'origine"), inscription.departement_origine.region.nom.upper(), 'col-lg-6 col-12') }}
             {{ render_card_field('departement_id', _("Departement d'origine"), inscription.departement_origine.nom.upper(), 'col-lg-6 col-12') }}

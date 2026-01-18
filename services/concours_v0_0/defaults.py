@@ -26,7 +26,9 @@ def _init_concours(session):
             id  = row['code'],
             nom_fr = row['nom_fr'],
             nom_en = row['nom_en'],
-            niveau_id = row['niveau']
+            niveau_id = row['niveau'],
+            ouvert = row['ouvert'] == 1,
+            prefix = row['prefix']
         ))
     db.session.commit()
     
@@ -80,7 +82,7 @@ def _init_candidates(session):
         'date_naissance': datetime(2026, 1, 22).date(), 
         'lieu_naissance': 'DOUALA', 
         'sexe_id': 'F', 
-        'situation_matrimoniale_id': 'C', 
+        'statut_matrimonial_id': 'C', 
         'departement_origine_id': 'CO', 
         'langue_id': 'EN', 
         'classe_id': 'BTP1', 

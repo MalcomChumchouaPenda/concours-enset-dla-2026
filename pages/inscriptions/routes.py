@@ -77,7 +77,7 @@ def new():
     form = forms.NewInscrForm()
     form.sexe_id.choices = choices.sexes(locale)
     form.langue_id.choices = choices.langues(locale)
-    form.situation_matrimoniale_id.choices = choices.situations(locale)
+    form.statut_matrimonial_id.choices = choices.situations(locale)
     form.nationalite_id.choices = choices.nationalites()
     form.region_origine_id.choices = choices.regions()
     form.departement_origine_id.choices = choices.departements()
@@ -190,20 +190,14 @@ def edit():
         form.departement_origine_id.data = inscription.departement_origine_id
 
     locale = get_locale()
-    if locale == 'fr':
-        form.filiere.data = inscription.classe.option.filiere.nom_fr.upper()
-        form.option.data = inscription.classe.option.nom_fr.upper()
-        form.diplome.data = inscription.diplome.nom_fr.upper()
-    else:
-        form.filiere.data = inscription.classe.option.filiere.nom_en.upper()
-        form.option.data = inscription.classe.option.nom_en.upper()
-        form.diplome.data = inscription.diplome.nom_en.upper()
-
-    form.niveau.data = inscription.classe.niveau.upper()
+    form.filiere.data = inscription.classe.option.filiere.nom(locale).upper()
+    form.option.data = inscription.classe.option.nom(locale).upper()
+    form.diplome.data = inscription.diplome.nom(locale).upper()
+    form.niveau.data = inscription.classe.niveau(locale).upper()
     form.centre.data = inscription.centre.nom.upper()    
     form.sexe_id.choices = choices.sexes(locale)
     form.langue_id.choices = choices.langues(locale)
-    form.situation_matrimoniale_id.choices = choices.situations(locale)
+    form.statut_matrimonial_id.choices = choices.situations(locale)
     form.nationalite_id.choices = choices.nationalites()
     form.region_origine_id.choices = choices.regions()
     form.departement_origine_id.choices = choices.departements()
@@ -228,7 +222,7 @@ def edit():
 
         # modification simple
         simple_fields = ['prenom', 'nom', 'lieu_naissance', 
-                         'sexe_id', 'situation_matrimoniale_id',
+                         'sexe_id', 'statut_matrimonial_id',
                          'departement_origine_id', 'langue_id', 
                          'telephone', 'email']
         for field in simple_fields:

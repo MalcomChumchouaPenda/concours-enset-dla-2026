@@ -34,10 +34,17 @@ class DiplomeConcours(db.Model):
     __tablename__ = 'diplome_concours'
 
     id = db.Column(db.String(10), primary_key=True)     # correspond au diplome d'entree
-    niveau_id = db.Column(db.Integer, nullable=False)
     nom_fr = db.Column(db.String(200), nullable=False)
     nom_en = db.Column(db.String(200), nullable=False)
+    prefix = db.Column(db.String(7), nullable=True)
+    ouvert = db.Column(db.Boolean, default=False)
+    niveau_id = db.Column(db.Integer, nullable=False)
     inscriptions = db.relationship('InscriptionConcours', back_populates='diplome')
+
+    def nom(self, locale='fr'):
+        if locale == 'fr':
+            return self.nom_fr
+        return self.nom_en
 
 
 class FiliereConcours(db.Model):
@@ -49,9 +56,10 @@ class FiliereConcours(db.Model):
     nom_en = db.Column(db.String(200), nullable=False)
     options = db.relationship('OptionConcours', back_populates='filiere')
 
-    @property
-    def full_id(self):
-        return self.id
+    def nom(self, locale='fr'):
+        if locale == 'fr':
+            return self.nom_fr
+        return self.nom_en
 
 
 class OptionConcours(db.Model):
@@ -65,9 +73,10 @@ class OptionConcours(db.Model):
     filiere = db.relationship('FiliereConcours', back_populates='options')
     classes = db.relationship('ClasseConcours', back_populates='option')
 
-    @property
-    def full_id(self):
-        return self.filiere.full_id + '-' + self.id
+    def nom(self, locale='fr'):
+        if locale == 'fr':
+            return self.nom_fr
+        return self.nom_en
     
 
 class ClasseConcours(db.Model):
@@ -80,13 +89,11 @@ class ClasseConcours(db.Model):
     option = db.relationship('OptionConcours', back_populates='classes')
     inscriptions = db.relationship('InscriptionConcours', back_populates='classe')
 
-    @property
-    def full_id(self):
-        return self.option.full_id + '-' + self.id
-    
-    @property
-    def niveau(self):
-        return NIVEAUX[self.niveau_id].nom_fr
+    def niveau(self, locale='fr'):
+        niveau = NIVEAUX[self.niveau_id]
+        if locale == 'fr':
+            return niveau.nom_fr
+        return niveau.nom_en
     
 
 class CentreConcours(db.Model):
@@ -115,7 +122,7 @@ class InscriptionConcours(db.Model):
     date_naissance = db.Column(db.DateTime, nullable=False)
     lieu_naissance = db.Column(db.String(100), nullable=False)
     sexe_id = db.Column(db.String(10), nullable=False)  
-    situation_matrimoniale_id = db.Column(db.String(50), nullable=False)
+    statut_matrimonial_id = db.Column(db.String(50), nullable=False)
     
     # Origine géographique
     departement_origine_id = db.Column(db.String(100), nullable=False)
@@ -139,18 +146,25 @@ class InscriptionConcours(db.Model):
     @property
     def nom_complet(self):
         return ' '.join([self.nom, self.prenom])
-    
-    @property
-    def sexe(self):
-        return SEXES[self.sexe_id].nom_fr
 
-    @property
-    def situation_matrimoniale(self):
-        return SITUATIONS[self.situation_matrimoniale_id].nom_fr
+    def sexe(self, locale='fr'):
+        sexe = SEXES[self.sexe_id]
+        if locale == 'fr':
+            return sexe.nom_fr
+        return sexe.nom_en
     
-    @property
-    def langue(self):
-        return LANGUES[self.langue_id].nom_fr
+    def statut_matrimonial(self, locale='fr'):
+        statut = SITUATIONS[self.statut_matrimonial_id]
+        if locale == 'fr':
+            return statut.nom_fr
+        return statut.nom_en
+    
+    def langue(self, locale='fr'):
+        langue = LANGUES[self.langue_id]
+        if locale == 'fr':
+            return langue.nom_fr
+        return langue.nom_en
+    
     
     @property
     def naissance(self):

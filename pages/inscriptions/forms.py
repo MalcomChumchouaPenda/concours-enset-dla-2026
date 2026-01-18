@@ -37,7 +37,7 @@ class InscrForm(FlaskForm):
     date_naissance = StringField(_l('Date de naissance'), validators=validators1())
     lieu_naissance = StringField(_l('Lieu de naissance'), validators=validators1())
     sexe_id = SelectField(_l('Sexe'), validators=validators1())
-    situation_matrimoniale_id = SelectField(_l('Situation Matrimoniale'), validators=validators1())
+    statut_matrimonial_id = SelectField(_l('Situation Matrimoniale'), validators=validators1())
 
     # Origine géographique
     nationalite_id = SelectField(_l('Nationalité'), validators=validators1())    
