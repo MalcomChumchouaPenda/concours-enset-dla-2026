@@ -18,3 +18,38 @@
 .home-hero p .btn-primary{
     margin: 0 !important;
 }
+
+.hero-custom.hero-info p strong {
+    font-size: 16px !important;
+}
+
+.hero-custom.hero-info p {
+    font-size: 14px !important;
+}
+
+/* 
+
+
+.hero-custom.hero-info .countdown span {
+    font-size: 12px !important;
+} */
+
+.hero-custom.hero-info h2 {
+    padding-bottom: 20px;
+    font-size: 20px !important;
+}
+
+@media (min-width:992px) {
+    .hero-custom.hero-info p strong {
+        font-size: 20px;
+    }
+    
+    .hero-custom.hero-info p a {
+        font-size: 14px !important;
+    }
+    
+    .hero-custom.hero-info h2 {
+        padding-bottom: 20px;
+        font-size: 25px !important;
+    }
+}

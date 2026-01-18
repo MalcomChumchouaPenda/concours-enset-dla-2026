@@ -27,7 +27,8 @@ def index():
     locale = get_locale() 
     msg = os.path.join(static_dir, f'md/hero-msg-{locale}.md')
     hero = dict(msg=msg, img=f'img/hero-bg.jpg')
-    return render_template('home.jinja', hero=hero)
+    return render_template('home.jinja', hero=hero,
+                           deadline='2026/1/19')
 
 
 @ui.route('/help')
@@ -51,7 +52,7 @@ def communique():
 @ui.route('/wait')
 def wait():
     return render_template('landing/coming-soon.jinja',
-                           deadline='2026/1/16',
+                           deadline='2026/1/5',
                            title=_('Concours 2026'),
                            alert_title=_('En maintenance'),
                            alert_msg=_('Cette plateforme est en maintenance. Elle sera disponible dans:'))

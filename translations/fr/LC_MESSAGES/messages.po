@@ -7,137 +7,138 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-18 00:52+0100\n"
-"PO-Revision-Date: 2026-01-18 01:13+0100\n"
+"POT-Creation-Date: 2026-01-18 14:21+0100\n"
+"PO-Revision-Date: 2026-01-18 14:24+0100\n"
 "Last-Translator: \n"
 "Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 2.16.0\n"
 "X-Generator: Poedit 3.5\n"
 
-#: core/home/menus.py:6 core/home/templates/home-dashboard-profile.jinja:9
+#: core/home/menus.py:6 core/home/menus.py:16
+#: core/home/templates/home-dashboard-profile.jinja:9
 #: core/home/templates/home-dashboard.jinja:6
-#: core/themes/dashboard/macros.jinja:102
 msgid "Accueil"
 msgstr "Accueil"
 
-#: core/home/menus.py:7 core/home/templates/home-help.jinja:27
-msgid "Inscription"
-msgstr "Inscription"
-
-#: core/home/menus.py:8
+#: core/home/menus.py:7
 msgid "Communique"
 msgstr "Communiqué"
 
-#: core/home/menus.py:9 core/home/templates/home-help.jinja:16
+#: core/home/menus.py:8 core/home/templates/home-help.jinja:16
 msgid "Aide"
 msgstr "Aide"
 
-#: core/home/routes.py:57
+#: core/home/menus.py:17 core/home/templates/home-dashboard-profile.jinja:6
+#: core/home/templates/home-dashboard-profile.jinja:10
+msgid "Profil"
+msgstr "Profil"
+
+#: core/home/routes.py:56
 msgid "Concours 2026"
 msgstr "Concours 2026"
 
-#: core/home/routes.py:58
+#: core/home/routes.py:57
 msgid "En maintenance"
 msgstr "En maintenance"
 
-#: core/home/routes.py:59
+#: core/home/routes.py:58
 msgid "Cette plateforme est en maintenance. Elle sera disponible dans:"
 msgstr "Cette plateforme est en maintenance. Elle sera disponible dans:"
 
-#: core/home/routes.py:63 core/home/routes.py:103 core/home/routes.py:159
-#: pages/inscriptions/forms.py:90
+#: core/home/routes.py:62 core/home/routes.py:104 core/home/routes.py:169
+#: pages/inscriptions/forms.py:17
 msgid "numero de paiement"
 msgstr "numéro de paiement"
 
-#: core/home/routes.py:64 core/home/routes.py:104
+#: core/home/routes.py:63 core/home/routes.py:105
 #: core/home/templates/home-login.jinja:26
 #: core/home/templates/home-register.jinja:38
 msgid "mot de passe"
 msgstr "mot de passe"
 
-#: core/home/routes.py:65
+#: core/home/routes.py:64
 msgid "confirmer mot de passe"
 msgstr "confirmez mot de passe"
 
-#: core/home/routes.py:78 core/home/routes.py:117
+#: core/home/routes.py:77 core/home/routes.py:121
 msgid "Numero de paiement invalide"
 msgstr "Numéro de paiement invalide"
 
-#: core/home/routes.py:83
+#: core/home/routes.py:82
 msgid "Avertissement"
 msgstr "Avertissement"
 
-#: core/home/routes.py:84
+#: core/home/routes.py:83
 msgid "Ce numero de paiement a deja ete utilise pour une inscription"
 msgstr "Ce numéro de paiement a déjà été utilise pour une inscription"
 
-#: core/home/routes.py:85
+#: core/home/routes.py:84
 msgid "Voir l'inscription"
 msgstr "Voir l'inscription"
 
-#: core/home/routes.py:86 core/home/routes.py:147
+#: core/home/routes.py:85 core/home/routes.py:157
 msgid "Revenir a l'accueil"
 msgstr "Revenir à l'accueil"
 
-#: core/home/routes.py:90
+#: core/home/routes.py:89
 msgid "Mot de passe non confirme"
 msgstr "Mot de passe non confirmé"
 
-#: core/home/routes.py:98
+#: core/home/routes.py:99
 msgid "Vous devez payer vos frais de concours avant cette etape"
 msgstr "Vous devez payer vos frais de concours avant cette étape"
 
-#: core/home/routes.py:121
+#: core/home/routes.py:125
 msgid "Aucune inscription en cours"
 msgstr "Aucune inscription en cours"
 
-#: core/home/routes.py:126
+#: core/home/routes.py:130
 msgid "Mot de passe incorrecte"
 msgstr "Mot de passe incorrecte"
 
-#: core/home/routes.py:146
+#: core/home/routes.py:156
 msgid "Vous n'avez pas les autorisations nécessaires pour accéder à cette page."
 msgstr "Vous n'avez pas les autorisations nécessaires pour accéder à cette page."
 
-#: core/home/routes.py:150
+#: core/home/routes.py:160
 msgid "Revenir a la page precedente"
 msgstr "Revenir à la page précédente"
 
-#: core/home/routes.py:160
+#: core/home/routes.py:170
 msgid "Noms et prenoms"
 msgstr "Noms et prénoms"
 
-#: core/home/routes.py:161 pages/inscriptions/forms.py:110
+#: core/home/routes.py:171 pages/inscriptions/forms.py:37
 msgid "Date de naissance"
 msgstr "Date de naissance"
 
-#: core/home/routes.py:162 pages/inscriptions/forms.py:111
+#: core/home/routes.py:172 pages/inscriptions/forms.py:38
 msgid "Lieu de naissance"
 msgstr "Lieu de naissance"
 
-#: core/home/routes.py:184
+#: core/home/routes.py:194
 msgid "Numero de paiement inconnu"
 msgstr "Numéro de paiement inconnu"
 
-#: core/home/routes.py:188
+#: core/home/routes.py:198
 msgid "Informations incorrectes"
 msgstr "Informations incorrectes"
 
-#: core/home/routes.py:199 core/home/templates/home-change-password.jinja:25
+#: core/home/routes.py:209 core/home/templates/home-change-password.jinja:25
 msgid "Nouveau mot de passe"
 msgstr "Nouveau mot de passe"
 
-#: core/home/routes.py:200 core/home/templates/home-change-password.jinja:32
+#: core/home/routes.py:210 core/home/templates/home-change-password.jinja:32
 #: core/home/templates/home-register.jinja:39
 msgid "Confirmer mot de passe"
 msgstr "Confirmez mot de passe"
 
-#: core/home/routes.py:215
+#: core/home/routes.py:225
 msgid "Mot de passe non confirmé"
 msgstr "Mot de passe non confirmé"
 
@@ -153,24 +154,19 @@ msgstr "Changer mot de passe"
 msgid "Valider"
 msgstr "Valider"
 
-#: core/home/templates/home-dashboard-profile.jinja:6
-#: core/home/templates/home-dashboard-profile.jinja:10
-msgid "Profil"
-msgstr "Profil"
-
 #: core/home/templates/home-dashboard-profile.jinja:47
 msgid "Identifiant"
 msgstr "Identifiant"
 
 #: core/home/templates/home-dashboard-profile.jinja:54
-#: pages/inscriptions/forms.py:109
-#: pages/inscriptions/templates/inscriptions/view.jinja:44
+#: pages/inscriptions/forms.py:36
+#: pages/inscriptions/templates/inscriptions/view.jinja:45
 msgid "Noms"
 msgstr "Noms"
 
 #: core/home/templates/home-dashboard-profile.jinja:61
-#: pages/inscriptions/forms.py:108
-#: pages/inscriptions/templates/inscriptions/view.jinja:45
+#: pages/inscriptions/forms.py:35
+#: pages/inscriptions/templates/inscriptions/view.jinja:46
 msgid "Prenoms"
 msgstr "Prénoms"
 
@@ -227,6 +223,11 @@ msgstr "Statistiques"
 #: core/home/templates/home-dashboard.jinja:80
 msgid "Alertes"
 msgstr "Alertes"
+
+#: core/home/templates/home-help.jinja:27 pages/inscriptions/menus.py:6
+#: pages/inscriptions/menus.py:9 pages/inscriptions/menus.py:13
+msgid "Inscription"
+msgstr "Inscription"
 
 #: core/home/templates/home-help.jinja:27
 msgid "Faire son <b>inscription</b>"
@@ -294,11 +295,48 @@ msgstr "lieu de naissance"
 msgid "Creez une inscription ..."
 msgstr "Créez une inscription ..."
 
-#: core/home/templates/home.jinja:15
+#: core/home/templates/home.jinja:16
+msgid "CONCOURS ENSET 2026"
+msgstr "CONCOURS ENSET 2026"
+
+#: core/home/templates/home.jinja:17
+msgid "Bienvenue sur la plateforme d'inscription !"
+msgstr "Bienvenue sur la plateforme d'inscription !"
+
+#: core/home/templates/home.jinja:19
+msgid "Lisez le guide avant de vous inscrire. Les inscriptions se cloturent dans"
+msgstr ""
+"Lisez le guide avant de vous inscrire. Les inscriptions se clôturent dans"
+
+#: core/home/templates/home.jinja:20 core/themes/dashboard/macros.jinja:30
+#: core/themes/landing/macros.jinja:78 core/themes/login/macros.jinja:24
+msgid "jours,"
+msgstr "jours,"
+
+#: core/home/templates/home.jinja:21 core/themes/dashboard/macros.jinja:31
+#: core/themes/landing/macros.jinja:79 core/themes/login/macros.jinja:25
+msgid "heures,"
+msgstr "heures,"
+
+#: core/home/templates/home.jinja:22 core/themes/dashboard/macros.jinja:32
+#: core/themes/landing/macros.jinja:80 core/themes/login/macros.jinja:26
+msgid "minutes et"
+msgstr "minutes et"
+
+#: core/home/templates/home.jinja:23 core/themes/dashboard/macros.jinja:33
+#: core/themes/landing/macros.jinja:81 core/themes/login/macros.jinja:27
+msgid "secondes."
+msgstr "secondes."
+
+#: core/home/templates/home.jinja:26
+msgid "Lire le guide"
+msgstr "Lire le guide"
+
+#: core/home/templates/home.jinja:27
 msgid "Faire une inscription"
 msgstr "Faire une inscription"
 
-#: core/home/templates/home.jinja:16
+#: core/home/templates/home.jinja:28
 msgid "Imprimer une inscription"
 msgstr "Imprimer une inscription"
 
@@ -354,143 +392,121 @@ msgstr ""
 "Cette section est en cours de maintenance ou de développement. Elle sera "
 "disponible dans:"
 
-#: core/themes/dashboard/macros.jinja:30 core/themes/landing/macros.jinja:78
-#: core/themes/login/macros.jinja:24
-msgid "jours,"
-msgstr "jours,"
-
-#: core/themes/dashboard/macros.jinja:31 core/themes/landing/macros.jinja:79
-#: core/themes/login/macros.jinja:25
-msgid "heures,"
-msgstr "heures,"
-
-#: core/themes/dashboard/macros.jinja:32 core/themes/landing/macros.jinja:80
-#: core/themes/login/macros.jinja:26
-msgid "minutes et"
-msgstr "minutes et"
-
-#: core/themes/dashboard/macros.jinja:33 core/themes/landing/macros.jinja:81
-#: core/themes/login/macros.jinja:27
-msgid "secondes."
-msgstr "secondes."
-
-#: core/themes/dashboard/macros.jinja:104 core/themes/landing/macros.jinja:54
+#: core/themes/dashboard/macros.jinja:111 core/themes/landing/macros.jinja:58
 msgid "Deconnexion"
 msgstr "Déconnexion"
 
-#: core/themes/dashboard/macros.jinja:106 core/themes/landing/macros.jinja:61
+#: core/themes/dashboard/macros.jinja:113 core/themes/landing/macros.jinja:60
 msgid "Connexion"
 msgstr "Connexion"
 
-#: pages/inscriptions/forms.py:24
-msgid "Choisir..."
-msgstr "Choisir..."
-
-#: pages/inscriptions/forms.py:31 pages/inscriptions/forms.py:44
-#: pages/inscriptions/forms.py:50 pages/inscriptions/forms.py:56
-#: pages/inscriptions/forms.py:63 pages/inscriptions/forms.py:70
-#: pages/inscriptions/forms.py:77 pages/inscriptions/forms.py:85
+#: pages/inscriptions/choices.py:15 pages/inscriptions/choices.py:33
+#: pages/inscriptions/choices.py:37 pages/inscriptions/choices.py:47
+#: pages/inscriptions/choices.py:57 pages/inscriptions/choices.py:66
+#: pages/inscriptions/choices.py:76 pages/inscriptions/choices.py:87
+#: pages/inscriptions/choices.py:99 pages/inscriptions/choices.py:107
+#: pages/inscriptions/choices.py:115
 msgid "Choisir"
 msgstr "Choisir"
 
-#: pages/inscriptions/forms.py:96
+#: pages/inscriptions/forms.py:23
 #: pages/inscriptions/templates/inscriptions/edit.jinja:77
 #: pages/inscriptions/templates/inscriptions/new.jinja:95
-#: pages/inscriptions/templates/inscriptions/view.jinja:66
+#: pages/inscriptions/templates/inscriptions/view.jinja:67
 msgid "Année"
 msgstr "Année"
 
-#: pages/inscriptions/forms.py:97
+#: pages/inscriptions/forms.py:24
 #: pages/inscriptions/templates/inscriptions/edit.jinja:79
 #: pages/inscriptions/templates/inscriptions/new.jinja:97
-#: pages/inscriptions/templates/inscriptions/view.jinja:68
+#: pages/inscriptions/templates/inscriptions/view.jinja:69
 msgid "Diplôme"
 msgstr "Diplôme"
 
-#: pages/inscriptions/forms.py:98
+#: pages/inscriptions/forms.py:25
 #: pages/inscriptions/templates/inscriptions/edit.jinja:78
 #: pages/inscriptions/templates/inscriptions/new.jinja:96
-#: pages/inscriptions/templates/inscriptions/view.jinja:67
+#: pages/inscriptions/templates/inscriptions/view.jinja:68
 msgid "Etablissement"
 msgstr "Etablissement"
 
-#: pages/inscriptions/forms.py:99
+#: pages/inscriptions/forms.py:26
 #: pages/inscriptions/templates/inscriptions/edit.jinja:80
 #: pages/inscriptions/templates/inscriptions/new.jinja:98
-#: pages/inscriptions/templates/inscriptions/view.jinja:69
+#: pages/inscriptions/templates/inscriptions/view.jinja:70
 msgid "Mention"
 msgstr "Mention"
 
-#: pages/inscriptions/forms.py:112
-#: pages/inscriptions/templates/inscriptions/view.jinja:48
+#: pages/inscriptions/forms.py:39
+#: pages/inscriptions/templates/inscriptions/view.jinja:49
 msgid "Sexe"
 msgstr "Sexe"
 
-#: pages/inscriptions/forms.py:113
+#: pages/inscriptions/forms.py:40
 msgid "Situation Matrimoniale"
 msgstr "Situation Matrimoniale"
 
-#: pages/inscriptions/forms.py:118
+#: pages/inscriptions/forms.py:43
 msgid "Nationalité"
 msgstr "Nationalité"
 
-#: pages/inscriptions/forms.py:119
-#: pages/inscriptions/templates/inscriptions/view.jinja:56
+#: pages/inscriptions/forms.py:44
+#: pages/inscriptions/templates/inscriptions/view.jinja:57
 msgid "Region d'origine"
 msgstr "Région d'origine"
 
-#: pages/inscriptions/forms.py:120
-#: pages/inscriptions/templates/inscriptions/view.jinja:57
+#: pages/inscriptions/forms.py:45
+#: pages/inscriptions/templates/inscriptions/view.jinja:58
 msgid "Departement d'origine"
 msgstr "Département d'origine"
 
-#: pages/inscriptions/forms.py:121
-#: pages/inscriptions/templates/inscriptions/view.jinja:54
+#: pages/inscriptions/forms.py:46
+#: pages/inscriptions/templates/inscriptions/view.jinja:55
 msgid "Langue"
 msgstr "Langue"
 
-#: pages/inscriptions/forms.py:124
+#: pages/inscriptions/forms.py:49
 msgid "Téléphone"
 msgstr "Téléphone"
 
-#: pages/inscriptions/forms.py:125
-#: pages/inscriptions/templates/inscriptions/view.jinja:89
+#: pages/inscriptions/forms.py:50
+#: pages/inscriptions/templates/inscriptions/view.jinja:90
 msgid "Email"
 msgstr "Email"
 
-#: pages/inscriptions/forms.py:134 pages/inscriptions/forms.py:144
+#: pages/inscriptions/forms.py:59 pages/inscriptions/forms.py:69
 msgid "Niveau examen"
 msgstr "Niveau examen"
 
-#: pages/inscriptions/forms.py:135 pages/inscriptions/forms.py:145
+#: pages/inscriptions/forms.py:60 pages/inscriptions/forms.py:70
 msgid "Filière sollicitée"
 msgstr "Filière sollicitée"
 
-#: pages/inscriptions/forms.py:136 pages/inscriptions/forms.py:146
+#: pages/inscriptions/forms.py:61 pages/inscriptions/forms.py:71
 msgid "Option sollicitée"
 msgstr "Option sollicitée"
 
-#: pages/inscriptions/forms.py:137 pages/inscriptions/forms.py:147
+#: pages/inscriptions/forms.py:62 pages/inscriptions/forms.py:72
 msgid "Centre examen"
 msgstr "Centre examen"
 
-#: pages/inscriptions/forms.py:138 pages/inscriptions/forms.py:148
+#: pages/inscriptions/forms.py:63 pages/inscriptions/forms.py:73
 msgid "Diplôme du candidat"
 msgstr "Diplôme du candidat"
 
-#: pages/inscriptions/routes.py:130
+#: pages/inscriptions/routes.py:125
 msgid "Inscription enregistree avec success"
 msgstr "Inscription enregistrée avec succès"
 
-#: pages/inscriptions/routes.py:201
+#: pages/inscriptions/routes.py:202
 msgid "Ce compte est reserve au candidat "
 msgstr "Ce compte est réservé au candidat "
 
-#: pages/inscriptions/routes.py:203
+#: pages/inscriptions/routes.py:204
 msgid "(Vous n'etes pas dans votre inscription)"
 msgstr "(Vous n'êtes pas dans votre inscription)"
 
-#: pages/inscriptions/routes.py:235
+#: pages/inscriptions/routes.py:236
 msgid "Inscription modifiee avec success"
 msgstr "Inscription modifiée avec succès"
 
@@ -509,25 +525,25 @@ msgstr "Annuler les modifications"
 
 #: pages/inscriptions/templates/inscriptions/edit.jinja:45
 #: pages/inscriptions/templates/inscriptions/new.jinja:51
-#: pages/inscriptions/templates/inscriptions/view.jinja:31
+#: pages/inscriptions/templates/inscriptions/view.jinja:32
 msgid "1. Concours"
 msgstr "1. Concours"
 
 #: pages/inscriptions/templates/inscriptions/edit.jinja:54
 #: pages/inscriptions/templates/inscriptions/new.jinja:60
-#: pages/inscriptions/templates/inscriptions/view.jinja:43
+#: pages/inscriptions/templates/inscriptions/view.jinja:44
 msgid "2. Informations personnelles"
 msgstr "2. Informations personnelles"
 
 #: pages/inscriptions/templates/inscriptions/edit.jinja:64
 #: pages/inscriptions/templates/inscriptions/new.jinja:70
-#: pages/inscriptions/templates/inscriptions/view.jinja:53
+#: pages/inscriptions/templates/inscriptions/view.jinja:54
 msgid "3. Origine géographique"
 msgstr "3. Origine géographique"
 
 #: pages/inscriptions/templates/inscriptions/edit.jinja:72
 #: pages/inscriptions/templates/inscriptions/new.jinja:78
-#: pages/inscriptions/templates/inscriptions/view.jinja:61
+#: pages/inscriptions/templates/inscriptions/view.jinja:62
 msgid "4. Cursus academique"
 msgstr "4. Cursus académique"
 
@@ -543,7 +559,7 @@ msgstr "Ajouter un diplôme"
 
 #: pages/inscriptions/templates/inscriptions/edit.jinja:104
 #: pages/inscriptions/templates/inscriptions/new.jinja:119
-#: pages/inscriptions/templates/inscriptions/view.jinja:87
+#: pages/inscriptions/templates/inscriptions/view.jinja:88
 msgid "5. Coordonnées"
 msgstr "5. Coordonnées"
 
@@ -583,11 +599,11 @@ msgstr "Option choisie :"
 
 #: pages/inscriptions/templates/inscriptions/new.jinja:31
 msgid "centre examen :"
-msgstr "centre examen"
+msgstr "centre examen :"
 
 #: pages/inscriptions/templates/inscriptions/new.jinja:32
 msgid "diplôme du candidat :"
-msgstr "diplôme du candidat"
+msgstr "diplôme du candidat :"
 
 #: pages/inscriptions/templates/inscriptions/new.jinja:34
 msgid "Validez-vous vraiment cette inscription?"
@@ -622,72 +638,75 @@ msgstr "La mention obtenue"
 msgid "Valider l'inscription"
 msgstr "Valider l'inscription"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:7
+#: pages/inscriptions/templates/inscriptions/view.jinja:8
 msgid "Fiche Inscription"
 msgstr "Fiche Inscription"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:21
-#: pages/inscriptions/templates/inscriptions/view.jinja:96
+#: pages/inscriptions/templates/inscriptions/view.jinja:22
+#: pages/inscriptions/templates/inscriptions/view.jinja:97
 msgid "Fermer"
 msgstr "Fermer"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:22
-#: pages/inscriptions/templates/inscriptions/view.jinja:97
+#: pages/inscriptions/templates/inscriptions/view.jinja:23
+#: pages/inscriptions/templates/inscriptions/view.jinja:98
 msgid "Modifier"
 msgstr "Modifier"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:23
-#: pages/inscriptions/templates/inscriptions/view.jinja:98
+#: pages/inscriptions/templates/inscriptions/view.jinja:24
+#: pages/inscriptions/templates/inscriptions/view.jinja:99
 msgid "Imprimer"
 msgstr "Imprimer"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:32
+#: pages/inscriptions/templates/inscriptions/view.jinja:33
 msgid "Numero dossier"
 msgstr "Numéro dossier"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:33
+#: pages/inscriptions/templates/inscriptions/view.jinja:34
 msgid "Numero paiement"
 msgstr "Numéro paiement"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:35
+#: pages/inscriptions/templates/inscriptions/view.jinja:36
 msgid "Centre"
 msgstr "Centre"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:36
+#: pages/inscriptions/templates/inscriptions/view.jinja:37
 msgid "Niveau"
 msgstr "Niveau"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:37
+#: pages/inscriptions/templates/inscriptions/view.jinja:38
 msgid "Diplome"
 msgstr "Diplôme"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:38
+#: pages/inscriptions/templates/inscriptions/view.jinja:39
 msgid "Filiere"
 msgstr "Filière"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:39
+#: pages/inscriptions/templates/inscriptions/view.jinja:40
 msgid "Option"
 msgstr "Option"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:46
+#: pages/inscriptions/templates/inscriptions/view.jinja:47
 msgid "Date naissance"
 msgstr "Date naissance"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:47
+#: pages/inscriptions/templates/inscriptions/view.jinja:48
 msgid "Lieu naissance"
 msgstr "Lieu naissance"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:49
+#: pages/inscriptions/templates/inscriptions/view.jinja:50
 msgid "Situation matrimoniale"
 msgstr "Situation matrimoniale"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:55
+#: pages/inscriptions/templates/inscriptions/view.jinja:56
 msgid "Nationalite"
 msgstr "Nationalité"
 
-#: pages/inscriptions/templates/inscriptions/view.jinja:88
+#: pages/inscriptions/templates/inscriptions/view.jinja:89
 msgid "Telephone"
 msgstr "Téléphone"
 
 #~ msgid "Diplôme donnant droit au concours"
 #~ msgstr "Diplôme donnant droit au concours"
+
+#~ msgid "Choisir..."
+#~ msgstr "Choisir..."
