@@ -50,7 +50,7 @@ class InscrForm(FlaskForm):
     email = EmailField(_l('Email'))
 
     # cursus academique
-    cursus = FieldList(FormField(CursusRowForm), min_entries=1)
+    cursus = FieldList(FormField(CursusRowForm), min_entries=2)
     
     
 class NewInscrForm(InscrForm):
