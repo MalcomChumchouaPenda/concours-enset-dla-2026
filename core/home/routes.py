@@ -25,22 +25,21 @@ static_dir = os.path.join(os.path.dirname(__file__), 'static')
 @ui.route('/')
 def index():
     locale = get_locale() 
-    print('\n\tlocale', locale)
     msg = os.path.join(static_dir, f'md/hero-msg-{locale}.md')
-    img = f'img/hero-bg.jpg'
-    hero = dict(msg=msg, img=img)
+    hero = dict(msg=msg, img=f'img/hero-bg.jpg')
     disconnect_user()
     return render_template('home.jinja', hero=hero)
 
 
 @ui.route('/help')
 def help():
-    f = lambda n:read_markdown(os.path.join(static_dir, n))
+    locale = get_locale() 
+    read = lambda n:read_markdown(os.path.join(static_dir, n))
     return render_template('home-help.jinja', 
-                           help_intro=f('md/help-intro.md'), 
-                           help_new_inscr=f('md/help-new-inscr.md'), 
-                           help_edit_inscr=f('md/help-edit-inscr.md'), 
-                           help_print_inscr=f('md/help-print-inscr.md'))
+                           help_intro=read(f'md/help-intro-{locale}.md'), 
+                           help_new_inscr=read(f'md/help-new-{locale}.md'), 
+                           help_edit_inscr=read(f'md/help-edit-{locale}.md'), 
+                           help_print_inscr=read(f'md/help-print-{locale}.md'))
 
 
 @ui.route('/communique')

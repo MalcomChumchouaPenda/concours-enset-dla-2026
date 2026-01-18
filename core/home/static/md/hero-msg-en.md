@@ -1,3 +1,3 @@
-## Welcome to ENSET Douala
+## ENSET 2026 Competitive Examination
 
-Log in to complete your online registration.
+Welcome to the registration platform for the ENSET Douala Examination.
