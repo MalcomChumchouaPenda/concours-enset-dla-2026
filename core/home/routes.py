@@ -1,6 +1,7 @@
 
 import os
 import re
+from datetime import datetime
 
 import Levenshtein as lv
 from flask import request, session
@@ -24,11 +25,20 @@ static_dir = os.path.join(os.path.dirname(__file__), 'static')
 
 @ui.route('/')
 def index():
-    locale = get_locale() 
-    msg = os.path.join(static_dir, f'md/hero-msg-{locale}.md')
-    hero = dict(msg=msg, img=f'img/hero-bg.jpg')
-    return render_template('home.jinja', hero=hero,
-                           deadline='2026/1/19')
+    t0 = datetime.now()
+    img = f'img/hero-bg.jpg'
+
+    deadline = os.getenv('DATE_FIN_MAINTENANCE')
+    t1 = datetime.strptime(deadline, r'%Y/%m/%d')
+    print(t1, t0)
+    if t0 < t1:
+        return redirect(url_for('home.wait'))
+    
+    deadline = os.getenv('DATE_FIN_CONCOURS')
+    t1 = datetime.strptime(deadline, r'%Y/%m/%d')
+    if t0 > t1:
+        return redirect(url_for('home.closed'))
+    return render_template('home.jinja', img=img, deadline=deadline)
 
 
 @ui.route('/help')
@@ -51,11 +61,23 @@ def communique():
 
 @ui.route('/wait')
 def wait():
+    deadline = os.getenv('DATE_FIN_MAINTENANCE')
+    if datetime.now() >= datetime.strptime(deadline, r'%Y/%m/%d'):
+        return redirect(url_for('home.index'))
     return render_template('landing/coming-soon.jinja',
-                           deadline='2026/1/5',
+                           deadline=deadline,
                            title=_('Concours 2026'),
                            alert_title=_('En maintenance'),
                            alert_msg=_('Cette plateforme est en maintenance. Elle sera disponible dans:'))
+
+@ui.route('/closed')
+def closed():
+    deadline = os.getenv('DATE_FIN_CONCOURS')
+    if datetime.now() < datetime.strptime(deadline, r'%Y/%m/%d'):
+        return redirect(url_for('home.index'))
+    img = f'img/hero-bg.jpg'
+    return render_template('home-closed.jinja', img=img)
+
 
 
 class RegisterForm(FlaskForm):

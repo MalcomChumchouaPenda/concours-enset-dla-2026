@@ -60,6 +60,17 @@ def _upper_data_values(data):
 @ui.route('/new', methods=['GET', 'POST'])
 @ui.roles_accepted('candidat_concours', 'inscrit_concours')
 def new():    
+    deadline = os.getenv('DATE_FIN_MAINTENANCE')
+    t1 = datetime.strptime(deadline, r'%Y/%m/%d')
+    if t1 > datetime.now():
+        return redirect(url_for('home.wait'))
+    
+    deadline = os.getenv('DATE_FIN_CONCOURS')
+    t1 = datetime.strptime(deadline, r'%Y/%m/%d')
+    if t1 < datetime.now():
+        auth_tsk.disconnect_user()
+        return redirect(url_for('home.closed'))
+    
     if current_user.has_role('inscrit_concours'):
         auth_tsk.disconnect_user()
         return redirect(url_for('home.register'))
@@ -132,6 +143,11 @@ def new():
 @ui.route('/view')
 @ui.roles_accepted('inscrit_concours')
 def view():
+    deadline = os.getenv('DATE_FIN_MAINTENANCE')
+    t1 = datetime.strptime(deadline, r'%Y/%m/%d')
+    if t1 > datetime.now():
+        return redirect(url_for('home.wait'))
+    
     user_id = current_user.id
     inscr = con_mdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if inscr is None:
@@ -148,6 +164,11 @@ def view():
 @ui.route('/print')
 @ui.roles_accepted('inscrit_concours')
 def print_():
+    deadline = os.getenv('DATE_FIN_MAINTENANCE')
+    t1 = datetime.strptime(deadline, r'%Y/%m/%d')
+    if t1 > datetime.now():
+        return redirect(url_for('home.wait'))
+    
     user_id = current_user.id
     inscr = con_mdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if inscr is None:
@@ -169,6 +190,16 @@ def _verification_noms(inscr, data):
 @ui.route('/edit', methods=['GET', 'POST'])
 @ui.roles_accepted('inscrit_concours')
 def edit():
+    deadline = os.getenv('DATE_FIN_MAINTENANCE')
+    t1 = datetime.strptime(deadline, r'%Y/%m/%d')
+    if t1 > datetime.now():
+        return redirect(url_for('home.wait'))
+    
+    deadline = os.getenv('DATE_FIN_CONCOURS')
+    t1 = datetime.strptime(deadline, r'%Y/%m/%d')
+    if t1 < datetime.now():
+        return redirect(url_for('home.closed'))
+        
     user_id = current_user.id
     inscr = con_mdl.InscriptionConcours.query.filter_by(id=user_id).one_or_none()
     if request.method == 'POST':

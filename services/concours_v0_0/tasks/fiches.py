@@ -223,18 +223,18 @@ def generer_fiche_inscription(inscription, nom_fichier):
     c.setFont(font_name, 9)
     c.drawString(x_b2, y_a, "NATIONALITÉ :")
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 25*mm, y_a, pays.nationalite.upper())
+    c.drawString(x_b2 + 25*mm, y_a, pays.nationalite('fr').upper())
     y_a -= dy_a
 
     c.setFont(font_name, 9)
     c.drawString(x_b1, y_a, "RÉGION D'ORIGINE :")
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 31*mm, y_a, region.nom.upper())
+    c.drawString(x_b1 + 31*mm, y_a, region.nom('fr').upper())
     
     c.setFont(font_name, 9)
     c.drawString(x_b2, y_a, "DÉPARTEMENT D'ORIGINE :")
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 43*mm, y_a, departement_origine.nom.upper())
+    c.drawString(x_b2 + 43*mm, y_a, departement_origine.nom('fr').upper())
     y_a -= dy_b
 
 

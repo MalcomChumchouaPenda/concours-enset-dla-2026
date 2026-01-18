@@ -1,0 +1,27 @@
+{% extends "landing/layout.jinja" %}
+{% set main_title='Accueil' %}
+{% set page_id='home_pg' %}
+{% set hero_size = 'lg'%}
+{% set footer_size = 'lg'%}
+
+{% block custom_css %}
+    <link href="{{ url_for('home.static', filename='/css/home.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block page_hero %}
+    <div class="container">
+      <div class="row d-flex justify-content-center">
+        <div class="col-12 col-lg-10">
+          <div class="hero-info hero-custom w-100 d-flex flex-column justify-content-center align-items-center">
+            <h2>{{ _("CONCOURS ENSET 2026") }}</h2>
+            <p><strong>{{ _("Les inscriptions sont cloturees") }}</strong></p>
+          </div> 
+        </div>
+      </div>
+    </div>
+    <div class="hero-bg">
+        <img src="{{ url_for('home.static', filename=img) }}" alt="">
+    </div>
+{% endblock %}
+
+
