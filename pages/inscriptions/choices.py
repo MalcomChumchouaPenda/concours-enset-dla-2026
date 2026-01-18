@@ -86,11 +86,12 @@ def departements():
 def diplomes(locale):
     items = [('', _('Choisir'), {})]
     for diplome in cmdl.DiplomeConcours.query.all():
-        value = diplome.id
-        text = _local_text(diplome, 'nom', locale)
-        chain = f'N{diplome.niveau_id}'
-        item = value, text, {'data-chained':chain}
-        items.append(item)
+        if diplome.ouvert:
+            value = diplome.id
+            text = _local_text(diplome, 'nom', locale)
+            chain = f'N{diplome.niveau_id}'
+            item = value, text, {'data-chained':chain}
+            items.append(item)
     return items
 
 

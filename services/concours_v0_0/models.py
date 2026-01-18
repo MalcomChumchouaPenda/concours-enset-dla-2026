@@ -37,7 +37,7 @@ class DiplomeConcours(db.Model):
     nom_fr = db.Column(db.String(200), nullable=False)
     nom_en = db.Column(db.String(200), nullable=False)
     prefix = db.Column(db.String(7), nullable=True)
-    ouvert = db.Column(db.Boolean, default=False)
+    ouvert = db.Column(db.Integer, default=lambda:0)
     niveau_id = db.Column(db.Integer, nullable=False)
     inscriptions = db.relationship('InscriptionConcours', back_populates='diplome')
 

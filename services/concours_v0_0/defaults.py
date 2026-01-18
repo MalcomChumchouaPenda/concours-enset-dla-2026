@@ -28,7 +28,7 @@ def _init_concours():
             nom_fr = row['nom_fr'],
             nom_en = row['nom_en'],
             niveau_id = row['niveau'],
-            ouvert = row['ouvert'] == 1,
+            ouvert = row['ouvert'],
             prefix = row['prefix']
         ))
     db.session.commit()
