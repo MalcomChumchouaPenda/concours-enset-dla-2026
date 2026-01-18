@@ -10,7 +10,7 @@ from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
 
 from core.config import db
-from core.utils import UiBlueprint, read_markdown
+from core.utils import UiBlueprint, read_markdown, get_locale
 from core.auth import models as amdl
 from core.auth.tasks import get_user, add_user, add_roles_to_user, connect_user
 from services.regions_v0_0 import tasks as rtsk
@@ -18,6 +18,7 @@ from services.formations_v0_1 import tasks as ftsk
 from services.concours_v0_0 import tasks as ctsk
 from services.concours_v0_0 import models as cmdl
 from . import forms
+from . import choices
 
 
 ui = UiBlueprint(__name__)
@@ -72,15 +73,19 @@ def new():
         return redirect(url_for('home.register'))
     
     # creation du formulaire
+    locale = get_locale()
     form = forms.NewInscrForm()
-    form.nationalite_id.choices = forms.list_nationalites()
-    form.region_origine_id.choices = forms.list_regions()
-    form.departement_origine_id.choices = forms.list_departements()
-    form.niveau_id.choices = forms.list_niveaux()
-    form.filiere_id.choices = forms.list_filieres()
-    form.option_id.choices = forms.list_options()
-    form.centre_id.choices = forms.list_centres()
-    form.diplome_id.choices = forms.list_diplomes()
+    form.sexe_id.choices = choices.sexes(locale)
+    form.langue_id.choices = choices.langues(locale)
+    form.situation_matrimoniale_id.choices = choices.situations(locale)
+    form.nationalite_id.choices = choices.nationalites()
+    form.region_origine_id.choices = choices.regions()
+    form.departement_origine_id.choices = choices.departements()
+    form.niveau_id.choices = choices.niveaux(locale)
+    form.filiere_id.choices = choices.filieres(locale)
+    form.option_id.choices = choices.options(locale)
+    form.centre_id.choices = choices.centres()
+    form.diplome_id.choices = choices.diplomes(locale)
 
     # traitement et enregistrement des donnees
     if form.validate_on_submit():
@@ -169,6 +174,7 @@ def _verification_noms(inscription, data):
     print('\n\ttest =>', nom_complet.upper(), inscription.nom_complet.upper(), ratio)
     return ratio >= 0.75
 
+
 @ui.route('/edit', methods=['GET', 'POST'])
 @ui.login_required
 def edit():
@@ -183,14 +189,24 @@ def edit():
         form.region_origine_id.data = inscription.departement_origine.region_id
         form.departement_origine_id.data = inscription.departement_origine_id
 
-    form.filiere.data = inscription.classe.option.filiere.nom_fr.upper()
-    form.option.data = inscription.classe.option.nom_fr.upper()
+    locale = get_locale()
+    if locale == 'fr':
+        form.filiere.data = inscription.classe.option.filiere.nom_fr.upper()
+        form.option.data = inscription.classe.option.nom_fr.upper()
+        form.diplome.data = inscription.diplome.nom_fr.upper()
+    else:
+        form.filiere.data = inscription.classe.option.filiere.nom_en.upper()
+        form.option.data = inscription.classe.option.nom_en.upper()
+        form.diplome.data = inscription.diplome.nom_en.upper()
+
     form.niveau.data = inscription.classe.niveau.upper()
-    form.centre.data = inscription.centre.nom.upper()
-    form.diplome.data = inscription.diplome.nom_fr.upper()
-    form.nationalite_id.choices = forms.list_nationalites()
-    form.region_origine_id.choices = forms.list_regions()
-    form.departement_origine_id.choices = forms.list_departements()
+    form.centre.data = inscription.centre.nom.upper()    
+    form.sexe_id.choices = choices.sexes(locale)
+    form.langue_id.choices = choices.langues(locale)
+    form.situation_matrimoniale_id.choices = choices.situations(locale)
+    form.nationalite_id.choices = choices.nationalites()
+    form.region_origine_id.choices = choices.regions()
+    form.departement_origine_id.choices = choices.departements()
 
     # traitement et enregistrement des donnees
     if form.validate_on_submit():

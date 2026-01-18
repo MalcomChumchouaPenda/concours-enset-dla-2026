@@ -1,16 +1,32 @@
 
+from collections import namedtuple, OrderedDict
 from datetime import datetime
-from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy import func
 from core.config import db
-from services.formations_v0_1.models import Classe, Filiere, Niveau
 from services.regions_v0_0.models import Departement
 
 
-SEXES = {'F':'Feminin', 'M':'Masculin'}
-SITUATIONS = {'C': 'Celibataire', 'M':'Marie(e)', 'V':'Veuf(ve)', 'D':'Divorce(e)'}
-LANGUES = {'FR': 'Francais', 'EN': 'Anglais'}
-NIVEAUX = {1:'NIVEAU 1', 4:'NIVEAU 4'}
+_Sexe = namedtuple('Sexe', ['id', 'nom_fr', 'nom_en'])
+_Situation = namedtuple('Situation', ['id', 'nom_fr', 'nom_en'])
+_Langue = namedtuple('Langue', ['id', 'nom_fr', 'nom_en'])
+_NiveauConcours = namedtuple('NiveauConcours', ['id', 'nom_fr', 'nom_en'])
+
+SEXES = OrderedDict()
+SEXES['F'] = _Sexe('F', 'Feminin', 'Female')
+SEXES['M'] = _Sexe('M', 'Masculin', 'Male')
+
+SITUATIONS = OrderedDict()
+SITUATIONS['C'] = _Situation('C', 'Celibataire', 'Single')
+SITUATIONS['M'] = _Situation('M', 'Marie(e)', 'Married')
+SITUATIONS['V'] = _Situation('V', 'Veuf(ve)', 'Widowed')
+SITUATIONS['D'] = _Situation('D', 'Divorce(e)', 'Divorced')
+
+LANGUES = OrderedDict()
+LANGUES['FR'] = _Langue('FR', 'Francais', 'French')
+LANGUES['EN'] = _Langue('EN', 'Anglais', 'English')
+
+NIVEAUX = OrderedDict()
+NIVEAUX[1] = _NiveauConcours(1, 'NIVEAU 1', 'LEVEL 1')
+NIVEAUX[4] = _NiveauConcours(4, 'NIVEAU 4', 'LEVEL 4')
 
 
 class DiplomeConcours(db.Model):
@@ -70,7 +86,7 @@ class ClasseConcours(db.Model):
     
     @property
     def niveau(self):
-        return NIVEAUX[self.niveau_id]
+        return NIVEAUX[self.niveau_id].nom_fr
     
 
 class CentreConcours(db.Model):
@@ -126,15 +142,15 @@ class InscriptionConcours(db.Model):
     
     @property
     def sexe(self):
-        return SEXES[self.sexe_id]
+        return SEXES[self.sexe_id].nom_fr
 
     @property
     def situation_matrimoniale(self):
-        return SITUATIONS[self.situation_matrimoniale_id]
+        return SITUATIONS[self.situation_matrimoniale_id].nom_fr
     
     @property
     def langue(self):
-        return LANGUES[self.langue_id]
+        return LANGUES[self.langue_id].nom_fr
     
     @property
     def naissance(self):
