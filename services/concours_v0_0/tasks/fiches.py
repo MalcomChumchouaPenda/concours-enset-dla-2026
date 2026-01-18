@@ -321,10 +321,10 @@ def generer_fiche_inscription(inscription, nom_fichier):
 
     c.setFillColor(couleur_texte_noir)
     c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "N° DE DOSSIER :")
+    c.drawString(x_b1, y_a, "N° DOSSIER :")
     c.setFillColor(couleur_bleu_ud)
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 26*mm, y_a, inscription.numero_dossier)
+    c.drawString(x_b1 + 20*mm, y_a, inscription.numero_dossier)
     
     c.setFillColor(couleur_texte_noir)
     c.setFont(font_name, 9)

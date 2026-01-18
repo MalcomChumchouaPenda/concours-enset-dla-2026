@@ -90,7 +90,7 @@ def _init_candidates(session):
         'telephone': '655234566', 
         'email': '',
         'diplome_id':'BAC_C',
-        'numero_dossier':'26BAF-BAC-C0001'
+        'numero_dossier':'26BAF-BACCDE-0001'
     }
     
     cursus = {
