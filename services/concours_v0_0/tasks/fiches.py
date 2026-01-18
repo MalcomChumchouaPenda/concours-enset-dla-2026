@@ -180,7 +180,7 @@ def generer_fiche_inscription(inscription, nom_fichier):
     y_a -= dy_b
 
 
-    # INFORMATIONS GENERALES
+    # INFORMATIONS PERSONNELLES
         
     c.setFillColor(couleur_texte_noir)
     c.setFont(font_name, 9)
@@ -201,23 +201,20 @@ def generer_fiche_inscription(inscription, nom_fichier):
     y_a -= dy_a
 
     c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "SEXE (F/M) :")
+    c.drawString(x_b1, y_a, "SEXE :")
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 20*mm, y_a, inscription.sexe('fr').upper())
+    c.drawString(x_b1 + 12*mm, y_a, inscription.sexe('fr').upper())
 
     c.setFont(font_name, 9)
-    c.drawString(x_b2, y_a, "SITUATION MATRIMONIALE (M/C/D) :")
+    c.drawString(x_b2, y_a, "SITUATION MATRIMONIALE :")
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 58*mm, y_a, inscription.statut_matrimonial('fr').upper())
-    y_a -= dy_b
-
-
-    # ORIGINE GEOGRAPHIQUE
+    c.drawString(x_b2 + 48*mm, y_a, inscription.statut_matrimonial('fr').upper())
+    y_a -= dy_a
 
     c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "LANGUE (F/A) :")
+    c.drawString(x_b1, y_a, "LANGUE :")
     c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 25*mm, y_a, inscription.langue('fr').upper())
+    c.drawString(x_b1 + 15*mm, y_a, inscription.langue('fr').upper())
 
     departement_origine = inscription.departement_origine
     region = departement_origine.region
@@ -241,7 +238,7 @@ def generer_fiche_inscription(inscription, nom_fichier):
     y_a -= dy_b
 
 
-    # INFORMATIONS ACADEMIQUES
+    # INFORMATIONS SUR LE CONCOURS
     classe = inscription.classe
     filiere_concours = classe.option.filiere
     c.setFont(font_name, 9)
