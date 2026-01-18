@@ -18,8 +18,12 @@ def _read_csv(filename, sep=','):
     return records
 
 def _init_concours():
-    auth_tsk.add_role('candidat_concours', 'Candidat')
-    auth_tsk.add_role('inscrit_concours', 'Candidat inscrit')
+    role = auth_tsk.get_role('candidat_concours')
+    if role is None:
+        auth_tsk.add_role('candidat_concours', 'Candidat')
+    role = auth_tsk.get_role('inscrit_concours')
+    if role is None:
+        auth_tsk.add_role('inscrit_concours', 'Candidat inscrit')
 
     data = _read_csv('diplomes.csv', sep=';')
     for row in data:

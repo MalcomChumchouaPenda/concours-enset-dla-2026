@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-18 14:21+0100\n"
-"PO-Revision-Date: 2026-01-18 14:22+0100\n"
+"POT-Creation-Date: 2026-01-18 15:26+0100\n"
+"PO-Revision-Date: 2026-01-18 15:28+0100\n"
 "Last-Translator: \n"
 "Language-Team: en <LL@li.org>\n"
 "Language: en\n"
@@ -38,107 +38,107 @@ msgstr "Help"
 msgid "Profil"
 msgstr "Profile"
 
-#: core/home/routes.py:56
+#: core/home/routes.py:69
 msgid "Concours 2026"
 msgstr "Competitive Examination 2026"
 
-#: core/home/routes.py:57
+#: core/home/routes.py:70
 msgid "En maintenance"
 msgstr "Under maintenance"
 
-#: core/home/routes.py:58
+#: core/home/routes.py:71
 msgid "Cette plateforme est en maintenance. Elle sera disponible dans:"
 msgstr "This platform is undergoing maintenance. It will be available in:"
 
-#: core/home/routes.py:62 core/home/routes.py:104 core/home/routes.py:169
+#: core/home/routes.py:84 core/home/routes.py:126 core/home/routes.py:191
 #: pages/inscriptions/forms.py:17
 msgid "numero de paiement"
 msgstr "payment number"
 
-#: core/home/routes.py:63 core/home/routes.py:105
+#: core/home/routes.py:85 core/home/routes.py:127
 #: core/home/templates/home-login.jinja:26
 #: core/home/templates/home-register.jinja:38
 msgid "mot de passe"
 msgstr "password"
 
-#: core/home/routes.py:64
+#: core/home/routes.py:86
 msgid "confirmer mot de passe"
 msgstr "confirm password"
 
-#: core/home/routes.py:77 core/home/routes.py:121
+#: core/home/routes.py:99 core/home/routes.py:143
 msgid "Numero de paiement invalide"
 msgstr "Invalid payment number"
 
-#: core/home/routes.py:82
+#: core/home/routes.py:104
 msgid "Avertissement"
 msgstr "Warning"
 
-#: core/home/routes.py:83
+#: core/home/routes.py:105
 msgid "Ce numero de paiement a deja ete utilise pour une inscription"
 msgstr "This payment number has already been used for a registration"
 
-#: core/home/routes.py:84
+#: core/home/routes.py:106
 msgid "Voir l'inscription"
 msgstr "See the registration"
 
-#: core/home/routes.py:85 core/home/routes.py:157
+#: core/home/routes.py:107 core/home/routes.py:179
 msgid "Revenir a l'accueil"
 msgstr "Return to home page"
 
-#: core/home/routes.py:89
+#: core/home/routes.py:111
 msgid "Mot de passe non confirme"
 msgstr "Password not confirmed"
 
-#: core/home/routes.py:99
+#: core/home/routes.py:121
 msgid "Vous devez payer vos frais de concours avant cette etape"
 msgstr "You must pay your competition fees before this stage"
 
-#: core/home/routes.py:125
+#: core/home/routes.py:147
 msgid "Aucune inscription en cours"
 msgstr "No registrations currently"
 
-#: core/home/routes.py:130
+#: core/home/routes.py:152
 msgid "Mot de passe incorrecte"
 msgstr "Incorrect password"
 
-#: core/home/routes.py:156
+#: core/home/routes.py:178
 msgid "Vous n'avez pas les autorisations nécessaires pour accéder à cette page."
 msgstr "You do not have the necessary permissions to access this page."
 
-#: core/home/routes.py:160
+#: core/home/routes.py:182
 msgid "Revenir a la page precedente"
 msgstr "Return to the previous page"
 
-#: core/home/routes.py:170
+#: core/home/routes.py:192
 msgid "Noms et prenoms"
 msgstr "First name and surname"
 
-#: core/home/routes.py:171 pages/inscriptions/forms.py:37
+#: core/home/routes.py:193 pages/inscriptions/forms.py:37
 msgid "Date de naissance"
 msgstr "Date of birth"
 
-#: core/home/routes.py:172 pages/inscriptions/forms.py:38
+#: core/home/routes.py:194 pages/inscriptions/forms.py:38
 msgid "Lieu de naissance"
 msgstr "Place of birth"
 
-#: core/home/routes.py:194
+#: core/home/routes.py:216
 msgid "Numero de paiement inconnu"
 msgstr "Unknown payment number"
 
-#: core/home/routes.py:198
+#: core/home/routes.py:220
 msgid "Informations incorrectes"
 msgstr "Incorrect information"
 
-#: core/home/routes.py:209 core/home/templates/home-change-password.jinja:25
+#: core/home/routes.py:231 core/home/templates/home-change-password.jinja:25
 msgid "Nouveau mot de passe"
 msgstr "New password"
 
-#: core/home/routes.py:210 core/home/templates/home-change-password.jinja:32
+#: core/home/routes.py:232 core/home/templates/home-change-password.jinja:32
 #: core/home/templates/home-register.jinja:39
 msgid "Confirmer mot de passe"
 msgstr "Confirm password"
 
-#: core/home/routes.py:225
+#: core/home/routes.py:247
 msgid "Mot de passe non confirmé"
 msgstr "Password not confirmed"
 
@@ -153,6 +153,14 @@ msgstr "Change password"
 #: core/home/templates/home-register.jinja:46
 msgid "Valider"
 msgstr "Validate"
+
+#: core/home/templates/home-closed.jinja:16 core/home/templates/home.jinja:16
+msgid "CONCOURS ENSET 2026"
+msgstr "ENSET COMPETITION 2026"
+
+#: core/home/templates/home-closed.jinja:17
+msgid "Les inscriptions sont cloturees"
+msgstr "Registration is now closed."
 
 #: core/home/templates/home-dashboard-profile.jinja:47
 msgid "Identifiant"
@@ -294,10 +302,6 @@ msgstr "place of birth"
 #: core/home/templates/home-register.jinja:13
 msgid "Creez une inscription ..."
 msgstr "Create a registration..."
-
-#: core/home/templates/home.jinja:16
-msgid "CONCOURS ENSET 2026"
-msgstr "ENSET COMPETITION 2026"
 
 #: core/home/templates/home.jinja:17
 msgid "Bienvenue sur la plateforme d'inscription !"
@@ -493,19 +497,19 @@ msgstr "Examination centre"
 msgid "Diplôme du candidat"
 msgstr "Candidate's degree"
 
-#: pages/inscriptions/routes.py:125
+#: pages/inscriptions/routes.py:136
 msgid "Inscription enregistree avec success"
 msgstr "Registration successfully completed"
 
-#: pages/inscriptions/routes.py:202
+#: pages/inscriptions/routes.py:233
 msgid "Ce compte est reserve au candidat "
 msgstr "This account is reserved for the candidate "
 
-#: pages/inscriptions/routes.py:204
+#: pages/inscriptions/routes.py:235
 msgid "(Vous n'etes pas dans votre inscription)"
 msgstr "(You are not logged in your registration)"
 
-#: pages/inscriptions/routes.py:236
+#: pages/inscriptions/routes.py:267
 msgid "Inscription modifiee avec success"
 msgstr "Registration successfully modified"
 
