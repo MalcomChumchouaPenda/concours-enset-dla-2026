@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-19 10:17+0100\n"
-"PO-Revision-Date: 2026-01-19 10:23+0100\n"
+"POT-Creation-Date: 2026-01-19 12:18+0100\n"
+"PO-Revision-Date: 2026-01-19 12:21+0100\n"
 "Last-Translator: \n"
 "Language-Team: en <LL@li.org>\n"
 "Language: en\n"
@@ -31,7 +31,7 @@ msgstr "Statement"
 
 #: core/home/menus.py:8 core/home/templates/home-help.jinja:16
 msgid "Aide"
-msgstr "Help"
+msgstr "Assistance"
 
 #: core/home/menus.py:17 core/home/templates/home-dashboard-profile.jinja:6
 #: core/home/templates/home-dashboard-profile.jinja:10
@@ -40,7 +40,7 @@ msgstr "Profile"
 
 #: core/home/routes.py:69
 msgid "Concours 2026"
-msgstr "Competitive Examination 2026"
+msgstr "Competitive Exam 2026"
 
 #: core/home/routes.py:70
 msgid "En maintenance"
@@ -163,7 +163,7 @@ msgstr "Validate"
 
 #: core/home/templates/home-closed.jinja:16 core/home/templates/home.jinja:16
 msgid "CONCOURS ENSET 2026"
-msgstr "ENSET COMPETITION 2026"
+msgstr "ENSET COMPETITIVE EXAM 2026"
 
 #: core/home/templates/home-closed.jinja:17
 msgid "Les inscriptions sont cloturees"
@@ -242,11 +242,11 @@ msgstr "Alerts"
 #: core/home/templates/home-help.jinja:27 pages/inscriptions/menus.py:6
 #: pages/inscriptions/menus.py:9 pages/inscriptions/menus.py:13
 msgid "Inscription"
-msgstr "Registration"
+msgstr "Registering"
 
 #: core/home/templates/home-help.jinja:27
 msgid "Faire son <b>inscription</b>"
-msgstr "New <b>registration</b>"
+msgstr "<b>Register</b>"
 
 #: core/home/templates/home-help.jinja:40
 msgid "Impression"

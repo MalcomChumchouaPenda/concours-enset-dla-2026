@@ -10,4 +10,4 @@
 
 1. Vous devez avoir payé les frais de concours avant de pouvoir vous inscrire. 
 2. une fois validée, le choix du centre d'examen et de l'option ne peuvent être modifiées.
-3. Un numéro de paiement ne peut être utilisé qu’une seule fois.
+3. Un reçu de paiement ne peut être utilisé que pour une inscription.

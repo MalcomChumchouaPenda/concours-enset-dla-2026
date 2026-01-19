@@ -7,17 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-19 10:17+0100\n"
+"POT-Creation-Date: 2026-01-19 12:18+0100\n"
 "PO-Revision-Date: 2026-01-19 10:25+0100\n"
 "Last-Translator: \n"
-"Language-Team: fr <LL@li.org>\n"
 "Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 2.16.0\n"
-"X-Generator: Poedit 3.5\n"
 
 #: core/home/menus.py:6 core/home/menus.py:16
 #: core/home/templates/home-dashboard-profile.jinja:9
@@ -607,9 +606,11 @@ msgstr "Nouvelle Inscription"
 
 #: pages/inscriptions/templates/inscriptions/new.jinja:28
 msgid ""
-"Vérifiez les informations ci-dessous qui sont non-modifiables après validation:"
+"Vérifiez les informations ci-dessous qui sont non-modifiables après "
+"validation:"
 msgstr ""
-"Vérifiez les informations ci-dessous qui sont non-modifiables après validation:"
+"Vérifiez les informations ci-dessous qui sont non-modifiables après "
+"validation:"
 
 #: pages/inscriptions/templates/inscriptions/new.jinja:30
 msgid "Option choisie :"
@@ -728,3 +729,4 @@ msgstr "Téléphone"
 
 #~ msgid "Choisir..."
 #~ msgstr "Choisir..."
+
