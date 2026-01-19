@@ -155,7 +155,7 @@ class PhotoWriter(Writer):
 
 class FieldWriter(Writer):
 
-    def __init__(self, canvas):
+    def __init__(self, canvas, step=8*mm):
         super().__init__(canvas)
         self.color = black
         self.label_font = self._register_font('times.ttf')
@@ -164,7 +164,7 @@ class FieldWriter(Writer):
         self.value_size = 9
         self.y = 0 * mm
         self.x_factor = 1.75
-        self.y_step = 8*mm
+        self.y_step = step
 
     
     def _eval_width(self, label):
@@ -359,11 +359,15 @@ def generer_fiche_inscription(inscr, nom_fichier):
     c.drawCentredString(width/2, y_a, f"RECEPISSE D'INSCRIPTION AU CONCOURS 2026")
     y_a -= dy_a + 2*mm
 
+    kwriter.y_step = 7*mm
     kwriter.start(y_a)
     kwriter.write(x_b1, "N° DE DOSSIER :", inscr.numero_dossier)
+    kwriter.write(x_b2, "N° DE PAIEMENT :", inscr.id)
+    kwriter.step()
     
-    fwriter.start(y_a)
-    fwriter.write(x_b2, "NOMS :", inscr.nom_complet.upper())
+    fwriter.y_step = 7*mm
+    fwriter.start(kwriter.y)
+    fwriter.write(x_a1, "NOMS :", inscr.nom_complet.upper())
     fwriter.step()
 
     fwriter.write(x_b1, "NÉ(E) LE :", inscr.date_naissance.strftime('%d/%m/%Y'))
@@ -380,17 +384,17 @@ def generer_fiche_inscription(inscr, nom_fichier):
     # SIGNATURES
     c.setFillColor(couleur_bleu_ud)
     c.setFont(font_bold_name, 9)
-    c.drawString(x_a1, y_a, "SIGNATURE DE L'AGENT :")
+    c.drawString(x_a1, y_a + 4*mm, "SIGNATURE DE L'AGENT :")
     
     # METADONNEES
     create_date = inscr.date_inscription.strftime('%d/%m/%Y')
     footer = f"Recepissé créé le {create_date}"
     c.setFillColor(couleur_texte_noir)
     c.setFont(font_name, 8)
-    c.drawCentredString(x_b2 + 25*mm, y_a - 15*mm, footer)
+    c.drawCentredString(x_b2 + 25*mm, y_a - 10*mm, footer)
 
     # PHOTO 4 x 4
-    pwriter.write(x_b3 + 25*mm, y_a - 10*mm)
+    pwriter.write(x_b3 + 25*mm, y_a)
 
     # Sauvegarder le PDF
     c.save()
