@@ -104,8 +104,115 @@ def generer_petite_entete(canvas, size, y_start):
     c.drawCentredString(width/2, y_start - 5*mm, "ÉCOLE NORMALE SUPÉRIEURE D'ENSEIGNEMENT TECHNIQUE")
 
 
+class Writer:
 
-def generer_fiche_inscription(inscription, nom_fichier):
+    def __init__(self, canvas):
+        super().__init__()
+        self.canvas = canvas
+
+    def _register_font(self, file_name):
+        font_path = os.path.join(store_dir, 'fonts', file_name)
+        font_name, _ = os.path.splitext(file_name)
+        pdfmetrics.registerFont(TTFont(font_name, font_path))
+        return font_name
+
+class PhotoWriter(Writer):
+
+    def __init__(self, canvas):
+        super().__init__(canvas)
+        self.photo_width = 40 * mm
+        self.photo_height = 40 * mm
+        self.text_font = self._register_font('times.ttf')
+        self.text_size = 10
+    
+    def write(self, x, y, image_path=None):
+        # Position du rectangle (coin inférieur gauche)
+        # Coordonnée x (horizontale)
+        # Coordonnée y (verticale)
+        
+        w = self.photo_width
+        h = self.photo_height
+
+        # Dessiner un rectangle
+        c = self.canvas
+        c.rect(x, y, w, h)
+        if image_path:
+            c.drawImage(image_path, x, y, w, h)
+        else:
+            # Calculer la position du texte pour le centrer
+            text = 'PHOTO 4 x 4'
+            text_font, text_size = self.text_font, self.text_size
+            text_width = c.stringWidth(text, text_font, text_size)  # Largeur du texte
+            text_height = text_size  # Hauteur approximative du texte (égale à la taille de la police)
+            text_x = x + (w - text_width) / 2  # Position horizontale (centrée)
+            text_y = y + (w - text_height) / 2 + text_size / 2  # Position verticale (centrée)
+
+            # Écrire le texte au centre du rectangle
+            c.setFont(text_font, text_size)
+            c.drawString(text_x, text_y, text)
+
+
+
+class FieldWriter(Writer):
+
+    def __init__(self, canvas):
+        super().__init__(canvas)
+        self.color = black
+        self.label_font = self._register_font('times.ttf')
+        self.value_font = self._register_font('Crimson-Bold.ttf')
+        self.label_size = 8
+        self.value_size = 9
+        self.y = 0 * mm
+        self.x_factor = 1.75
+        self.y_step = 8*mm
+
+    
+    def _eval_width(self, label):
+        return pdfmetrics.stringWidth(label, 
+                                      self.label_font, 
+                                      self.label_size)
+
+    def start(self, y):
+        self.y = y
+        self.canvas.setFillColor(self.color)
+    
+    def write(self, x, label, value):
+        x_label = x
+        x_value = x + self._eval_width(label) + 1*mm
+        self._write_label(x_label, label)
+        self._write_value(x_value, value)
+    
+    def _write_label(self, x, label):
+        c, y = self.canvas, self.y
+        c.setFont(self.label_font, self.label_size)
+        c.drawString(x, y, label)
+
+    def _write_value(self, x, value):
+        c, y = self.canvas, self.y
+        c.setFont(self.value_font, self.value_size)
+        c.drawString(x, y, value)
+
+    def step(self):
+        self.y -= self.y_step
+    
+    def move(self, y):
+        self.y = y
+
+class KeyFieldWriter(FieldWriter):
+    
+    def __init__(self, canvas):
+        super().__init__(canvas)
+        self.special_color = Color(0/255, 60/255, 120/255)
+    
+    def _write_value(self, x, value):
+        c, y = self.canvas, self.y
+        c.setFillColor(self.special_color)
+        c.setFont(self.value_font, self.value_size)
+        c.drawString(x, y, value)
+        c.setFillColor(self.color)
+
+
+def generer_fiche_inscription(inscr, nom_fichier):
 
     # Créer le canvas
     c = canvas.Canvas(nom_fichier, pagesize=A4)
@@ -163,128 +270,57 @@ def generer_fiche_inscription(inscription, nom_fichier):
 
 
     # NUM DOSSIER PHYSIQUE
-
-    c.setFillColor(couleur_texte_noir)
-    c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "N° DE DOSSIER :")
-    c.setFillColor(couleur_bleu_ud)
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 26*mm, y_a, inscription.numero_dossier)
-
-    c.setFillColor(couleur_texte_noir)
-    c.setFont(font_name, 9)
-    c.drawString(x_b3, y_a, "N° DE PAIEMENT :")
-    c.setFillColor(couleur_bleu_ud)
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b3 + 28*mm, y_a, inscription.id)
-    y_a -= dy_b
+    kwriter = KeyFieldWriter(c)
+    kwriter.start(y_a)
+    kwriter.write(x_b1, "N° DE DOSSIER :", inscr.numero_dossier)
+    kwriter.write(x_b3, "N° DE PAIEMENT :", inscr.id)
+    y_a = kwriter.y - dy_b
 
 
     # INFORMATIONS PERSONNELLES
-        
-    c.setFillColor(couleur_texte_noir)
-    c.setFont(font_name, 9)
-    c.drawString(x_a1, y_a, "NOM ET PRÉNOMS :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_a1 + 32*mm, y_a, inscription.nom_complet.upper())
-    y_a -= dy_a
-
-    c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "DATE DE NAISSANCE :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 36*mm, y_a, inscription.date_naissance.strftime('%d/%m/%Y'))
-
-    c.setFont(font_name, 9)
-    c.drawString(x_b2, y_a, "LIEU :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 11*mm, y_a, inscription.lieu_naissance.upper())
-    y_a -= dy_a
-
-    c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "SEXE :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 12*mm, y_a, inscription.sexe('fr').upper())
-
-    c.setFont(font_name, 9)
-    c.drawString(x_b2, y_a, "SITUATION MATRIMONIALE :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 48*mm, y_a, inscription.statut_matrimonial('fr').upper())
-    y_a -= dy_a
-
-    c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "LANGUE :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 15*mm, y_a, inscription.langue('fr').upper())
-
-    departement_origine = inscription.departement_origine
+    fwriter = FieldWriter(c)
+    fwriter.start(y_a)
+    fwriter.write(x_a1, "NOMS ET PRÉNOMS :", inscr.nom_complet.upper())
+    fwriter.step()
+    fwriter.write(x_b1, "DATE DE NAISSANCE :", inscr.date_naissance.strftime('%d/%m/%Y'))
+    fwriter.write(x_b2, "LIEU DE NAISSANCE :", inscr.lieu_naissance.upper())
+    fwriter.step()
+    fwriter.write(x_b1, "SEXE :", inscr.sexe('fr').upper())
+    fwriter.write(x_b2, "SITUATION MATRIMONIALE :", inscr.statut_matrimonial('fr').upper())
+    fwriter.step()
+    
+    departement_origine = inscr.departement_origine
     region = departement_origine.region
     pays = region.pays
+    fwriter.write(x_b1, "LANGUE :", inscr.langue('fr').upper())
+    fwriter.write(x_b2, "NATIONALITÉ :", pays.nationalite('fr').upper())
+    fwriter.step()
+    fwriter.write(x_b1, "RÉGION D'ORIGINE :", region.nom('fr').upper())
+    fwriter.write(x_b2, "DÉPARTEMENT D'ORIGINE :", departement_origine.nom('fr').upper())
+    y_a = fwriter.y - dy_b
     
-    c.setFont(font_name, 9)
-    c.drawString(x_b2, y_a, "NATIONALITÉ :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 25*mm, y_a, pays.nationalite('fr').upper())
-    y_a -= dy_a
-
-    c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "RÉGION D'ORIGINE :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 31*mm, y_a, region.nom('fr').upper())
-    
-    c.setFont(font_name, 9)
-    c.drawString(x_b2, y_a, "DÉPARTEMENT D'ORIGINE :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 43*mm, y_a, departement_origine.nom('fr').upper())
-    y_a -= dy_b
-
-
     # INFORMATIONS SUR LE CONCOURS
-    classe = inscription.classe
-    filiere_concours = classe.option.filiere
-    c.setFont(font_name, 9)
-    c.drawString(x_a1, y_a, "FILIERE CHOISIE :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_a1 + 28*mm, y_a, f'{filiere_concours.id}-{filiere_concours.nom_fr}'.upper())
-    y_a -= dy_a
-
+    classe = inscr.classe
     option_concours = classe.option
-    c.setFont(font_name, 9)
-    c.drawString(x_a1, y_a, "OPTION CHOISIE :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_a1 + 28*mm, y_a, f"{option_concours.id}-{option_concours.nom_fr}".upper())
-    y_a -= dy_a
-
-    c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "NIVEAU EXAMEN :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 30*mm, y_a, classe.niveau('fr').upper())
-    
-    c.setFont(font_name, 9)
-    c.drawString(x_b2, y_a, "DIPLOME CANDIDAT :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 35*mm, y_a, inscription.diplome.nom_fr.upper())
-    y_a -= dy_a
-
-    c.setFont(font_name, 9)
-    c.drawString(x_a1, y_a, "CENTRE EXAMEN:")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_a1 + 30*mm, y_a, inscription.centre.nom.upper())
-    y_a -= dy_b
+    filiere_concours = option_concours.filiere
+    fwriter.move(y_a)
+    fwriter.write(x_a1, "FILIERE CHOISIE :", f'{filiere_concours.id}-{filiere_concours.nom_fr}'.upper())
+    fwriter.step()
+    fwriter.write(x_a1, "OPTION CHOISIE :", f"{option_concours.id}-{option_concours.nom_fr}".upper())
+    fwriter.step()
+    fwriter.write(x_b1, "NIVEAU EXAMEN :", classe.niveau('fr').upper())
+    fwriter.write(x_b2, "DIPLOME CANDIDAT :", inscr.diplome.nom_fr.upper())
+    fwriter.step()
+    fwriter.write(x_a1, "CENTRE EXAMEN:", inscr.centre.nom.upper())
+    fwriter.step()
+    y_a = fwriter.y - dy_b
 
 
     # TELEPHONES + EMAIL
-
-    c.setFont(font_name, 9)
-    c.drawString(x_a1, y_a, "TÉLÉPHONE :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_a1 + 22*mm, y_a, inscription.telephone)
-
-    c.setFont(font_name, 9)
-    c.drawString(x_a2, y_a, "EMAIL :")
-    c.setFont(font_bold_name, 9)
-    c.drawString(x_a2 + 14*mm, y_a, inscription.email)
-    y_a -= dy_b
-
+    fwriter.write(x_a1, "TÉLÉPHONE :", inscr.telephone)
+    fwriter.write(x_a2, "EMAIL :", inscr.email)
+    fwriter.step()
+    y_a = fwriter.y - dy_b
 
     # SIGNATURES
     c.setFillColor(couleur_bleu_ud)
@@ -295,8 +331,8 @@ def generer_fiche_inscription(inscription, nom_fichier):
 
 
     # METADONNEES
-    create_date = inscription.date_inscription.strftime('%d/%m/%Y')
-    footer = f"fiche créée le {create_date}"
+    create_date = inscr.date_inscription.strftime('%d/%m/%Y')
+    footer = f"Fiche créée le {create_date}"
     c.setFillColor(couleur_texte_noir)
     c.setFont(font_name, 8)
     c.drawCentredString(width/2, y_a + 5*mm, footer)
@@ -319,49 +355,23 @@ def generer_fiche_inscription(inscription, nom_fichier):
     c.drawCentredString(width/2, y_a, f"RECEPISSE D'INSCRIPTION AU CONCOURS 2026")
     y_a -= dy_a + 2*mm
 
-    c.setFillColor(couleur_texte_noir)
-    c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "N° DOSSIER :")
-    c.setFillColor(couleur_bleu_ud)
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 20*mm, y_a, inscription.numero_dossier)
+    kwriter.start(y_a)
+    kwriter.write(x_b1, "N° DE DOSSIER :", inscr.numero_dossier)
     
-    c.setFillColor(couleur_texte_noir)
-    c.setFont(font_name, 9)
-    c.drawString(x_b2, y_a, "NIVEAU :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 15*mm, y_a, classe.niveau('fr').upper())
-    
-    c.setFont(font_name, 9)
-    c.drawString(x_b3 + 2*mm, y_a, "CENTRE:")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b3 + 18*mm, y_a, inscription.centre.nom.upper())
-    y_a -= dy_a
-    
-    c.setFillColor(couleur_texte_noir)
-    c.setFont(font_name, 9)
-    c.drawString(x_a1, y_a, "NOM ET PRÉNOMS :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_a1 + 32*mm, y_a, inscription.nom_complet.upper())
-    y_a -= dy_a
+    fwriter.start(y_a)
+    fwriter.write(x_b2, "NOMS :", inscr.nom_complet.upper())
+    fwriter.step()
 
-    c.setFont(font_name, 9)
-    c.drawString(x_b1, y_a, "DATE DE NAISSANCE :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b1 + 36*mm, y_a, inscription.date_naissance.strftime('%d/%m/%Y'))
+    fwriter.write(x_b1, "NÉ(E) LE :", inscr.date_naissance.strftime('%d/%m/%Y'))
+    fwriter.write(x_b2, "A :", inscr.lieu_naissance.upper())
+    fwriter.step()
 
-    c.setFont(font_name, 9)
-    c.drawString(x_b2, y_a, "LIEU :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_b2 + 11*mm, y_a, inscription.lieu_naissance.upper())
-    y_a -= dy_a
-    
-    option_concours = classe.option
-    c.setFont(font_name, 9)
-    c.drawString(x_a1, y_a, "OPTION CHOISIE :")
-    c.setFont(font_bold_name, 10)
-    c.drawString(x_a1 + 28*mm, y_a, f"{option_concours.id}-{option_concours.nom_fr}".upper())
-    y_a -= dy_b
+    fwriter.write(x_b1, "NIVEAU EXAMEN :", classe.niveau('fr').upper())
+    fwriter.write(x_b2, "CENTRE EXAMEN:", inscr.centre.nom.upper())
+    fwriter.step()
+
+    fwriter.write(x_a1, "OPTION CHOISIE :", f"{option_concours.id}-{option_concours.nom_fr}".upper())
+    y_a = fwriter.y - dy_b
 
     # SIGNATURES
     c.setFillColor(couleur_bleu_ud)
@@ -369,12 +379,15 @@ def generer_fiche_inscription(inscription, nom_fichier):
     c.drawString(x_a1, y_a, "SIGNATURE DE L'AGENT :")
     
     # METADONNEES
-    create_date = inscription.date_inscription.strftime('%d/%m/%Y')
-    footer = f"créée le {create_date}"
+    create_date = inscr.date_inscription.strftime('%d/%m/%Y')
+    footer = f"Recepissé créé le {create_date}"
     c.setFillColor(couleur_texte_noir)
     c.setFont(font_name, 8)
-    c.drawCentredString(x_b3 + 25*mm, y_a, footer)
+    c.drawCentredString(x_b2 + 25*mm, y_a - 15*mm, footer)
 
+    # PHOTO 4 x 4
+    pwriter = PhotoWriter(c)
+    pwriter.write(x_b3 + 25*mm, y_a - 10*mm)
 
     # Sauvegarder le PDF
     c.save()
