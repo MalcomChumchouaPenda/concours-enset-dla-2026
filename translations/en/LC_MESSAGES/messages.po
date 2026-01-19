@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-19 12:18+0100\n"
-"PO-Revision-Date: 2026-01-19 12:50+0100\n"
+"POT-Creation-Date: 2026-01-19 12:55+0100\n"
+"PO-Revision-Date: 2026-01-19 12:56+0100\n"
 "Last-Translator: \n"
 "Language-Team: en <LL@li.org>\n"
 "Language: en\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Generated-By: Babel 2.16.0\n"
 "X-Generator: Poedit 3.5\n"
 
-#: core/home/menus.py:6 core/home/menus.py:16
+#: core/home/menus.py:6 core/home/menus.py:17
 #: core/home/templates/home-dashboard-profile.jinja:9
 #: core/home/templates/home-dashboard.jinja:6
 msgid "Accueil"
@@ -33,7 +33,11 @@ msgstr "Statement"
 msgid "Aide"
 msgstr "Assistance"
 
-#: core/home/menus.py:17 core/home/templates/home-dashboard-profile.jinja:6
+#: core/home/menus.py:9
+msgid "Contact"
+msgstr "Contact"
+
+#: core/home/menus.py:18 core/home/templates/home-dashboard-profile.jinja:6
 #: core/home/templates/home-dashboard-profile.jinja:10
 msgid "Profil"
 msgstr "Profile"

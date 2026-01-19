@@ -6,6 +6,7 @@ from core.utils import navbar, sidebar
 navbar.add('home_pg', _l('Accueil'), endpoint='home.index', rank=0)
 navbar.add('communique_pdf', _l('Communique'), endpoint='home.communique', rank=2)
 navbar.add('concours_help_pg', _l('Aide'), endpoint='home.help', rank=3)
+navbar.add('contact_pg', _l('Contact'), url='#contact', rank=15)
 
 # docmenu = navbar.add('doc_menu', _l('Procedures'), rank=1)
 # workspacemenu = navbar.add('space_menu', _l('Espaces'), rank=2)

@@ -7,18 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-19 12:18+0100\n"
-"PO-Revision-Date: 2026-01-19 10:25+0100\n"
+"POT-Creation-Date: 2026-01-19 12:55+0100\n"
+"PO-Revision-Date: 2026-01-19 12:56+0100\n"
 "Last-Translator: \n"
-"Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Generated-By: Babel 2.16.0\n"
+"X-Generator: Poedit 3.5\n"
 
-#: core/home/menus.py:6 core/home/menus.py:16
+#: core/home/menus.py:6 core/home/menus.py:17
 #: core/home/templates/home-dashboard-profile.jinja:9
 #: core/home/templates/home-dashboard.jinja:6
 msgid "Accueil"
@@ -32,7 +33,11 @@ msgstr "Communiqué"
 msgid "Aide"
 msgstr "Aide"
 
-#: core/home/menus.py:17 core/home/templates/home-dashboard-profile.jinja:6
+#: core/home/menus.py:9
+msgid "Contact"
+msgstr "Contact"
+
+#: core/home/menus.py:18 core/home/templates/home-dashboard-profile.jinja:6
 #: core/home/templates/home-dashboard-profile.jinja:10
 msgid "Profil"
 msgstr "Profil"
@@ -275,7 +280,7 @@ msgstr "code banque du reçu"
 #: core/home/templates/home-login.jinja:26
 #: core/home/templates/home-register.jinja:38
 msgid "numero d'ordre du recu"
-msgstr "Numéro d'ordre du reçu"
+msgstr "numéro d'ordre du reçu"
 
 #: core/home/templates/home-login.jinja:36
 #: core/home/templates/home-recover-password.jinja:36
@@ -606,11 +611,9 @@ msgstr "Nouvelle Inscription"
 
 #: pages/inscriptions/templates/inscriptions/new.jinja:28
 msgid ""
-"Vérifiez les informations ci-dessous qui sont non-modifiables après "
-"validation:"
+"Vérifiez les informations ci-dessous qui sont non-modifiables après validation:"
 msgstr ""
-"Vérifiez les informations ci-dessous qui sont non-modifiables après "
-"validation:"
+"Vérifiez les informations ci-dessous qui sont non-modifiables après validation:"
 
 #: pages/inscriptions/templates/inscriptions/new.jinja:30
 msgid "Option choisie :"
@@ -729,4 +732,3 @@ msgstr "Téléphone"
 
 #~ msgid "Choisir..."
 #~ msgstr "Choisir..."
-
