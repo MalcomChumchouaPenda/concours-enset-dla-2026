@@ -237,9 +237,9 @@ def generer_fiche_inscription(inscr, nom_fichier):
     generer_entete(c, A4)
     
     # --- 2. TITRE DU FORMULAIRE ---
-    c.setFont(font_bold_name, 16)
+    c.setFont(font_bold_name, 14)
     c.setFillColor(couleur_bleu_ud)
-    c.drawCentredString(width/2, height - 58*mm, f"FICHE D'INSCRIPTION AU CONCOURS 2026")
+    c.drawCentredString(width/2, height - 54*mm, f"FICHE D'INSCRIPTION AU CONCOURS 2026")
     
     # c.setFont(font_bold_name, 14)
     # c.drawCentredString(width/2, height - 68*mm, "TEST NOTHING")
@@ -260,7 +260,7 @@ def generer_fiche_inscription(inscr, nom_fichier):
 
     # le second systeme de coordonnee a trois colonnes
     x_b1 = x_a1
-    x_b2 = x_a2 - 20*mm
+    x_b2 = x_a2 - 25*mm
     x_b3 = x_a2 + 25*mm
 
     # le systeme d'ecart entre les lignes
@@ -273,8 +273,12 @@ def generer_fiche_inscription(inscr, nom_fichier):
     kwriter = KeyFieldWriter(c)
     kwriter.start(y_a)
     kwriter.write(x_b1, "N° DE DOSSIER :", inscr.numero_dossier)
-    kwriter.write(x_b3, "N° DE PAIEMENT :", inscr.id)
+    kwriter.write(x_b2, "N° DE PAIEMENT :", inscr.id)
     y_a = kwriter.y - dy_b
+    
+    # PHOTO 4 x 4
+    pwriter = PhotoWriter(c)
+    pwriter.write(x_b3 + 25*mm, y_a - 20*mm)
 
 
     # INFORMATIONS PERSONNELLES
@@ -282,8 +286,8 @@ def generer_fiche_inscription(inscr, nom_fichier):
     fwriter.start(y_a)
     fwriter.write(x_a1, "NOMS ET PRÉNOMS :", inscr.nom_complet.upper())
     fwriter.step()
-    fwriter.write(x_b1, "DATE DE NAISSANCE :", inscr.date_naissance.strftime('%d/%m/%Y'))
-    fwriter.write(x_b2, "LIEU DE NAISSANCE :", inscr.lieu_naissance.upper())
+    fwriter.write(x_b1, "NÉ(E) LE :", inscr.date_naissance.strftime('%d/%m/%Y'))
+    fwriter.write(x_b2, "A :", inscr.lieu_naissance.upper())
     fwriter.step()
     fwriter.write(x_b1, "SEXE :", inscr.sexe('fr').upper())
     fwriter.write(x_b2, "SITUATION MATRIMONIALE :", inscr.statut_matrimonial('fr').upper())
@@ -308,10 +312,10 @@ def generer_fiche_inscription(inscr, nom_fichier):
     fwriter.step()
     fwriter.write(x_a1, "OPTION CHOISIE :", f"{option_concours.id}-{option_concours.nom_fr}".upper())
     fwriter.step()
-    fwriter.write(x_b1, "NIVEAU EXAMEN :", classe.niveau('fr').upper())
-    fwriter.write(x_b2, "DIPLOME CANDIDAT :", inscr.diplome.nom_fr.upper())
+    fwriter.write(x_a1, "DIPLOME CANDIDAT :", inscr.diplome.nom_fr.upper())
     fwriter.step()
-    fwriter.write(x_a1, "CENTRE EXAMEN:", inscr.centre.nom.upper())
+    fwriter.write(x_a1, "NIVEAU EXAMEN :", classe.niveau('fr').upper())
+    fwriter.write(x_a2, "CENTRE EXAMEN:", inscr.centre.nom.upper())
     fwriter.step()
     y_a = fwriter.y - dy_b
 
@@ -386,7 +390,6 @@ def generer_fiche_inscription(inscr, nom_fichier):
     c.drawCentredString(x_b2 + 25*mm, y_a - 15*mm, footer)
 
     # PHOTO 4 x 4
-    pwriter = PhotoWriter(c)
     pwriter.write(x_b3 + 25*mm, y_a - 10*mm)
 
     # Sauvegarder le PDF
