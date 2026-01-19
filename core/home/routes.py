@@ -81,28 +81,33 @@ def closed():
 
 
 class RegisterForm(FlaskForm):
-    id = StringField(_l('numero de paiement'), validators=[DataRequired()])
+    bid = StringField(_l('code banque'), validators=[DataRequired()])
+    rid = StringField(_l('numero recu'), validators=[DataRequired()])
     pwd = PasswordField(_l('mot de passe'), validators=[DataRequired()])
     confirm_pwd = PasswordField(_l('confirmer mot de passe'), validators=[DataRequired()])
 
 
-def _check_id(id_):
-    return re.match(r'^\d+$', id_)
+def _check_id(bid, rid):
+    if not re.match(os.getenv('CODE_BANQUE_EXP'), bid):
+        return False
+    return re.match(os.getenv('NUMERO_RECU_EXP'), rid)
 
 
 @ui.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        uid = form.id.data
-        if not _check_id(uid):
-            flash(_('Numero de paiement invalide'), 'danger')
+        bid = form.bid.data
+        rid = form.rid.data
+        if not _check_id(bid, rid):
+            flash(_('Recu de paiement invalide'), 'danger')
             return render_template('home-register.jinja', form=form)
         
+        uid = f'{bid}{rid}'
         if auth_tsk.get_user(uid):
             return render_template('landing/message.jinja',
                                     title=_("Avertissement"),
-                                    message=_("Ce numero de paiement a deja ete utilise pour une inscription"),
+                                    message=_("Ce recu de paiement a deja ete utilise pour une inscription"),
                                     actions = [{'text':_("Voir l'inscription"), 'url':url_for('home.login')},
                                                {'text':_("Revenir a l'accueil"), 'url':url_for('home.logout')}])
 
@@ -123,7 +128,8 @@ def register():
 
 
 class LoginForm(FlaskForm):
-    id = StringField(_l('numero de paiement'), validators=[DataRequired()])
+    bid = StringField(_l('code banque'), validators=[DataRequired()])
+    rid = StringField(_l('numero recu'), validators=[DataRequired()])
     pwd = PasswordField(_l('mot de passe'), validators=[DataRequired()])
 
 
@@ -138,11 +144,13 @@ def login():
         return redirect(url_for('home.register'))
 
     if form.validate_on_submit():
-        uid = form.id.data
-        if not _check_id(uid):
-            flash(_('Numero de paiement invalide'), 'danger')
+        bid = form.bid.data
+        rid = form.rid.data
+        if not _check_id(bid, rid):
+            flash(_('Recu de paiement invalide'), 'danger')
             return render_template('home-login.jinja', form=form, next=next)
         
+        uid = f'{bid}{rid}'
         if not auth_tsk.get_user(uid):
             flash(_("Aucune inscription en cours"), 'danger')
             return render_template('home-login.jinja', form=form, next=next)
@@ -159,11 +167,9 @@ def login():
 @ui.route('/logout')
 def logout():
     user = current_user
-    print('\nstep1=>', user, user.roles)
     if user.is_authenticated:
         if user.has_role('candidat_concours'):
             auth_tsk.remove_user(user)
-        print('\nstep2=>', user, user.roles)
         auth_tsk.disconnect_user()
     return redirect(url_for('home.index'))
 

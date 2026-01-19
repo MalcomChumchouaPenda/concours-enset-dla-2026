@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-18 15:26+0100\n"
-"PO-Revision-Date: 2026-01-18 15:28+0100\n"
+"POT-Creation-Date: 2026-01-19 10:17+0100\n"
+"PO-Revision-Date: 2026-01-19 10:23+0100\n"
 "Last-Translator: \n"
 "Language-Team: en <LL@li.org>\n"
 "Language: en\n"
@@ -50,95 +50,102 @@ msgstr "Under maintenance"
 msgid "Cette plateforme est en maintenance. Elle sera disponible dans:"
 msgstr "This platform is undergoing maintenance. It will be available in:"
 
-#: core/home/routes.py:84 core/home/routes.py:126 core/home/routes.py:191
-#: pages/inscriptions/forms.py:17
-msgid "numero de paiement"
-msgstr "payment number"
+#: core/home/routes.py:84 core/home/routes.py:131
+msgid "code banque"
+msgstr "bank code"
 
-#: core/home/routes.py:85 core/home/routes.py:127
-#: core/home/templates/home-login.jinja:26
-#: core/home/templates/home-register.jinja:38
+#: core/home/routes.py:85 core/home/routes.py:132
+msgid "numero recu"
+msgstr "receipt number"
+
+#: core/home/routes.py:86 core/home/routes.py:133
+#: core/home/templates/home-login.jinja:27
+#: core/home/templates/home-register.jinja:39
 msgid "mot de passe"
 msgstr "password"
 
-#: core/home/routes.py:86
+#: core/home/routes.py:87
 msgid "confirmer mot de passe"
 msgstr "confirm password"
 
-#: core/home/routes.py:99 core/home/routes.py:143
-msgid "Numero de paiement invalide"
-msgstr "Invalid payment number"
+#: core/home/routes.py:103 core/home/routes.py:150
+msgid "Recu de paiement invalide"
+msgstr "Invalid payment receipt"
 
-#: core/home/routes.py:104
+#: core/home/routes.py:109
 msgid "Avertissement"
 msgstr "Warning"
 
-#: core/home/routes.py:105
-msgid "Ce numero de paiement a deja ete utilise pour une inscription"
-msgstr "This payment number has already been used for a registration"
+#: core/home/routes.py:110
+msgid "Ce recu de paiement a deja ete utilise pour une inscription"
+msgstr "This payment receipt has already been used for a registration"
 
-#: core/home/routes.py:106
+#: core/home/routes.py:111
 msgid "Voir l'inscription"
 msgstr "See the registration"
 
-#: core/home/routes.py:107 core/home/routes.py:179
+#: core/home/routes.py:112 core/home/routes.py:185
 msgid "Revenir a l'accueil"
 msgstr "Return to home page"
 
-#: core/home/routes.py:111
+#: core/home/routes.py:116
 msgid "Mot de passe non confirme"
 msgstr "Password not confirmed"
 
-#: core/home/routes.py:121
+#: core/home/routes.py:126
 msgid "Vous devez payer vos frais de concours avant cette etape"
 msgstr "You must pay your competition fees before this stage"
 
-#: core/home/routes.py:147
+#: core/home/routes.py:155
 msgid "Aucune inscription en cours"
 msgstr "No registrations currently"
 
-#: core/home/routes.py:152
+#: core/home/routes.py:160
 msgid "Mot de passe incorrecte"
 msgstr "Incorrect password"
 
-#: core/home/routes.py:178
+#: core/home/routes.py:184
 msgid "Vous n'avez pas les autorisations nécessaires pour accéder à cette page."
 msgstr "You do not have the necessary permissions to access this page."
 
-#: core/home/routes.py:182
+#: core/home/routes.py:188
 msgid "Revenir a la page precedente"
 msgstr "Return to the previous page"
 
-#: core/home/routes.py:192
+#: core/home/routes.py:197 pages/inscriptions/forms.py:17
+msgid "numero de paiement"
+msgstr "payment number"
+
+#: core/home/routes.py:198
 msgid "Noms et prenoms"
 msgstr "First name and surname"
 
-#: core/home/routes.py:193 pages/inscriptions/forms.py:37
+#: core/home/routes.py:199 pages/inscriptions/forms.py:37
 msgid "Date de naissance"
 msgstr "Date of birth"
 
-#: core/home/routes.py:194 pages/inscriptions/forms.py:38
+#: core/home/routes.py:200 pages/inscriptions/forms.py:38
 msgid "Lieu de naissance"
 msgstr "Place of birth"
 
-#: core/home/routes.py:216
+#: core/home/routes.py:222
 msgid "Numero de paiement inconnu"
 msgstr "Unknown payment number"
 
-#: core/home/routes.py:220
+#: core/home/routes.py:226
 msgid "Informations incorrectes"
 msgstr "Incorrect information"
 
-#: core/home/routes.py:231 core/home/templates/home-change-password.jinja:25
+#: core/home/routes.py:237 core/home/templates/home-change-password.jinja:25
 msgid "Nouveau mot de passe"
 msgstr "New password"
 
-#: core/home/routes.py:232 core/home/templates/home-change-password.jinja:32
-#: core/home/templates/home-register.jinja:39
+#: core/home/routes.py:238 core/home/templates/home-change-password.jinja:32
+#: core/home/templates/home-register.jinja:40
 msgid "Confirmer mot de passe"
 msgstr "Confirm password"
 
-#: core/home/routes.py:247
+#: core/home/routes.py:253
 msgid "Mot de passe non confirmé"
 msgstr "Password not confirmed"
 
@@ -148,9 +155,9 @@ msgid "Changer mot de passe"
 msgstr "Change password"
 
 #: core/home/templates/home-change-password.jinja:38
-#: core/home/templates/home-login.jinja:33
+#: core/home/templates/home-login.jinja:34
 #: core/home/templates/home-recover-password.jinja:34
-#: core/home/templates/home-register.jinja:46
+#: core/home/templates/home-register.jinja:47
 msgid "Valider"
 msgstr "Validate"
 
@@ -160,7 +167,7 @@ msgstr "ENSET COMPETITION 2026"
 
 #: core/home/templates/home-closed.jinja:17
 msgid "Les inscriptions sont cloturees"
-msgstr "Registration is now closed."
+msgstr "Registration is now closed"
 
 #: core/home/templates/home-dashboard-profile.jinja:47
 msgid "Identifiant"
@@ -262,30 +269,38 @@ msgid "Identifiez votre inscription pour continuer"
 msgstr "Identify your registration to continue"
 
 #: core/home/templates/home-login.jinja:25
-#: core/home/templates/home-recover-password.jinja:24
 #: core/home/templates/home-register.jinja:37
-msgid "numéro du paiement"
-msgstr "payment number"
+msgid "code banque du recu"
+msgstr "bank code on receipt"
 
-#: core/home/templates/home-login.jinja:35
+#: core/home/templates/home-login.jinja:26
+#: core/home/templates/home-register.jinja:38
+msgid "numero d'ordre du recu"
+msgstr "receipt number"
+
+#: core/home/templates/home-login.jinja:36
 #: core/home/templates/home-recover-password.jinja:36
-#: core/home/templates/home-register.jinja:48
+#: core/home/templates/home-register.jinja:49
 msgid "Besoin d'aide ?"
 msgstr "Need assistance?"
 
-#: core/home/templates/home-login.jinja:36
+#: core/home/templates/home-login.jinja:37
 msgid "Mot de passe oublie ?"
 msgstr "Forgotten your password?"
 
-#: core/home/templates/home-login.jinja:37
+#: core/home/templates/home-login.jinja:38
 #: core/home/templates/home-recover-password.jinja:37
-#: core/home/templates/home-register.jinja:49
+#: core/home/templates/home-register.jinja:50
 msgid "Retour a l'accueil !"
 msgstr "Back to home page!"
 
 #: core/home/templates/home-recover-password.jinja:14
 msgid "Saisissez les informations suivantes"
 msgstr "Enter the following information"
+
+#: core/home/templates/home-recover-password.jinja:24
+msgid "numéro du paiement"
+msgstr "payment number"
 
 #: core/home/templates/home-recover-password.jinja:25
 msgid "noms et prenoms"

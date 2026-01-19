@@ -75,7 +75,7 @@ def _init_concours():
 
 
 def _init_candidates():
-    uid = '0000'
+    uid = '00000000'
     pwd = '0000'
 
     candidat = {

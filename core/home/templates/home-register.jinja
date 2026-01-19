@@ -34,7 +34,8 @@
         <!-- Identifiant -->
         <div class="field row my-2 w-100 d-flex justify-content-center">
             <div class="col-10 col-lg-4">
-                {{ form.id(class_="form-control my-2", placeholder=_("numéro du paiement"), size=20) }}  
+                {{ form.bid(class_="form-control my-2", placeholder=_("code banque du recu"), size=20) }} 
+                {{ form.rid(class_="form-control my-2", placeholder=_("numero d'ordre du recu"), size=20) }}  
                 {{ form.pwd(class_="form-control my-2", placeholder=_("mot de passe"), size=20) }}    
                 {{ form.confirm_pwd(class_="form-control my-2", placeholder=_("Confirmer mot de passe"), size=20) }}           
             </div>
