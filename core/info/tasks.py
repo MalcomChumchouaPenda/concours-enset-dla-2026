@@ -2,7 +2,7 @@
 CONTACT = {
     "addresse":"Campus Ndogbong, Universite de Douala",
     "ville":"Douala - Cameroun",
-    "tel": "(+237) 699 75 30 95",
+    "tel": "(+237) 699753095 / 653005295 /694284900",
     "email": "cabenset@yahoo.fr",
     "postal": "1872 Douala-Cameroun",
     "twitter":"",
