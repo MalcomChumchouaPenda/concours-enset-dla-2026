@@ -194,7 +194,8 @@ def profile():
 
 
 class RecoverPasswordForm(FlaskForm):
-    id = StringField(_l('numero de paiement'), validators=[DataRequired()])
+    bid = StringField(_l('code banque'), validators=[DataRequired()])
+    rid = StringField(_l('numero recu'), validators=[DataRequired()])
     nom_complet = StringField(_l('Noms et prenoms'), validators=[DataRequired()])
     date_naissance = StringField(_l('Date de naissance'), validators=[DataRequired()])
     lieu_naissance = StringField(_l('Lieu de naissance'), validators=[DataRequired()])
@@ -216,10 +217,17 @@ def recover_password():
     form = RecoverPasswordForm()
     if form.validate_on_submit():
         data = form.data
-        query = con_mdl.InscriptionConcours.query.filter_by(id=data['id'])
+        bid = form.bid.data
+        rid = form.rid.data
+        if not _check_id(bid, rid):
+            flash(_('Recu de paiement invalide'), 'danger')
+            return render_template('home-recover-password.jinja', form=form, next=next)
+        
+        uid = f'{bid}{rid}'
+        query = con_mdl.InscriptionConcours.query.filter_by(id=uid)
         inscription = query.one_or_none()
         if inscription is None:
-            flash(_('Numero de paiement inconnu'), 'danger')
+            flash(_('Recu de paiement invalide'), 'danger')
             return render_template('home-recover-password.jinja', form=form, next=next)
         
         if not _verification_infos(inscription, data):
