@@ -122,11 +122,29 @@ def _init_candidates():
         db.session.add(mdl.EtapeCursus(**row))
     db.session.commit()
 
+
+def _init_errors():
+    pwd = '0000'
+    uid = '06800000001'
+    user = auth_tsk.add_user(uid, uid, pwd)
+    
+    uid = '06800000002'
+    role = auth_tsk.get_role('inscrit_concours')
+    user = auth_tsk.add_user(uid, uid, pwd)
+    auth_tsk.add_role_to_user(user, role)
+    
+    uid = '06800000003'
+    role = auth_tsk.get_role('candidat_concours')
+    user = auth_tsk.add_user(uid, uid, pwd)
+    auth_tsk.add_role_to_user(user, role)
+
+
 def init_data():
     _init_concours()    
     config = current_app.config
     if config['DEBUG']:
         _init_candidates()
+        _init_errors()
     
 
 

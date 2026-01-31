@@ -104,7 +104,25 @@ def register():
             return render_template('home-register.jinja', form=form)
         
         uid = f'{bid}{rid}'
-        if auth_tsk.get_user(uid):
+        user = auth_tsk.get_user(uid)
+        if user is not None:
+            inscr = con_mdl.InscriptionConcours.query.filter_by(id=uid).one_or_none()
+            if inscr is None:
+                print('\nincomplete inscription with', user, user.roles)
+                pwd = form.pwd.data
+                if pwd != form.confirm_pwd.data:
+                    flash(_('Mot de passe non confirme'), 'danger')
+                    return render_template('home-register.jinja', form=form)
+                
+                user.set_password(pwd)
+                for old_role in user.roles:
+                    auth_tsk.remove_role_from_user(user, old_role, commit=False)
+                new_role = auth_tsk.get_role('candidat_concours')
+                auth_tsk.add_role_to_user(user, new_role)
+                auth_tsk.connect_user(uid, pwd)
+                print('\n\treconnect user', current_user, current_user.is_authenticated)
+                flash(_("Vous n'avez pas terminer votre inscription precedente"), 'warning')
+                return redirect(url_for('inscriptions.new'))
             return render_template('landing/message.jinja',
                                     title=_("Avertissement"),
                                     message=_("Ce recu de paiement a deja ete utilise pour une inscription"),
@@ -160,6 +178,15 @@ def login():
             flash(_('Mot de passe incorrecte'), 'danger')
             return render_template('home-login.jinja', form=form, next=next)
         
+        inscr = con_mdl.InscriptionConcours.query.filter_by(id=uid).one_or_none()
+        if inscr is None and 'inscriptions/new' not in next:
+            user = auth_tsk.get_user(uid)
+            for old_role in user.roles:
+                auth_tsk.remove_role_from_user(user, old_role, commit=False)
+            new_role = auth_tsk.get_role('candidat_concours')
+            auth_tsk.add_role_to_user(user, new_role)
+            flash(_("Vous n'avez pas terminer votre inscription precedente"), 'warning')
+            return redirect(url_for('inscriptions.new'))
         return redirect(next)
     return render_template('home-login.jinja', form=form, next=next)
 
