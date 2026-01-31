@@ -4,13 +4,19 @@ from flask_babel import lazy_gettext as _l
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField, EmailField, TextAreaField, DateField
 from wtforms import FieldList, FormField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms.validators import DataRequired, ValidationError, Regexp
 from core.utils import AttribSelectField
 
 
 def validators1():
     return [DataRequired()]
 
+def validators2():
+     return [
+          DataRequired(),
+          Regexp(r'^\s*\d{2}/\d{2}/\d{4}\s*$',
+                 message=_l("la forme de date valide est DD/MM/YYYY (Exemple:01/01/2000)"))
+     ]
 
 
 class AuthForm(FlaskForm):
@@ -26,7 +32,7 @@ class CursusRowForm(FlaskForm):
     mention = StringField(_l('Mention'), validators=validators1())
 
     class Meta:
-            csrf = False
+        csrf = False
 
 
 class InscrForm(FlaskForm):
@@ -34,7 +40,7 @@ class InscrForm(FlaskForm):
     # Informations personnelles de base
     prenom = StringField(_l('Prenoms'))
     nom = StringField(_l('Noms'), validators=validators1())
-    date_naissance = StringField(_l('Date de naissance'), validators=validators1())
+    date_naissance = StringField(_l('Date de naissance'), validators=validators2())
     lieu_naissance = StringField(_l('Lieu de naissance'), validators=validators1())
     sexe_id = SelectField(_l('Sexe'), validators=validators1())
     statut_matrimonial_id = SelectField(_l('Situation Matrimoniale'), validators=validators1())

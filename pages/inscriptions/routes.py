@@ -98,7 +98,7 @@ def new():
         # pretraitement des donnees
         uid = user.id
         classe_id = data['option_id'] + data['niveau_id'][-1]
-        date_naiss = datetime.strptime(data['date_naissance'], r'%d/%m/%Y')
+        date_naiss = datetime.strptime(data['date_naissance'].strip(), r'%d/%m/%Y')
         date_naiss = date_naiss.date()
         data['id'] = uid
         data['classe_id'] = classe_id
