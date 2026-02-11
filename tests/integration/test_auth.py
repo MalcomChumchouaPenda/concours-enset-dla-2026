@@ -7,7 +7,6 @@ from core.utils import ApiNamespace
 from core.config import db, api
 from core.auth.models import User
 
-
 def test_login_success(client):
     """Test de connexion réussie avec des identifiants valides."""
     response = client.post('/api/auth/login', json={"id": "admin1", "password": "adminpass"})

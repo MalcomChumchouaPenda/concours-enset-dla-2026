@@ -74,69 +74,69 @@ def _init_concours():
     db.session.commit()
 
 
-def _init_candidates():
-    uid = '06800000000'
-    pwd = '0000'
+def _create_user(uid, roleids):
+    user = auth_tsk.add_user(uid, uid, '0000')
+    for roleid in roleids:
+        role = auth_tsk.get_role(roleid)
+        auth_tsk.add_role_to_user(user, role)
+    return user
 
-    candidat = {
-        'id': uid,
-        'prenom': 'ARISTIDE JUNIOR', 
-        'nom': 'KONOFINO NEMALA', 
-        'date_naissance': datetime(2026, 1, 22).date(), 
-        'lieu_naissance': 'DOUALA', 
-        'sexe_id': 'F', 
-        'statut_matrimonial_id': 'C', 
-        'departement_origine_id': 'CO', 
-        'langue_id': 'EN', 
-        'classe_id': 'BTP1', 
-        'centre_id': 'BAF', 
-        'telephone': '655234566', 
-        'email': '',
-        'diplome_id':'BAC_C',
-        'numero_dossier':'26BAF-BACCDE-0001'
-    }
-    
-    cursus = [
-        {
-            'annee': '2004', 
-            'diplome': 'BAC C', 
-            'etablissement': 'LYCEE DE NEW-BELL',
-            'mention': 'ASSEZ BIEN',
-            'inscription_id':uid,
-        },
-        {
-            'annee': '2003', 
-            'diplome': 'PROBATOIRE C', 
-            'etablissement': 'LYCEE DE NEW-BELL',
-            'mention': 'BIEN',
-            'inscription_id':uid,
-        }
-    ]
-    
-    role = auth_tsk.get_role('inscrit_concours')
-    user = auth_tsk.add_user(uid, candidat['id'], pwd)
-    auth_tsk.add_role_to_user(user, role)
+def _create_inscr(uid, numero):
+    inscr = mdl.InscriptionConcours(
+        id = uid,
+        numero_dossier = numero,
+        prenom = 'ARISTIDE JUNIOR', 
+        nom = 'KONOFINO NEMALA', 
+        date_naissance = datetime(2026, 1, 22).date(), 
+        lieu_naissance = 'DOUALA', 
+        sexe_id = 'F', 
+        statut_matrimonial_id = 'C', 
+        departement_origine_id = 'CO',
+        diplome_id = 'BAC_C',
+        langue_id = 'EN', 
+        classe_id = 'BTP1', 
+        centre_id = 'BAF', 
+        telephone = '655234566', 
+        email = ''
+    )
+    db.session.add(inscr)
+    db.session.commit()
+    return inscr
 
-    db.session.add(mdl.InscriptionConcours(**candidat))
-    for row in cursus:
-        db.session.add(mdl.EtapeCursus(**row))
+def _create_cursus(uid): 
+    for year, diplome in [(2004, 'BAC C'), (2003, 'PROBATOIRE C')]:
+        etape = mdl.EtapeCursus(
+            annee = year, 
+            diplome = diplome, 
+            etablissement = 'LYCEE DE NEW-BELL',
+            mention = 'ASSEZ BIEN',
+            inscription_id = uid
+        )  
+        db.session.add(etape)
     db.session.commit()
 
 
+def _init_candidates():
+    _create_user('06800000000', ['inscrit_concours'])
+    _create_inscr('06800000000', '26BAF-BACCDE-0001')
+    _create_cursus('06800000000')
+
+
 def _init_errors():
-    pwd = '0000'
-    uid = '06800000001'
-    user = auth_tsk.add_user(uid, uid, pwd)
-    
-    uid = '06800000002'
-    role = auth_tsk.get_role('inscrit_concours')
-    user = auth_tsk.add_user(uid, uid, pwd)
-    auth_tsk.add_role_to_user(user, role)
-    
-    uid = '06800000003'
-    role = auth_tsk.get_role('candidat_concours')
-    user = auth_tsk.add_user(uid, uid, pwd)
-    auth_tsk.add_role_to_user(user, role)
+    _create_user('06800000001', [])
+    _create_user('06800000002', ['candidat_concours'])
+    _create_user('06800000003', ['inscrit_concours', 'candidat_concours'])
+    _create_user('06800000004', ['inscrit_concours'])
+
+    _create_inscr('06800000001', '26BAF-BACCDE-0002')
+    _create_inscr('06800000002', '26BAF-BACCDE-0003')    
+    _create_inscr('06800000003', '26BAF-BACCDE-0004')
+    _create_inscr('06800000004', None)
+
+    _create_user('06800000005', [])
+    _create_user('06800000006', ['candidat_concours'])
+    _create_user('06800000007', ['inscrit_concours'])    
+    _create_user('06800000008', ['inscrit_concours', 'candidat_concours'])
 
 
 def init_data():

@@ -2,7 +2,7 @@
 from flask import current_app
 from flask_login import login_user, logout_user
 from flask_principal import Identity, AnonymousIdentity, identity_changed
-from core.config import db
+from core.config import db, login_manager
 from .models import User, Role
 
 
@@ -28,6 +28,7 @@ def disconnect_user():
 
 
 def get_user(uid):
+    print(f'get user {uid} in:\n{User.query.all()}')
     return User.query.filter_by(id=uid).one_or_none()
 
 def add_user(uid, last_name, password, first_name=None, commit=True):
@@ -86,3 +87,8 @@ def remove_roles_from_user(user, roles, commit=True):
     if commit:
         db.session.commit()
 
+
+def refresh_current_user(id):
+    user = get_user(id)
+    print('\nrefresh user', user, type(user))
+    login_user(user, remember=True)

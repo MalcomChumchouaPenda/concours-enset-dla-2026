@@ -20,7 +20,7 @@ from core.auth.defaults import init_data
 @pytest.fixture
 def app(monkeypatch):
     """Fixture qui crée une instance de l'application Flask pour les tests."""
-    os.environ['FLASK_DEBUG'] = True
+    os.environ['FLASK_ENV'] = 'testing'
     app = create_app()
     with app.app_context():
         init_data()
@@ -34,8 +34,3 @@ def app(monkeypatch):
 def client(app):
     """Client de test Flask pour envoyer des requêtes API."""
     return app.test_client()
-
-@pytest.fixture
-def runner(app):
-    """Fixture pour le CLI runner de Flask."""
-    return app.test_cli_runner()

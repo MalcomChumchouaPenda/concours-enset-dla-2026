@@ -58,7 +58,7 @@ def _upper_data_values(data):
 
 
 @ui.route('/new', methods=['GET', 'POST'])
-@ui.roles_accepted('candidat_concours', 'inscrit_concours')
+@ui.roles_accepted('candidat_concours')
 def new():    
     deadline = os.getenv('DATE_FIN_MAINTENANCE')
     t1 = datetime.strptime(deadline, r'%Y/%m/%d')
@@ -70,11 +70,7 @@ def new():
     if t1 < datetime.now():
         auth_tsk.disconnect_user()
         return redirect(url_for('home.closed'))
-    
-    if current_user.has_role('inscrit_concours'):
-        auth_tsk.disconnect_user()
-        return redirect(url_for('home.register'))
-    
+
     # creation du formulaire
     locale = get_locale()
     form = forms.NewInscrForm()
@@ -123,16 +119,18 @@ def new():
         # creation de l'inscription
         inscr = con_mdl.InscriptionConcours(**data)
         db.session.add(inscr)    
+        con_tsk.creer_numero(inscr)
+
+        # mise a jour de l'utilisateur
         user.last_name = inscr.nom
         user.first_name = inscr.prenom
         old_role = auth_tsk.get_role('candidat_concours')
         new_role = auth_tsk.get_role('inscrit_concours')
-        auth_tsk.remove_role_from_user(user, old_role, commit=False)
-        auth_tsk.add_role_to_user(user, new_role, commit=False)
-        con_tsk.creer_numero(inscr)
+        auth_tsk.add_role_to_user(user, new_role)
+        auth_tsk.remove_role_from_user(user, old_role)
+        auth_tsk.refresh_current_user(current_user.id)
 
         # finalisation
-        db.session.commit()
         flash(_('Inscription enregistree avec success'), 'success')
         return redirect(url_for('inscriptions.view'))
 

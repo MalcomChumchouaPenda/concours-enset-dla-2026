@@ -8,7 +8,7 @@ from flask import request, session
 from flask import render_template, url_for, redirect, flash, send_file
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
-from flask_login import current_user
+from flask_login import current_user, login_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, DateField
 from wtforms.validators import DataRequired
@@ -17,6 +17,7 @@ from core.config import login_manager, db
 from core.utils import UiBlueprint, read_json, get_locale, default_deadline, read_markdown
 from core.auth import tasks as auth_tsk
 from services.concours_v0_0 import models as con_mdl
+from services.concours_v0_0 import tasks as con_tsk
 
 
 ui = UiBlueprint(__name__)
@@ -92,9 +93,37 @@ def _check_id(bid, rid):
         return False
     return re.match(os.getenv('NUMERO_RECU_EXP'), rid)
 
+def _clean_roles(user, inscr):
+    if inscr is None:
+        if user.has_role('inscrit_concours'):
+            wrong_role = auth_tsk.get_role('inscrit_concours')
+            auth_tsk.remove_role_from_user(user, wrong_role)
+        if not user.has_role('candidat_concours'):
+            good_role = auth_tsk.get_role('candidat_concours')
+            auth_tsk.add_role_to_user(user, good_role)
+    else:
+        if user.has_role('candidat_concours'):
+            wrong_role = auth_tsk.get_role('candidat_concours')
+            auth_tsk.remove_role_from_user(user, wrong_role)
+        if not user.has_role('inscrit_concours'):
+            good_role = auth_tsk.get_role('inscrit_concours')
+            auth_tsk.add_role_to_user(user, good_role)
+
 
 @ui.route('/register', methods=['GET', 'POST'])
 def register():
+    inscr_query = con_mdl.InscriptionConcours.query
+    if current_user.is_authenticated:
+        inscr = inscr_query.filter_by(id=current_user.id).one_or_none()
+        auth_tsk.get_user(current_user.id)
+        _clean_roles(current_user, inscr)
+        
+        user = auth_tsk.get_user(current_user.id)
+        login_user(user, remember=True)
+        if user.has_role('inscrit_concours'):
+            return redirect(url_for('inscriptions.view'))
+        return redirect(url_for('inscriptions.new'))
+
     form = RegisterForm()
     if form.validate_on_submit():
         bid = form.bid.data
@@ -106,23 +135,21 @@ def register():
         uid = f'{bid}{rid}'
         user = auth_tsk.get_user(uid)
         if user is not None:
-            inscr = con_mdl.InscriptionConcours.query.filter_by(id=uid).one_or_none()
+            inscr = inscr_query.filter_by(id=uid).one_or_none()
+            _clean_roles(user, inscr)
+
             if inscr is None:
-                print('\nincomplete inscription with', user, user.roles)
                 pwd = form.pwd.data
                 if pwd != form.confirm_pwd.data:
                     flash(_('Mot de passe non confirme'), 'danger')
                     return render_template('home-register.jinja', form=form)
                 
                 user.set_password(pwd)
-                for old_role in user.roles:
-                    auth_tsk.remove_role_from_user(user, old_role, commit=False)
-                new_role = auth_tsk.get_role('candidat_concours')
-                auth_tsk.add_role_to_user(user, new_role)
                 auth_tsk.connect_user(uid, pwd)
                 print('\n\treconnect user', current_user, current_user.is_authenticated)
                 flash(_("Vous n'avez pas terminer votre inscription precedente"), 'warning')
                 return redirect(url_for('inscriptions.new'))
+            
             return render_template('landing/message.jinja',
                                     title=_("Avertissement"),
                                     message=_("Ce recu de paiement a deja ete utilise pour une inscription"),
@@ -169,22 +196,22 @@ def login():
             return render_template('home-login.jinja', form=form, next=next)
         
         uid = f'{bid}{rid}'
-        if not auth_tsk.get_user(uid):
+        user = auth_tsk.get_user(uid)
+        if user is None:
             flash(_("Aucune inscription en cours"), 'danger')
             return render_template('home-login.jinja', form=form, next=next)
+        
+        inscr = con_mdl.InscriptionConcours.query.filter_by(id=uid).one_or_none()
+        if inscr and inscr.numero_dossier is None:
+            con_tsk.creer_numero(inscr)
+        _clean_roles(user, inscr)
 
         pwd = form.pwd.data
         if not auth_tsk.connect_user(uid, pwd):
             flash(_('Mot de passe incorrecte'), 'danger')
             return render_template('home-login.jinja', form=form, next=next)
         
-        inscr = con_mdl.InscriptionConcours.query.filter_by(id=uid).one_or_none()
         if inscr is None and 'inscriptions/new' not in next:
-            user = auth_tsk.get_user(uid)
-            for old_role in user.roles:
-                auth_tsk.remove_role_from_user(user, old_role, commit=False)
-            new_role = auth_tsk.get_role('candidat_concours')
-            auth_tsk.add_role_to_user(user, new_role)
             flash(_("Vous n'avez pas terminer votre inscription precedente"), 'warning')
             return redirect(url_for('inscriptions.new'))
         return redirect(next)
@@ -196,7 +223,11 @@ def logout():
     user = current_user
     if user.is_authenticated:
         if user.has_role('candidat_concours'):
-            auth_tsk.remove_user(user)
+            if user.has_role('inscrit_concours'):
+                role = auth_tsk.get_role('candidat_concours')
+                auth_tsk.remove_role_from_user(user, role)
+            else:
+                auth_tsk.remove_user(user)
         auth_tsk.disconnect_user()
     return redirect(url_for('home.index'))
 
