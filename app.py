@@ -40,7 +40,7 @@ def webhook():
     if request.method == 'POST':
         repo = git.Repo(ROOT_DIR)
         origin = repo.remotes.origin
-        origin.pull('main')
+        # origin.pull('main')
         return "Updated server successfully", 200
     return "Wrong event type", 404
 
