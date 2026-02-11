@@ -90,5 +90,5 @@ def remove_roles_from_user(user, roles, commit=True):
 def refresh_current_user(id):
     disconnect_user()
     user = get_user(id)
-    connect_user(user.id, user.password)
+    connect_user(user.id, user.password_hash)
     print('\nrefresh user', user, type(user), user.roles)
