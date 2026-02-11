@@ -110,6 +110,7 @@ def new():
             data.pop(col)
 
         # creation de l'inscription
+        cursus = data.pop('cursus')    # extrait pour plus tard
         inscr = con_mdl.InscriptionConcours(**data)
         db.session.add(inscr)    
         con_tsk.creer_numero(inscr)
@@ -128,7 +129,6 @@ def new():
             return render_template('inscriptions/new.jinja', form=form)
         
         # traitement du cursus
-        cursus = data.pop('cursus') 
         for row in cursus:  
             row['inscription_id'] = uid
             row = _upper_data_values(row)
