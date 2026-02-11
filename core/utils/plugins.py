@@ -77,6 +77,7 @@ class UiBlueprint(Blueprint):
                 if len([n for n in roles if current_user.has_role(n)]) == 0:
                      # Redirection vers la page d'accueil
                     msg = "Vous n'avez pas la permission d'accéder à cette page."
+                    print('denied with args', args, kwargs)
                     return redirect(url_for('home.access_denied', message=msg)) 
                 return f(*args, **kwargs)
             return decorated_function
