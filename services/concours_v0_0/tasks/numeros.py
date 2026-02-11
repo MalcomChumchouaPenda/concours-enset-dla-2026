@@ -25,7 +25,9 @@ def creer_numero(inscr):
             numero = filtre.replace('%', num)
             inscr.numero_dossier = numero
             db.session.commit()
+            print(f'--> succeeded numero generation with {numero}')
             return numero
         except IntegrityError as e:
+            print(f'--> failed numero generation {numero}')
             db.session.rollback()
 
