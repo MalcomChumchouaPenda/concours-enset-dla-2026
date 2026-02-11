@@ -120,6 +120,7 @@ def new():
         inscr = con_mdl.InscriptionConcours(**data)
         db.session.add(inscr)    
         con_tsk.creer_numero(inscr)
+        db.session.commit()
 
         # mise a jour de l'utilisateur
         user.last_name = inscr.nom
