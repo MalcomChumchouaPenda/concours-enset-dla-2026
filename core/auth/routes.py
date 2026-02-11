@@ -141,6 +141,11 @@ class RoleApi(Resource):
 @ns.route("/users/<user_id>/roles")
 class UserRolesApi(Resource):
 
+    @ns.marshal_list_with(role_model)
+    def get(self, user_id):
+        user = tsk.get_user(user_id)
+        return user.roles
+    
     @ns.roles_accepted('developper')
     def post(self, user_id):
         user = tsk.get_user(user_id)
