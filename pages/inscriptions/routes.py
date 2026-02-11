@@ -87,6 +87,7 @@ def new():
     form.diplome_id.choices = choices.diplomes(locale)
 
     # traitement et enregistrement des donnees
+    print(f'==>got method {request.method} with {form.data}')
     if form.validate_on_submit():
         data = form.data
         user = current_user
@@ -121,6 +122,14 @@ def new():
         db.session.add(inscr)    
         con_tsk.creer_numero(inscr)
         db.session.commit()
+
+        # check inscription
+        for i in range(10):
+            print(f'---> check inscription {i} for {uid}')
+            test = con_mdl.InscriptionConcours.query.filter_by(id=uid).count()
+            print(f'---> got {test} inscription')
+            if test > 0:
+                break
 
         # mise a jour de l'utilisateur
         user.last_name = inscr.nom
