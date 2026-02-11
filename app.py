@@ -41,7 +41,7 @@ def webhook():
         repo = git.Repo(ROOT_DIR)
         origin = repo.remotes.origin
         # origin.pull('main')
-        return "Updated server successfully", 200
+        return "Updated server test successfully", 200
     return "Wrong event type", 404
 
 
