@@ -119,8 +119,8 @@ def new():
 
         # creation de l'inscription
         inscr = con_mdl.InscriptionConcours(**data)
-        con_tsk.creer_numero(inscr)
         db.session.add(inscr)    
+        con_tsk.creer_numero(inscr)
         db.session.commit()
 
         # check inscription
