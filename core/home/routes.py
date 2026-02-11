@@ -238,7 +238,7 @@ def unauthorized_callback():
 
 @ui.route('/denied')
 def access_denied():
-    print('\n\tdenied=>', current_user, current_user.roles)
+    print('\n\tdenied=>', request.url, current_user, current_user.roles)
     msg = _("Vous n'avez pas les autorisations nécessaires pour accéder à cette page.")
     actions = [{'text':_("Revenir a l'accueil"), 'url':'/'}]
     prev = request.referrer

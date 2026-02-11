@@ -28,7 +28,6 @@ def disconnect_user():
 
 
 def get_user(uid):
-    print(f'get user {uid} in:\n{User.query.all()}')
     return User.query.filter_by(id=uid).one_or_none()
 
 def add_user(uid, last_name, password, first_name=None, commit=True):
