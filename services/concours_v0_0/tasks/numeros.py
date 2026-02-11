@@ -29,5 +29,6 @@ def creer_numero(inscr):
             return numero
         except IntegrityError as e:
             print(f'--> failed numero generation {numero}')
-            # db.session.rollback()
+            db.session.rollback()
+            db.session.add(inscr)
 

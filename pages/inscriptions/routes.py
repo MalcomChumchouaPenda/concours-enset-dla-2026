@@ -109,19 +109,10 @@ def new():
         for col in invalid_cols:
             data.pop(col)
 
-        # traitement du cursus
-        cursus = data.pop('cursus') 
-        for row in cursus:  
-            row['inscription_id'] = uid
-            row = _upper_data_values(row)
-            etape = con_mdl.EtapeCursus(**row)
-            db.session.add(etape)
-
         # creation de l'inscription
         inscr = con_mdl.InscriptionConcours(**data)
         db.session.add(inscr)    
         con_tsk.creer_numero(inscr)
-        db.session.commit()
 
         # check inscription
         for i in range(10):
@@ -136,6 +127,15 @@ def new():
             flash(_("Erreur inattendue! Contacter l'administration de l'ENSET"), 'danger')
             return render_template('inscriptions/new.jinja', form=form)
         
+        # traitement du cursus
+        cursus = data.pop('cursus') 
+        for row in cursus:  
+            row['inscription_id'] = uid
+            row = _upper_data_values(row)
+            etape = con_mdl.EtapeCursus(**row)
+            db.session.add(etape)
+        db.session.commit()
+
         # mise a jour de l'utilisateur
         user.last_name = inscr.nom
         user.first_name = inscr.prenom
