@@ -4,7 +4,7 @@ import re
 from functools import wraps
 from collections import namedtuple
 from flask import Blueprint
-from flask import redirect, url_for
+from flask import redirect, url_for, request
 from flask_login import current_user, login_required
 from flask_restx import Namespace
 from .constants import ROOT_DIR
@@ -78,6 +78,7 @@ class UiBlueprint(Blueprint):
                      # Redirection vers la page d'accueil
                     msg = "Vous n'avez pas la permission d'accéder à cette page."
                     print('denied with args', args, kwargs)
+                    print('denied with url', request.url)
                     return redirect(url_for('home.access_denied', message=msg)) 
                 return f(*args, **kwargs)
             return decorated_function
