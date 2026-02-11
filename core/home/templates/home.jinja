@@ -14,14 +14,15 @@
         <div class="col-12 col-lg-10">
           <div class="hero-info hero-custom w-100 d-flex flex-column justify-content-center align-items-center">
             <h2>{{ _("CONCOURS ENSET 2026") }}</h2>
-            <p><strong>heyooo {{ _("Bienvenue sur la plateforme d'inscription !") }}</strong></p>
-            <p class="countdown" data-count="{{ deadline }}">
+            <p><strong>{{ _("Bienvenue sur la plateforme d'inscription !") }}</strong></p>
+            <p class="countdown">{{ _("Lisez le guide avant de vous inscrire. Les inscriptions se cloturent bientot...") }}</p>
+            {# <p class="countdown" data-count="{{ deadline }}">
               {{ _("Lisez le guide avant de vous inscrire. Les inscriptions se cloturent dans") }}
               <span><em class="count-days">0</em> {{_('jours,')}}</span> 
               <span><em class="count-hours">0</em> {{_('heures,')}}</span>
               <span><em class="count-minutes">0</em> {{_('minutes et')}}</span>
               <span><em class="count-seconds">0</em> {{_('secondes.')}}</span>
-            </p>
+            </p> #}
             <div class="d-flex flex-lg-row flex-column mt-4 mb-4">
               <a href="{{ url_for('home.help') }}" class="btn btn-primary my-2 px-4 py-2">{{ _('Lire le guide') }}</a>
               <a href="{{ url_for('inscriptions.new') }}" class="btn btn-primary my-2 px-4 py-2">{{ _('Faire une inscription') }}</a>
