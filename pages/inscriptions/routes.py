@@ -131,6 +131,11 @@ def new():
             if test > 0:
                 break
 
+        # erreur inattendue
+        if test == 0:
+            flash(_("Erreur inattendue! Contacter l'administration de l'ENSET"), 'danger')
+            return render_template('inscriptions/new.jinja', form=form)
+        
         # mise a jour de l'utilisateur
         user.last_name = inscr.nom
         user.first_name = inscr.prenom
