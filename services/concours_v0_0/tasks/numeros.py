@@ -17,8 +17,9 @@ def creer_numero(inscr):
     filtre, num_size = format_numero(inscr, diplome)
     query = mdl.InscriptionConcours.query
     query = query.filter(mdl.InscriptionConcours.numero_dossier.like(filtre))
-    for _ in range(10):
+    for i in range(100):
         try:
+            print(f'--> try numero generation for {inscr} for the {i} step')
             count = query.count()
             num = str(count + 1).rjust(num_size, '0')
             numero = filtre.replace('%', num)
