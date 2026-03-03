@@ -2,7 +2,7 @@ from datetime import datetime
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext as _l
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, IntegerField, EmailField, TextAreaField, DateField
+from wtforms import StringField, SelectField, IntegerField, EmailField, TextAreaField, DateField, PasswordField
 from wtforms import FieldList, FormField
 from wtforms.validators import DataRequired, ValidationError, Regexp
 from core.utils import AttribSelectField
@@ -77,3 +77,10 @@ class EditInscrForm(InscrForm):
     option = StringField(_l('Option sollicitée'))
     centre = StringField(_l("Centre examen"))
     diplome = StringField(_l("Diplôme du candidat"))
+
+
+class StatsForm(FlaskForm):
+    
+    id = StringField(_l('identifiant'), validators=validators1())
+    pwd = PasswordField(_l('mot de passe'), validators=validators1())
+    stat_type = SelectField(_l("type de stats"), validators=validators1())

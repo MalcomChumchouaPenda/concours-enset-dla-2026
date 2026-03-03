@@ -118,3 +118,8 @@ def situations(locale):
         item = (id_, text)
         items.append(item)
     return items
+
+def stats():
+    return [('', _('Choisir')),
+            ('liste_candidats', 'Liste des candidats'),
+            ('effectif_centres', 'Effectifs par centres')]

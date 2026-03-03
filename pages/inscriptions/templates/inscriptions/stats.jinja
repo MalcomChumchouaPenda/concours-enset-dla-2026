@@ -1,0 +1,46 @@
+{% extends "login/layout.jinja" %}
+{% set head_title='Stats' %}
+{% from 'login/macros.jinja' import render_messages %}
+
+{% block page_form %}
+    <form class="login-form container d-flex flex-column align-items-center"
+          method="POST" action="{{ url_for('inscriptions.stats') }}">
+
+        {{ form.csrf_token }}
+
+        <!-- Header -->
+        <div class="row w-100 pt-5 pb-4 d-flex justify-content-center">
+            <div class="col-10 text-center">
+                <h4>{{ _('Telechargement statistiques') }}</h4>
+            </div>
+        </div>
+        
+        <!-- Alertes -->
+        {{ render_messages() }}
+        
+
+        <!-- Identifiant -->
+        <div class="field row my-2 w-100 d-flex justify-content-center">
+            <div class="col-10 col-lg-4">
+                {{ form.id(class_="form-control my-2", placeholder=_("identifiant"), size=20) }} 
+                {{ form.pwd(class_="form-control my-2", placeholder=_("mot de passe"), size=20) }}  
+                {{ form.stat_type(class_="form-select", required=true ) }}           
+            </div>
+        </div><!-- End Identifiant -->
+
+
+        <div class="row pt-3 w-100 d-flex justify-content-center">
+            <div class="col-10 col-lg-4 flex-column align-items-start">
+                <input class="btn btn-primary w-100" type="submit" value="{{ _('Telecharger') }}">
+                <ul class="login-links">
+                    <li><a class="btn btn-link mt-5" href="{{ url_for('home.help') }}">{{ _("Besoin d'aide ?") }}</a></li>
+                    <li><a class="btn btn-link mt-1" href="{{ url_for('home.index') }}">{{ _("Retour a l'accueil !") }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block page_authors %}
+    <a>Malcom Chumchoua Penda</a>
+{% endblock %}

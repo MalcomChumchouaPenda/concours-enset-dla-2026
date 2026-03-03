@@ -282,3 +282,31 @@ def edit():
 
     print('\nerrors=>\t', form.errors)
     return render_template('inscriptions/edit.jinja', form=form)
+
+
+@ui.route('/stats', methods=['GET', 'POST'])
+def stats():
+    form = forms.StatsForm()
+    form.stat_type.choices = choices.stats()
+    if form.validate_on_submit():
+        data = form.data
+        connected = auth_tsk.connect_user(data['id'], data['pwd'])
+        if not connected:
+            flash(_('Informations incorrectes'), 'danger')
+            return render_template('inscriptions/stats.jinja', form=form)
+        
+        if data['stat_type'] == 'liste_candidats':
+            output_path = con_tsk.list_candidats(temp_dir)
+        elif data['stat_type'] == 'effectif_centres':
+            output_path = con_tsk.count_candidats_by_center(temp_dir)
+        return send_file(output_path,
+                        mimetype='text/csv',
+                        as_attachment=True,
+                        download_name=os.path.basename(output_path))
+
+    print('\nerrors=>\t', form.errors)
+    return render_template('inscriptions/stats.jinja', form=form)
+
+
+
+
