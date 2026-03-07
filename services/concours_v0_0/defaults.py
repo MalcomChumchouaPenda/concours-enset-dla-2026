@@ -81,7 +81,7 @@ def _create_user(uid, roleids):
         auth_tsk.add_role_to_user(user, role)
     return user
 
-def _create_inscr(uid, numero):
+def _create_inscr(uid, numero, langue_id):
     inscr = mdl.InscriptionConcours(
         id = uid,
         numero_dossier = numero,
@@ -93,7 +93,7 @@ def _create_inscr(uid, numero):
         statut_matrimonial_id = 'C', 
         departement_origine_id = 'CO',
         diplome_id = 'BAC_C',
-        langue_id = 'EN', 
+        langue_id = langue_id, 
         classe_id = 'BTP1', 
         centre_id = 'BAF', 
         telephone = '655234566', 
@@ -118,7 +118,7 @@ def _create_cursus(uid):
 
 def _init_candidates():
     _create_user('06800000000', ['inscrit_concours'])
-    _create_inscr('06800000000', '26BAF-BACCDE-0001')
+    _create_inscr('06800000000', '26BAF-BACCDE-0001', 'FR')
     _create_cursus('06800000000')
 
 
@@ -128,10 +128,10 @@ def _init_errors():
     _create_user('06800000003', ['inscrit_concours', 'candidat_concours'])
     _create_user('06800000004', ['inscrit_concours'])
 
-    _create_inscr('06800000001', '26BAF-BACCDE-0002')
-    _create_inscr('06800000002', '26BAF-BACCDE-0003')    
-    _create_inscr('06800000003', '26BAF-BACCDE-0004')
-    _create_inscr('06800000004', None)
+    _create_inscr('06800000001', '26BAF-BACCDE-0002', 'FR')
+    _create_inscr('06800000002', '26BAF-BACCDE-0003', 'EN')    
+    _create_inscr('06800000003', '26BAF-BACCDE-0004', 'EN')
+    _create_inscr('06800000004', None, 'FR')
 
     _create_user('06800000005', [])
     _create_user('06800000006', ['candidat_concours'])

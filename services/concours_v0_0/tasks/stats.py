@@ -38,10 +38,12 @@ def count_candidats_by_center(temp_dir):
         Diplome.nom_fr.label('diplome'),
         Classe.niveau_id.label('niveau'),
         Option.nom_fr.label('filiere'),
+        Inscr.langue_id.label('langue'),
         func.count(Inscr.id).label('effectif')
     )
     query = query.join(Centre).join(Diplome).join(Classe).join(Option)
-    query = query.group_by(Centre.id, Diplome.id, Classe.id, Option.id)
+    query = query.group_by(Centre.id, Diplome.id, Classe.id, 
+                           Option.id, Inscr.langue_id)
 
     output_name = 'effectif_centres.csv'
     output_path = os.path.join(temp_dir, output_name)
@@ -51,6 +53,7 @@ def count_candidats_by_center(temp_dir):
                          'diplome', 
                          'niveau',
                          'filiere',
+                         'langue',
                          'effectif'
                          ])
         for row in query.all():
