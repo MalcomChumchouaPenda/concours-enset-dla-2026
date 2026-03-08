@@ -24,6 +24,9 @@ def list_candidats(temp_dir):
         Inscr.sexe_id,
         Inscr.langue_id.label('langue'),
         Inscr.numero_dossier,
+        Diplome.id.label('code_diplome'),
+        Option.id.label('code_option'),
+        Filiere.id.label('code_filiere'),
         Diplome.nom_fr.label('diplome'),
         Option.nom_fr.label('option'),
         Filiere.nom_fr.label('filiere')
@@ -48,6 +51,10 @@ def list_candidats(temp_dir):
                          'genre',
                          'langue',
                          'numero_dossier',
+                         'code_diplome',
+                         'code_option',
+                         'code_filiere',
+                         'diplome',
                          'option',
                          'filiere'
                          ])
