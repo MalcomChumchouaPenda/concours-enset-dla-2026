@@ -17,6 +17,7 @@ def list_candidats(temp_dir):
     query = db.session.query(
         Centre.nom.label('centre'),
         Classe.niveau_id.label('niveau'),
+        Inscr.id.label('numero_paiement'),
         Inscr.nom,
         Inscr.prenom,
         Inscr.date_naissance,
@@ -44,6 +45,7 @@ def list_candidats(temp_dir):
         writer = csv.writer(f, delimiter=';')
         writer.writerow(['centre',
                          'niveau',
+                         'numero_paiement',
                          'nom', 
                          'prenom', 
                          'date_naiss',
